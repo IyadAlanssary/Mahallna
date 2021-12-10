@@ -1,0 +1,62 @@
+import 'package:flutter/material.dart';
+import 'package:products/styles/colors.dart';
+
+class app_button extends StatelessWidget {
+  final String label;
+  final double roundness;
+  final FontWeight fontWeight;
+  final EdgeInsets padding;
+  //late Widget trailingWidget;
+  final Function onPressed;
+
+  const app_button({
+    Key? key,
+    required this.label,
+    this.roundness = 18,
+    this.fontWeight = FontWeight.bold,
+    this.padding = const EdgeInsets.symmetric(vertical: 24),
+    //this.trailingWidget,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.maxFinite,
+      child: RaisedButton(
+        visualDensity: VisualDensity.compact,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(roundness),
+        ),
+        color: AppColors.primaryColor,
+        textColor: Colors.white,
+        elevation: 0.0,
+        padding: padding,
+        child: Stack(
+          fit: StackFit.passthrough,
+          children: <Widget>[
+            Center(
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: fontWeight,
+                ),
+              ),
+            ),
+            // if (trailingWidget != null)
+            //   Positioned(
+            //     top: 0,
+            //     right: 25,
+            //     child: trailingWidget,
+            //   )
+          ],
+        ),
+        onPressed: () {
+          if (onPressed != null) onPressed();
+        },
+      ),
+    );
+  }
+}
