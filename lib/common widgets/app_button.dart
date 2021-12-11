@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:products/styles/colors.dart';
 
-class app_button extends StatelessWidget {
+class AppButton extends StatelessWidget {
   final String label;
   final double roundness;
   final FontWeight fontWeight;
@@ -9,7 +9,7 @@ class app_button extends StatelessWidget {
   //late Widget trailingWidget;
   final Function onPressed;
 
-  const app_button({
+  const AppButton({
     Key? key,
     required this.label,
     this.roundness = 18,
