@@ -15,18 +15,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter App',
-      theme: ThemeData.light().copyWith(
-        textSelectionTheme: const TextSelectionThemeData(
-          cursorColor: AppColors.primaryColor,
-          selectionHandleColor: AppColors.primaryColor,
-        ),
-        focusColor: AppColors.primaryColor,
-        scaffoldBackgroundColor: const Color.fromRGBO(224, 224, 224, 1),
-        primaryColor: AppColors.primaryColor,
-        colorScheme: ColorScheme.fromSwatch()
-            .copyWith(secondary: AppColors.primaryColor),
-      ),
+      debugShowCheckedModeBanner: false,
+      title: 'Grocery App',
+      theme: AppColors.myTheme(),
       home: const LogIn(),
     );
   }

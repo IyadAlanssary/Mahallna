@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//keyboardType: TextInputType.phone, in  text field
 import 'log_in.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
@@ -33,18 +33,21 @@ class SignUp extends StatelessWidget {
                   height: 40,
                 ),
                 TextField(
+                  textInputAction: TextInputAction.next, ///////////////////test
                   decoration: textfld('Full Name'),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 TextField(
-                  decoration: textfld('User Name'),
+                  textInputAction: TextInputAction.next,
+                  decoration: textfld('Username'),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 TextField(
+                  textInputAction: TextInputAction.next,
                   obscureText: true,
                   decoration: textfld('Password'),
                 ),
@@ -52,6 +55,7 @@ class SignUp extends StatelessWidget {
                   height: 10,
                 ),
                 TextField(
+                  textInputAction: TextInputAction.done,
                   obscureText: true,
                   decoration: textfld('Confirm Password'),
                 ),
@@ -112,7 +116,6 @@ class SignUp extends StatelessWidget {
   Widget getButton() {
     return AppButton(
       label: "Sign Up",
-      fontWeight: FontWeight.w600,
       onPressed: () {
         //onGetStartedClicked(context);
       },

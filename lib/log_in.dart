@@ -33,12 +33,14 @@ class LogIn extends StatelessWidget {
                   height: 70,
                 ),
                 TextField(
+                  textInputAction: TextInputAction.next,
                   decoration: textfld('User Name'),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 TextField(
+                  textInputAction: TextInputAction.done,
                   obscureText: true,
                   decoration: textfld('Password'),
                 ),
@@ -99,22 +101,20 @@ class LogIn extends StatelessWidget {
   Widget getButton(BuildContext context) {
     return AppButton(
       label: "Log in",
-      fontWeight: FontWeight.w600,
       onPressed: () {
-        textfld('ss');
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const View()),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const ViewLess()),
+        );
 
         // Navigator.of(context)
         //     .push(MaterialPageRoute(builder: (context) => const View()));
 
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) {
-            return const View();
-          },
-        ));
+        // Navigator.of(context).pushReplacement(MaterialPageRoute(
+        //   builder: (BuildContext context) {
+        //     return const View();
+        //   },
+        // ));
       },
     );
   }
