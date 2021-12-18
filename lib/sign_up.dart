@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'log_in.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
-import 'common widgets/app_text.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -20,16 +19,15 @@ class SignUp extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                // ignore: prefer_const_constructors
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                AppText(
-                  text: 'Sign Up',
-                  textAlign: TextAlign.center,
-                  key: UniqueKey(),
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
+                const Text(
+                  'Sign Up',
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(
                   height: 40,
@@ -62,31 +60,29 @@ class SignUp extends StatelessWidget {
                 ),
                 getButton(),
                 const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Already have an account? ',
-                        style: TextStyle(fontSize: 13),
-                      ),
-                      InkWell(
-                          child: const Text(
-                            'Log in',
-                            style: TextStyle(
-                                color: AppColors.primaryColor,
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LogIn()),
-                            );
-                          }),
-                    ],
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Already have an account? ',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                    InkWell(
+                        child: const Text(
+                          'Log in',
+                          style: TextStyle(
+                              color: AppColors.primaryColor,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LogIn()),
+                          );
+                        }),
+                  ],
                 ),
               ],
             ),
@@ -117,7 +113,6 @@ class SignUp extends StatelessWidget {
     return AppButton(
       label: "Sign Up",
       fontWeight: FontWeight.w600,
-      padding: const EdgeInsets.symmetric(vertical: 25),
       onPressed: () {
         //onGetStartedClicked(context);
       },

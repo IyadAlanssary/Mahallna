@@ -5,7 +5,6 @@ class AppButton extends StatelessWidget {
   final String label;
   final double roundness;
   final FontWeight fontWeight;
-  final EdgeInsets padding;
   //late Widget trailingWidget;
   final Function onPressed;
 
@@ -14,24 +13,29 @@ class AppButton extends StatelessWidget {
     required this.label,
     this.roundness = 18,
     this.fontWeight = FontWeight.bold,
-    this.padding = const EdgeInsets.symmetric(vertical: 24),
     //this.trailingWidget,
     required this.onPressed,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
+      // was Container
       width: double.maxFinite,
-      child: RaisedButton(
-        visualDensity: VisualDensity.compact,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(roundness),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: AppColors.primaryColor,
+          elevation: 0.0,
+          padding: const EdgeInsets.symmetric(vertical: 24),
+          visualDensity: VisualDensity.compact,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(roundness)),
+          textStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold, ////////////
+          ),
         ),
-        color: AppColors.primaryColor,
-        textColor: Colors.white,
-        elevation: 0.0,
-        padding: padding,
+        //   backgroundColor:
+        //       MaterialStateProperty.all<Color>(AppColors.primaryColor),
         child: Stack(
           fit: StackFit.passthrough,
           children: <Widget>[
@@ -54,7 +58,9 @@ class AppButton extends StatelessWidget {
           ],
         ),
         onPressed: () {
-          if (onPressed != null) onPressed();
+          if (onPressed != null) {
+            onPressed();
+          }
         },
       ),
     );

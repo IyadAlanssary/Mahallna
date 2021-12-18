@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:products/sign_up.dart';
+import 'package:products/view.dart';
 
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
-import 'common widgets/app_text.dart';
 import 'splash_screen.dart';
 
 class LogIn extends StatelessWidget {
@@ -22,12 +22,12 @@ class LogIn extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 70),
-                AppText(
-                  text: 'Log in',
-                  textAlign: TextAlign.center,
-                  key: UniqueKey(),
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
+                const Text(
+                  'Log in',
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(
                   height: 70,
@@ -45,33 +45,31 @@ class LogIn extends StatelessWidget {
                 const SizedBox(
                   height: 60,
                 ),
-                getButton(),
+                getButton(context),
                 const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Don\'t have an account yet? ',
-                        style: TextStyle(fontSize: 13),
-                      ),
-                      InkWell(
-                          child: const Text(
-                            'Sign Up',
-                            style: TextStyle(
-                                color: AppColors.primaryColor,
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignUp()),
-                            );
-                          }),
-                    ],
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Don\'t have an account yet? ',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                    InkWell(
+                        child: const Text(
+                          'Sign Up',
+                          style: TextStyle(
+                              color: AppColors.primaryColor,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignUp()),
+                          );
+                        }),
+                  ],
                 ),
               ],
             ),
@@ -98,13 +96,25 @@ class LogIn extends StatelessWidget {
     );
   }
 
-  Widget getButton() {
+  Widget getButton(BuildContext context) {
     return AppButton(
       label: "Log in",
       fontWeight: FontWeight.w600,
-      padding: const EdgeInsets.symmetric(vertical: 25),
       onPressed: () {
-        //onGetStartedClicked(context);
+        textfld('ss');
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const View()),
+        // );
+
+        // Navigator.of(context)
+        //     .push(MaterialPageRoute(builder: (context) => const View()));
+
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) {
+            return const View();
+          },
+        ));
       },
     );
   }
