@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-//import 'package:flutter_svg/svg.dart';
 
 class Search extends StatelessWidget {
   final String searchIcon = "assets/icons/search_icon.svg";

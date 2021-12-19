@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'styles/colors.dart';
 import 'splash_screen.dart';
-import 'log_in.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Grocery App',
       theme: AppColors.myTheme(),
-      home: const LogIn(),
+      home: const SplashScreen(),
     );
   }
 }

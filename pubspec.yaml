@@ -72,6 +72,10 @@ flutter:
         - asset: assets/fonts/gilroy/Gilroy-Regular.ttf
         - asset: assets/fonts/gilroy/Gilroy-SemiBold.ttf
         - asset: assets/fonts/gilroy/Gilroy-Bold.otf
+    - family: SourceSans3
+      fonts:
+        - asset: assets/fonts/Source Sans 3/SourceSans3-Medium.ttf
+        - asset: assets/fonts/Source Sans 3/SourceSans3-SemiBold.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

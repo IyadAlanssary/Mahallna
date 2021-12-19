@@ -11,7 +11,7 @@ class AppColors {
     return ThemeData.light().copyWith(
       //visualDensity: VisualDensity.adaptivePlatformDensity, /////does not change anything
       textTheme: ThemeData.light().textTheme.apply(
-            fontFamily: gilroyFontFamily,
+            fontFamily: 'SourceSans3',
           ),
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: AppColors.primaryColor,

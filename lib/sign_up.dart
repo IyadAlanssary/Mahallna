@@ -62,7 +62,7 @@ class SignUp extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                getButton(),
+                getButton(context),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -113,11 +113,15 @@ class SignUp extends StatelessWidget {
     );
   }
 
-  Widget getButton() {
+  Widget getButton(BuildContext context) {
     return AppButton(
       label: "Sign Up",
       onPressed: () {
-        //onGetStartedClicked(context);
+        // Navigator.of(context).pushReplacement(MaterialPageRoute(
+        //   builder: (BuildContext context) {
+        //     return const DashboardScreen();
+        //   },
+        // ));
       },
     );
   }
