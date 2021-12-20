@@ -10,10 +10,10 @@ class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(15),
       width: double.maxFinite,
       decoration: BoxDecoration(
-        color: const Color(0xFFF2F3F2),
+        color: Colors.white70,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -23,7 +23,7 @@ class Search extends StatelessWidget {
             searchIcon,
           ),
           const SizedBox(
-            width: 10,
+            width: 12,
           ),
           const Text(
             "Search Store",

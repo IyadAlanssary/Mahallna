@@ -34,9 +34,7 @@ class AppButton extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          if (onPressed != null) {
-            onPressed();
-          }
+          onPressed();
         },
       ),
     );
