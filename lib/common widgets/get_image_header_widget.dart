@@ -12,28 +12,25 @@ class _getImageHeaderWidgetState extends State<getImageHeaderWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          height: 230,
-          decoration: BoxDecoration(
-              // boxShadow:[BoxShadow(
-              //   color: Colors.grey.withOpacity(0.8),
-              //   spreadRadius: 5,
-              //   blurRadius: 7,
-              //   offset: const Offset(0,7),  //changes position of shadow
-              // )],
-              color: Colors.transparent,
-              image: DecorationImage(
-                alignment: Alignment.center,
-                image: AssetImage(widget.url),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: const BorderRadius.all(Radius.circular(15))
+        Center(
+          child: Container(
+            height: 250,
+            width: 250,
+            decoration: BoxDecoration(
+                color: Colors.transparent,
+                image: DecorationImage(
+                  alignment: Alignment.center,
+                  image: AssetImage(widget.url),
+                  fit: BoxFit.contain,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(15))
+            ),
           ),
         ),
         const SizedBox(height: 20),
-
       ],
     );
   }
