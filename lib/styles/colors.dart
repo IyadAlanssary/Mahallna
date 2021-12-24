@@ -37,7 +37,7 @@ class AppColors {
           image: const AssetImage(
             "assets/images/banner_background.png",
           ),
-          fit: BoxFit.cover),
+          fit: BoxFit.fitHeight),
     );
   }
 }

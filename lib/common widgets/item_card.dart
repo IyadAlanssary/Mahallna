@@ -27,7 +27,7 @@ class ItemCard extends StatelessWidget {
             image: const AssetImage(
               "assets/images/banner_background.png",
             ),
-            fit: BoxFit.none, //////////////
+            fit: BoxFit.none,
           ),
           border: Border.all(
             color: borderColor,
@@ -46,17 +46,19 @@ class ItemCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Center(
-                  child: Image.asset(item.imagePath),
+                  child: Image.asset(
+                    item.imagePath,
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 5,
               ),
               Text(
                 item.name,
                 style: const TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
@@ -73,7 +75,7 @@ class ItemCard extends StatelessWidget {
                     "\$${item.price.toStringAsFixed(2)}",
                     style: const TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const Spacer(),

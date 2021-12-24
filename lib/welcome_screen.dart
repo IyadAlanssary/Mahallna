@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+//import 'package:flutter/painting.dart';
 import 'common widgets/app_button.dart';
 import 'styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,16 +34,16 @@ class WelcomeScreen extends StatelessWidget {
                   height: 56,
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
                 welcomeTextWidget(),
                 sloganText(),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 getButton(context),
                 const SizedBox(
-                  height: 40,
+                  height: 25,
                 )
               ],
             ),
@@ -88,18 +88,15 @@ class WelcomeScreen extends StatelessWidget {
 
   Widget getButton(BuildContext context) {
     return AppButton(
-      label: "Get Started",
-      onPressed: () {
-        onGetStartedClicked(context);
-      },
-    );
-  }
-
-  void onGetStartedClicked(BuildContext context) {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (BuildContext context) {
-        return const LogIn();
-      },
-    ));
+        label: "Get Started",
+        onPressed: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return const LogIn();
+              },
+            ),
+          );
+        });
   }
 }
