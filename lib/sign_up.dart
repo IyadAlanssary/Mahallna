@@ -13,6 +13,7 @@ class SignUp extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: AppColors.myDecoration(),
+        height: double.maxFinite,
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(

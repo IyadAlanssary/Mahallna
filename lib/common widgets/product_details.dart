@@ -2,11 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:products/log_in.dart';
 import 'package:products/common widgets/grocery_item.dart';
 import 'package:products/styles/colors.dart';
-import 'package:products/common widgets/item_counter_widget.dart';
 import 'package:products/common widgets/get_image_header_widget.dart';
+import 'package:products/view.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
 
@@ -28,121 +27,135 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       body: Container(
         decoration: AppColors.myDecoration(),
         child: SafeArea(
-          child: ListView(
+          child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
                     onPressed: () {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (BuildContext context) {
-                          return const LogIn();
+                          return View();
                         },
                       ));
                     },
                     icon: const Icon(Icons.arrow_back),
                     color: AppColors.primaryColor,
                   ),
-                ],
-              ),
-              getImageHeaderWidget(url: 'assets/images/grocery_images/banana.png',),
-              Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Column(
-                      children: [
-                        ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: const Text(
-                            'Banana',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
-
-                          ),
-                          trailing: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isLike = !isLike;
-                              });
-                            },
-                            icon: getLikeIcon(isLike),
-                            color: Colors.blueGrey,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          // mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            // ItemCounterWidget(
-                            //   onAmountChanged: (newAmount) {
-                            //     setState(() {
-                            //
-                            //     });
-                            //   }, key: null,
-                            // ),
-                            Text(
-                              '\$20',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        getProductDataRowWidget('Expiration date:', '12/1/2022'),
-                        const Divider(
-                          thickness: 1,
-                          color: Colors.grey,
-                        ),
-                        getProductDataRowWidget('Category:', 'category'),
-                        const Divider(
-                          thickness: 1,
-                          color: Colors.grey,
-                        ),
-                        getProductDataRowWidget('Contact:', '1234567890'),
-                        const Divider(
-                          thickness: 1,
-                          color: Colors.grey,
-                        ),
-                        getProductDataRowWidget('Quantity:', '50'),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: const Text(
-                            'Comments',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
-
-                          ),
-                          trailing: IconButton(
-                            onPressed: () {
-                              setState(() {
-
-                              });
-                            },
-                            icon: const Icon(Icons.comment),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: const [
+                        Text(
+                          '20',
+                          style: TextStyle(
                             color: AppColors.primaryColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
+                        Icon(
+                          Icons.remove_red_eye,
+                          color: AppColors.primaryColor,
                         ),
-                        commentItem('hamsho', 'pullshit'),
-                        commentItem('hamsho', 'pullshit'),
-                        commentItem('hamsho', 'pullshit'),
-                        commentItem('hamsho', 'pullshit'),
                       ],
                     ),
-                  )
-              )
+                  ),
+                ],
+              ),
+              Expanded(
+                child: ListView(
+                  children: [
+                    getImageHeaderWidget(url: 'assets/images/grocery_images/banana.png',),
+                    Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: Column(
+                            children: [
+                              ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                title: const Text(
+                                  'Banana',
+                                  style: TextStyle(
+                                      fontSize: 24, fontWeight: FontWeight.bold),
+
+                                ),
+                                trailing: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isLike = !isLike;
+                                    });
+                                  },
+                                  icon: getLikeIcon(isLike),
+                                  color: Colors.red,
+                                ),
+                              ),
+                              Row(
+                                children: const [
+                                  Text(
+                                    '\$20',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              getProductDataRowWidget('Expiration date:', '12/1/2022'),
+                              const Divider(
+                                thickness: 1,
+                                color: Colors.grey,
+                              ),
+                              getProductDataRowWidget('Category:', 'category'),
+                              const Divider(
+                                thickness: 1,
+                                color: Colors.grey,
+                              ),
+                              getProductDataRowWidget('Contact:', '1234567890'),
+                              const Divider(
+                                thickness: 1,
+                                color: Colors.grey,
+                              ),
+                              getProductDataRowWidget('Quantity:', '50'),
+                              const SizedBox(
+                                height: 40,
+                              ),
+                              ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                title: const Text(
+                                  'Comments',
+                                  style: TextStyle(
+                                      fontSize: 24, fontWeight: FontWeight.bold),
+
+                                ),
+                                trailing: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+
+                                    });
+                                  },
+                                  icon: const Icon(Icons.comment),
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              commentItem('hamsho', 'pullshit'),
+                              commentItem('hamsho', 'pullshit'),
+                              commentItem('hamsho', 'pullshit'),
+                              commentItem('hamsho', 'pullshit'),
+                            ],
+                          ),
+                        )
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -153,10 +166,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
 Icon getLikeIcon(bool isLike){
   if (isLike) {
-    return const Icon(Icons.thumb_up);
+    return const Icon(Icons.favorite_border);
   }
   else {
-    return const Icon(Icons.thumb_up_alt_outlined);
+    return const Icon(Icons.favorite);
   }
 }
 
