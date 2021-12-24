@@ -11,6 +11,7 @@ class LogIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: double.maxFinite,
         decoration: AppColors.myDecoration(),
         child: SafeArea(
           child: SingleChildScrollView(

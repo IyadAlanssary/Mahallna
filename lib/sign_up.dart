@@ -13,6 +13,7 @@ class SignUp extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: AppColors.myDecoration(),
+        height: double.maxFinite,
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
@@ -33,7 +34,7 @@ class SignUp extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 80,
                   ),
                   TextField(
                     textInputAction: TextInputAction.next,
@@ -63,7 +64,7 @@ class SignUp extends StatelessWidget {
                     decoration: textfld('Confirm Password'),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 80,
                   ),
                   getButton(context),
                   const SizedBox(height: 18),
