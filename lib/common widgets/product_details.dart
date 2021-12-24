@@ -42,11 +42,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ));
                     },
                     icon: const Icon(Icons.arrow_back),
-                    color: AppColors.darkGrey,
+                    color: AppColors.primaryColor,
                   ),
                 ],
               ),
-              getImageHeaderWidget(url: 'assets/images/grocery_images/apple.png',),
+              getImageHeaderWidget(url: 'assets/images/grocery_images/banana.png',),
               Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -55,7 +55,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ListTile(
                           contentPadding: EdgeInsets.zero,
                           title: const Text(
-                            'KitKat',
+                            'Banana',
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold),
 
@@ -129,7 +129,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               });
                             },
                             icon: const Icon(Icons.comment),
-                            color: Colors.blueGrey,
+                            color: AppColors.primaryColor,
                           ),
                         ),
                         const SizedBox(
@@ -185,7 +185,7 @@ Widget getProductDataRowWidget(String label, String data) {
             Text(
               data,
               style: const TextStyle(
-                color: Colors.blueGrey,
+                color: AppColors.primaryColor,
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
               ),
