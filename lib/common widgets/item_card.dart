@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:products/common%20widgets/product_details.dart';
 import 'grocery_item.dart';
 import 'package:products/styles/colors.dart';
+import 'package:products/view.dart';
 
 class ItemCard extends StatelessWidget {
   const ItemCard({required Key key, required this.item}) : super(key: key);
@@ -79,7 +81,7 @@ class ItemCard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  addWidget()
+                  addWidget(context),
                 ],
               )
             ],
@@ -89,18 +91,27 @@ class ItemCard extends StatelessWidget {
     );
   }
 
-  Widget addWidget() {
+  Widget addWidget(BuildContext context) {
     return Container(
       height: 45,
       width: 45,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(17),
           color: AppColors.primaryColor),
-      child: const Center(
-        child: Icon(
-          Icons.add,
+      child: Center(
+        child: IconButton(
+          icon: const Icon(Icons.add),
           color: Colors.white,
-          size: 25,
+          iconSize: 25,
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return const ProductDetailsScreen();
+                },
+              ),
+            );
+          },
         ),
       ),
     );

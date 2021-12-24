@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'common widgets/item_card.dart';
 
 class View extends StatelessWidget {
-  View({Key? key}) : super(key: key);
+  const View({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +28,7 @@ class View extends StatelessWidget {
               Expanded(
                 child: GridView.count(
                   crossAxisCount: 1,
-                  childAspectRatio:
-                      1.25, /////test////////////////////////////////////////
+                  childAspectRatio: 1.25,
                   children: <Widget>[
                     ItemCard(
                       item: GroceryItem.item,

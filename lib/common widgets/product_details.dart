@@ -2,28 +2,23 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:products/log_in.dart';
 import 'package:products/common widgets/grocery_item.dart';
 import 'package:products/styles/colors.dart';
-import 'package:products/common widgets/item_counter_widget.dart';
 import 'package:products/common widgets/get_image_header_widget.dart';
+import 'package:products/view.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-
-  const ProductDetailsScreen({Key ? key}) : super(key: key);
+  const ProductDetailsScreen({Key? key}) : super(key: key);
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
-
 }
 
 bool isLike = false;
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         decoration: AppColors.myDecoration(),
@@ -37,7 +32,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     onPressed: () {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (BuildContext context) {
-                          return const LogIn();
+                          return const View();
                         },
                       ));
                     },
@@ -46,103 +41,100 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                 ],
               ),
-              getImageHeaderWidget(url: 'assets/images/grocery_images/apple.png',),
+              getImageHeaderWidget(
+                url: 'assets/images/grocery_images/apple.png',
+              ),
               Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Column(
-                      children: [
-                        ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: const Text(
-                            'KitKat',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
-
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Column(
+                  children: [
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text(
+                        'KitKat',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isLike = !isLike;
+                          });
+                        },
+                        icon: getLikeIcon(isLike),
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.end,
+                      children: const [
+                        // ItemCounterWidget(
+                        //   onAmountChanged: (newAmount) {
+                        //     setState(() {
+                        //
+                        //     });
+                        //   }, key: null,
+                        // ),
+                        Text(
+                          '\$20',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
                           ),
-                          trailing: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isLike = !isLike;
-                              });
-                            },
-                            icon: getLikeIcon(isLike),
-                            color: Colors.blueGrey,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          // mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            // ItemCounterWidget(
-                            //   onAmountChanged: (newAmount) {
-                            //     setState(() {
-                            //
-                            //     });
-                            //   }, key: null,
-                            // ),
-                            Text(
-                              '\$20',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        getProductDataRowWidget('Expiration date:', '12/1/2022'),
-                        const Divider(
-                          thickness: 1,
-                          color: Colors.grey,
-                        ),
-                        getProductDataRowWidget('Category:', 'category'),
-                        const Divider(
-                          thickness: 1,
-                          color: Colors.grey,
-                        ),
-                        getProductDataRowWidget('Contact:', '1234567890'),
-                        const Divider(
-                          thickness: 1,
-                          color: Colors.grey,
-                        ),
-                        getProductDataRowWidget('Quantity:', '50'),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: const Text(
-                            'Comments',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
-
-                          ),
-                          trailing: IconButton(
-                            onPressed: () {
-                              setState(() {
-
-                              });
-                            },
-                            icon: const Icon(Icons.comment),
-                            color: Colors.blueGrey,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        commentItem('hamsho', 'pullshit'),
-                        commentItem('hamsho', 'pullshit'),
-                        commentItem('hamsho', 'pullshit'),
-                        commentItem('hamsho', 'pullshit'),
+                        )
                       ],
                     ),
-                  )
-              )
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    getProductDataRowWidget('Expiration date:', '12/1/2022'),
+                    const Divider(
+                      thickness: 1,
+                      color: Colors.grey,
+                    ),
+                    getProductDataRowWidget('Category:', 'category'),
+                    const Divider(
+                      thickness: 1,
+                      color: Colors.grey,
+                    ),
+                    getProductDataRowWidget('Contact:', '1234567890'),
+                    const Divider(
+                      thickness: 1,
+                      color: Colors.grey,
+                    ),
+                    getProductDataRowWidget('Quantity:', '50'),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text(
+                        'Comments',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          setState(() {});
+                        },
+                        icon: const Icon(Icons.comment),
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    commentItem('hamsho', 'pullshit'),
+                    commentItem('hamsho', 'pullshit'),
+                    commentItem('hamsho', 'pullshit'),
+                    commentItem('hamsho', 'pullshit'),
+                  ],
+                ),
+              ))
             ],
           ),
         ),
@@ -151,11 +143,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 }
 
-Icon getLikeIcon(bool isLike){
+Icon getLikeIcon(bool isLike) {
   if (isLike) {
     return const Icon(Icons.thumb_up);
-  }
-  else {
+  } else {
     return const Icon(Icons.thumb_up_alt_outlined);
   }
 }
@@ -197,7 +188,7 @@ Widget getProductDataRowWidget(String label, String data) {
   );
 }
 
-Widget commentItem(String name,String comment) {
+Widget commentItem(String name, String comment) {
   return Padding(
     padding: const EdgeInsets.all(5.0),
     child: Column(
@@ -207,7 +198,7 @@ Widget commentItem(String name,String comment) {
             const Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: CircleAvatar(
-                backgroundColor: Colors.black ,
+                backgroundColor: Colors.black,
                 radius: 20,
               ),
             ),

@@ -26,11 +26,9 @@ class Search extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            //InkWell                                                ///////////////////////
             SvgPicture.asset(
               searchIcon,
             ),
-
             const SizedBox(
               width: 12,
             ),

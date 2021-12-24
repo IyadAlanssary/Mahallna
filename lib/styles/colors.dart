@@ -11,7 +11,6 @@ class AppColors {
 
   static ThemeData myTheme() {
     return ThemeData.light().copyWith(
-      //visualDensity: VisualDensity.adaptivePlatformDensity, /////does not change anything
       textTheme: ThemeData.light().textTheme.apply(
             fontFamily: sourceSansFontFamily,
           ),
@@ -41,12 +40,3 @@ class AppColors {
     );
   }
 }
-
-/*
-primaryTextTheme: ThemeData.light().textTheme.apply(
-          fontFamily: gilroy..,
-        ),
-    accentTextTheme: ThemeData.light().textTheme.apply(
-          fontFamily: 'RobotoMono',
-        ),
- */

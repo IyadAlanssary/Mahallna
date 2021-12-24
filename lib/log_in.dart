@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:products/sign_up.dart';
 import 'package:products/view.dart';
-import 'package:products/common widgets/product_details.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
 
@@ -108,7 +107,7 @@ class LogIn extends StatelessWidget {
       onPressed: () {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => ProductDetailsScreen()),
+          MaterialPageRoute(builder: (_) => const View()),
         );
 
         // Navigator.of(
