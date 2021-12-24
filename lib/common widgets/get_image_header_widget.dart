@@ -15,22 +15,19 @@ class _getImageHeaderWidgetState extends State<getImageHeaderWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          height: 200,
+          height: 230,
           decoration: BoxDecoration(
-
-              boxShadow:[BoxShadow(
-                color: Colors.grey.withOpacity(0.8),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0,7),  //changes position of shadow
-              )],
-              color: Colors.white,
+              // boxShadow:[BoxShadow(
+              //   color: Colors.grey.withOpacity(0.8),
+              //   spreadRadius: 5,
+              //   blurRadius: 7,
+              //   offset: const Offset(0,7),  //changes position of shadow
+              // )],
+              color: Colors.transparent,
               image: DecorationImage(
                 alignment: Alignment.center,
-
                 image: AssetImage(widget.url),
                 fit: BoxFit.cover,
-
               ),
               borderRadius: const BorderRadius.all(Radius.circular(15))
           ),
