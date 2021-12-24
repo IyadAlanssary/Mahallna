@@ -166,10 +166,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
 Icon getLikeIcon(bool isLike){
   if (isLike) {
-    return const Icon(Icons.favorite_border);
+    return const Icon(Icons.favorite);
   }
   else {
-    return const Icon(Icons.favorite);
+    return const Icon(Icons.favorite_border);
   }
 }
 
