@@ -10,17 +10,20 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({Key ? key}) : super(key: key);
+  const ProductDetailsScreen({Key? key}) : super(key: key);
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
-
 }
+
 String url = baseUrl;
 bool isLike = false;
-List<Product> productFromJson(String str) => List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
+List<Product> productFromJson(String str) =>
+    List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
 
-String productToJson(List<Product> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String productToJson(List<Product> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 class Product {
   Product({
     required this.id,
@@ -37,24 +40,24 @@ class Product {
   int availableQuantity;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-    id: json["id"].toDouble(),
-    imageId: json["image_id"].toDouble(),
-    name: json["name"],
-    description: json["description"],
-    availableQuantity: json["available_quantity"],
-  );
+        id: json["id"].toDouble(),
+        imageId: json["image_id"].toDouble(),
+        name: json["name"],
+        description: json["description"],
+        availableQuantity: json["available_quantity"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "image_id": imageId,
-    "name": name,
-    "description": description,
-    "available_quantity": availableQuantity,
-  };
+        "id": id,
+        "image_id": imageId,
+        "name": name,
+        "description": description,
+        "available_quantity": availableQuantity,
+      };
 }
+
 Future<Product> fetchProduct() async {
-  final response = await http
-      .get(Uri.parse(baseUrl + 'products/1'));
+  final response = await http.get(Uri.parse(baseUrl + 'products/1'));
 
   if (response.statusCode == 200) {
     return Product.fromJson(jsonDecode(response.body));
@@ -122,7 +125,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     onPressed: () {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (BuildContext context) {
-                          return const View();
+                          return View();
                         },
                       ));
                     },
@@ -153,91 +156,90 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               Expanded(
                 child: ListView(
                   children: [
-                    getImageHeaderWidget(url: 'assets/images/grocery_images/banana.png',),
+                    getImageHeaderWidget(
+                      url: 'assets/images/grocery_images/banana.png',
+                    ),
                     Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25),
-                          child: Column(
-                            children: [
-                              ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                title: const Text(
-                                  'Banana',
-                                  style: TextStyle(
-                                      fontSize: 24, fontWeight: FontWeight.bold),
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: const Text(
+                              'Banana',
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                            trailing: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  isLike = !isLike;
+                                });
+                              },
+                              icon: getLikeIcon(isLike),
+                              color: Colors.red,
+                            ),
+                          ),
+                          Row(
+                            children: const [
+                              Text(
+                                '\$20',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                trailing: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      isLike = !isLike;
-                                    });
-                                  },
-                                  icon: getLikeIcon(isLike),
-                                  color: Colors.red,
-                                ),
-                              ),
-                              Row(
-                                children: const [
-                                  Text(
-                                    '\$20',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              getProductDataRowWidget('Expiration date:', '12/1/2022'),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.grey,
-                              ),
-                              getProductDataRowWidget('Category:', 'category'),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.grey,
-                              ),
-                              getProductDataRowWidget('Contact:', '1234567890'),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.grey,
-                              ),
-                              getProductDataRowWidget('Quantity:', '50'),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                title: const Text(
-                                  'Comments',
-                                  style: TextStyle(
-                                      fontSize: 24, fontWeight: FontWeight.bold),
-
-                                ),
-                                trailing: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-
-                                    });
-                                  },
-                                  icon: const Icon(Icons.comment),
-                                  color: AppColors.primaryColor,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              commentItem('hamsho', 'pullshit'),
-                              commentItem('hamsho', 'pullshit'),
-                              commentItem('hamsho', 'pullshit'),
-                              commentItem('hamsho', 'pullshit'),
+                              )
                             ],
                           ),
-                        )
-                    )
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          getProductDataRowWidget(
+                              'Expiration date:', '12/1/2022'),
+                          const Divider(
+                            thickness: 1,
+                            color: Colors.grey,
+                          ),
+                          getProductDataRowWidget('Category:', 'category'),
+                          const Divider(
+                            thickness: 1,
+                            color: Colors.grey,
+                          ),
+                          getProductDataRowWidget('Contact:', '1234567890'),
+                          const Divider(
+                            thickness: 1,
+                            color: Colors.grey,
+                          ),
+                          getProductDataRowWidget('Quantity:', '50'),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: const Text(
+                              'Comments',
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                            trailing: IconButton(
+                              onPressed: () {
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.comment),
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          commentItem('hamsho', 'pullshit'),
+                          commentItem('hamsho', 'pullshit'),
+                          commentItem('hamsho', 'pullshit'),
+                          commentItem('hamsho', 'pullshit'),
+                        ],
+                      ),
+                    ))
                   ],
                 ),
               ),
@@ -249,11 +251,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 }
 
-Icon getLikeIcon(bool isLike){
+Icon getLikeIcon(bool isLike) {
   if (isLike) {
     return const Icon(Icons.favorite);
-  }
-  else {
+  } else {
     return const Icon(Icons.favorite_border);
   }
 }
@@ -295,7 +296,7 @@ Widget getProductDataRowWidget(String label, String data) {
   );
 }
 
-Widget commentItem(String name,String comment) {
+Widget commentItem(String name, String comment) {
   return Padding(
     padding: const EdgeInsets.all(5.0),
     child: Column(
@@ -305,7 +306,7 @@ Widget commentItem(String name,String comment) {
             const Padding(
               padding: EdgeInsets.only(left: 8.0),
               child: CircleAvatar(
-                backgroundColor: Colors.black ,
+                backgroundColor: Colors.black,
                 radius: 20,
               ),
             ),

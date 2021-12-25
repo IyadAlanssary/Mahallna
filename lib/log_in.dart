@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:products/common%20widgets/grocery_item.dart';
 import 'package:products/sign_up.dart';
 import 'package:products/view.dart';
 import 'styles/colors.dart';
@@ -106,9 +107,10 @@ class LogIn extends StatelessWidget {
     return AppButton(
       label: "Log in",
       onPressed: () {
+        //GroceryItem.getHttp();                  ////////////////
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const View()),
+          MaterialPageRoute(builder: (_) => View()),
         );
 
         // Navigator.of(

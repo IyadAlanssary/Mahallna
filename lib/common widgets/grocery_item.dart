@@ -1,14 +1,18 @@
 class GroceryItem {
-  final String name;
-  final String description;
-  final double price;
-  final String imagePath;
+  int id;
+  late String name;
+  late String description;
+  late double price;
+  late String imagePath;
 
   GroceryItem(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.description,
       required this.price,
       required this.imagePath});
+}
+/*
   static GroceryItem item = GroceryItem(
       name: "Organic Bananas",
       description: "7 pieces",
@@ -24,4 +28,4 @@ class GroceryItem {
       description: "355ml, Price",
       price: 1.99,
       imagePath: "assets/images/beverages_images/diet_coke.png");
-}
+*/

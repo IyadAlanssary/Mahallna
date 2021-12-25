@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:products/common%20widgets/product_details.dart';
 import 'grocery_item.dart';
 import 'package:products/styles/colors.dart';
-import 'package:products/view.dart';
 
 class ItemCard extends StatelessWidget {
-  const ItemCard({required Key key, required this.item}) : super(key: key);
-  final GroceryItem item;
+  ItemCard({required Key key, required this.item}) : super(key: key);
 
+  final GroceryItem item;
+  static List<ItemCard> cards = [];
   final double width = 174;
   final double height = 230;
   final Color borderColor = AppColors.greyBorderColor;
@@ -107,7 +107,7 @@ class ItemCard extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return const ProductDetailsScreen();
+                  return const ProductDetailsScreen(); /////////////////////TODO: (item.id)
                 },
               ),
             );
