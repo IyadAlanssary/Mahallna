@@ -54,7 +54,7 @@ class Product {
 }
 Future<Product> fetchProduct() async {
   final response = await http
-      .get(Uri.parse(baseUrl + 'product/1'));
+      .get(Uri.parse(baseUrl + 'products/1'));
 
   if (response.statusCode == 200) {
     return Product.fromJson(jsonDecode(response.body));
@@ -109,7 +109,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         decoration: AppColors.myDecoration(),
