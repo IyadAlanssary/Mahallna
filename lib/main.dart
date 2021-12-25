@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'styles/colors.dart';
 import 'splash_screen.dart';
+
 import 'package:dio/dio.dart';
 
 void main() {

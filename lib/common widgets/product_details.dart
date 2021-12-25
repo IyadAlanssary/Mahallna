@@ -16,94 +16,9 @@ class ProductDetailsScreen extends StatefulWidget {
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
 }
-<<<<<<< Updated upstream
 
-String url = baseUrl;
 bool isLike = false;
-List<Product> productFromJson(String str) =>
-    List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
 
-String productToJson(List<Product> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
-class Product {
-  Product({
-    required this.id,
-    required this.imageId,
-    required this.name,
-    required this.description,
-    required this.availableQuantity,
-  });
-
-  double id;
-  double imageId;
-  String name;
-  String description;
-  int availableQuantity;
-
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["id"].toDouble(),
-        imageId: json["image_id"].toDouble(),
-        name: json["name"],
-        description: json["description"],
-        availableQuantity: json["available_quantity"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "image_id": imageId,
-        "name": name,
-        "description": description,
-        "available_quantity": availableQuantity,
-      };
-}
-
-Future<Product> fetchProduct() async {
-  final response = await http.get(Uri.parse(baseUrl + 'products/1'));
-
-  if (response.statusCode == 200) {
-    return Product.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to load product');
-  }
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late Future<Product> futureProduct;
-
-  @override
-  void initState() {
-    super.initState();
-    futureProduct = fetchProduct();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    FutureBuilder<Product>(
-      future: futureProduct,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text(snapshot.data!.name);
-        } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
-        }
-
-        // By default, show a loading spinner.
-        return const CircularProgressIndicator();
-      },
-    );
-    throw UnimplementedError();
-  }
-}
-=======
-bool isLike = false;
 //   try {
 //     var response = await Dio().get(baseUrl + '/products/1');
 //
@@ -130,7 +45,6 @@ bool isLike = false;
 //     print(e);
 //   }
 // }
->>>>>>> Stashed changes
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
@@ -189,40 +103,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               Expanded(
                 child: ListView(
                   children: [
-                    getImageHeaderWidget(
-                      url: 'assets/images/grocery_images/banana.png',
-                    ),
+                    getImageHeaderWidget(url: 'assets/images/grocery_images/banana.png',),
                     Expanded(
                         child: Padding(
-<<<<<<< Updated upstream
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Column(
-                        children: [
-                          ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            title: const Text(
-                              'Banana',
-                              style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold),
-                            ),
-                            trailing: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  isLike = !isLike;
-                                });
-                              },
-                              icon: getLikeIcon(isLike),
-                              color: Colors.red,
-                            ),
-                          ),
-                          Row(
-                            children: const [
-                              Text(
-                                '\$20',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-=======
                           padding: const EdgeInsets.symmetric(horizontal: 25),
                           child: Column(
                             children: [
@@ -232,10 +115,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   'Banana',
                                   style: TextStyle(
                                       fontSize: 24, fontWeight: FontWeight.bold),
+
                                 ),
                                 trailing: IconButton(
                                   onPressed: () {
-                                    getProductData();
                                     setState(() {
                                       isLike = !isLike;
                                     });
@@ -293,59 +176,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   },
                                   icon: const Icon(Icons.comment),
                                   color: AppColors.primaryColor,
->>>>>>> Stashed changes
                                 ),
-                              )
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              commentItem('hamsho', 'pullshit'),
+                              commentItem('hamsho', 'pullshit'),
+                              commentItem('hamsho', 'pullshit'),
+                              commentItem('hamsho', 'pullshit'),
                             ],
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          getProductDataRowWidget(
-                              'Expiration date:', '12/1/2022'),
-                          const Divider(
-                            thickness: 1,
-                            color: Colors.grey,
-                          ),
-                          getProductDataRowWidget('Category:', 'category'),
-                          const Divider(
-                            thickness: 1,
-                            color: Colors.grey,
-                          ),
-                          getProductDataRowWidget('Contact:', '1234567890'),
-                          const Divider(
-                            thickness: 1,
-                            color: Colors.grey,
-                          ),
-                          getProductDataRowWidget('Quantity:', '50'),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                          ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            title: const Text(
-                              'Comments',
-                              style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold),
-                            ),
-                            trailing: IconButton(
-                              onPressed: () {
-                                setState(() {});
-                              },
-                              icon: const Icon(Icons.comment),
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          commentItem('hamsho', 'pullshit'),
-                          commentItem('hamsho', 'pullshit'),
-                          commentItem('hamsho', 'pullshit'),
-                          commentItem('hamsho', 'pullshit'),
-                        ],
-                      ),
-                    ))
+                        )
+                    )
                   ],
                 ),
               ),
@@ -441,8 +284,6 @@ Widget commentItem(String name, String comment) {
     ),
   );
 }
-<<<<<<< Updated upstream
-=======
 
 class Product {
   final int id;
@@ -460,4 +301,3 @@ class Product {
 
 
 }
->>>>>>> Stashed changes
