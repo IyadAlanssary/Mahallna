@@ -35,36 +35,3 @@ class _getImageHeaderWidgetState extends State<getImageHeaderWidget> {
     );
   }
 }
-
-// Container(
-// child: Row(
-// mainAxisAlignment: MainAxisAlignment.center,
-// children: const [
-// Center(
-// child: Image(
-// image: AssetImage('images/kitkat.jpg'),
-// height: 200,
-// width: 300,
-// ),
-// ),
-// ],
-// ),
-// decoration: const BoxDecoration(
-// color: Colors.white,
-// borderRadius: BorderRadius.only(
-// bottomLeft: Radius.circular(25),
-// topLeft: Radius.circular(25),
-// bottomRight: Radius.circular(25),
-// topRight: Radius.circular(25),
-// ),
-// gradient: LinearGradient(
-// colors: [
-// Colors.white,
-// Colors.white,
-// ],
-// begin: FractionalOffset(0.0, 0.0),
-// end: FractionalOffset(0.0, 1.0),
-// stops: [0.0, 1.0],
-// tileMode: TileMode.clamp),
-// ),
-// );
