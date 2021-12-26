@@ -4,8 +4,18 @@ import 'package:products/view.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
 
-class LogIn extends StatelessWidget {
+class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
+
+  @override
+  State<LogIn> createState() => _LogInState();
+}
+
+class _LogInState extends State<LogIn> {
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -16,33 +26,35 @@ class LogIn extends StatelessWidget {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(50.0),
+              padding: const EdgeInsets.fromLTRB(50, 110, 50, 15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  const SizedBox(height: 70),
+                  const SizedBox(height: 20),
                   const Text(
                     'Log in',
                     style: TextStyle(
-                      fontSize: 36,
+                      fontSize: 38,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(
-                    height: 70,
+                    height: 50,
                   ),
                   TextField(
+                    controller: userNameController,
                     textInputAction: TextInputAction.next,
-                    decoration: textfld('Username'),
+                    decoration: textfld('Username', false),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   TextField(
+                    controller: passwordController,
                     textInputAction: TextInputAction.done,
-                    obscureText: true,
-                    decoration: textfld('Password'),
+                    obscureText: _isObscure,
+                    decoration: textfld('Password', true),
                   ),
                   const SizedBox(
                     height: 60,
@@ -85,9 +97,7 @@ class LogIn extends StatelessWidget {
     );
   }
 
-  void doNothing() {}
-
-  InputDecoration textfld(String text) {
+  InputDecoration textfld(String text, bool eye) {
     return InputDecoration(
       focusedBorder: const UnderlineInputBorder(
         borderSide: BorderSide(color: AppColors.primaryColor),
@@ -99,6 +109,7 @@ class LogIn extends StatelessWidget {
         borderSide: BorderSide(color: AppColors.primaryColor),
       ),
       labelText: text,
+      suffixIcon: eyeButton(eye),
     );
   }
 
@@ -112,5 +123,23 @@ class LogIn extends StatelessWidget {
         );
       },
     );
+  }
+
+  SizedBox eyeButton(bool eye) {
+    if (eye) {
+      return SizedBox(
+        child: IconButton(
+            splashColor: AppColors.primaryColor,
+            color: AppColors.primaryColor,
+            iconSize: 20,
+            icon: Icon(!_isObscure ? Icons.visibility : Icons.visibility_off),
+            onPressed: () {
+              setState(() {
+                _isObscure = !_isObscure;
+              });
+            }),
+      );
+    }
+    return const SizedBox(width: 1);
   }
 }
