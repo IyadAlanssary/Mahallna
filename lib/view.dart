@@ -65,28 +65,32 @@ class _ViewState extends State<View> {
   }
 
   dynamic response;
+  bool gotResponse = false;
   List<GroceryItem> items = [];
   Future getHttp() async {
-    try {
-      response = await http.get(Uri.https(
-          "74bbdce5-c395-497b-9acf-3f4bbf4b7604.mock.pstmn.io",
-          "api/products"));
-      var jsonData = jsonDecode(response.body);
-      for (var g in jsonData) {
-        GroceryItem i = GroceryItem(
-            id: g['id'],
-            name: g['name'],
-            description: g['description'],
-            price: 1.999,
-            imagePath: "assets/images/grocery_images/banana.png");
-        items.add(i);
-        ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
+    if (!gotResponse) {
+      gotResponse = true;
+      try {
+        response = await http.get(Uri.https(
+            "74bbdce5-c395-497b-9acf-3f4bbf4b7604.mock.pstmn.io",
+            "api/products"));
+        var jsonData = jsonDecode(response.body);
+        for (var g in jsonData) {
+          GroceryItem i = GroceryItem(
+              id: g['id'],
+              name: g['name'],
+              description: g['description'],
+              price: 1.99,
+              imagePath: "assets/images/grocery_images/banana.png");
+          items.add(i);
+          ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
+        }
+        //response = await dio.get('/test', queryParameters: {'id': 12, 'name': 'wendu'});
+        // print(response.data.toString());
+      } catch (e) {
+        print("catched error");
+        print(e);
       }
-      //response = await dio.get('/test', queryParameters: {'id': 12, 'name': 'wendu'});
-      // print(response.data.toString());
-    } catch (e) {
-      print("catched error");
-      print(e);
     }
     return items;
   }

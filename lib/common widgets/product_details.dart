@@ -21,9 +21,7 @@ class ProductDetailsScreen extends StatefulWidget {
 
 bool isLike = false;
 
-
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +45,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            Navigator.of(context).pop(MaterialPageRoute(
                               builder: (BuildContext context) {
                                 return View();
                               },
@@ -80,92 +78,95 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Expanded(
                       child: ListView(
                         children: [
-                          getImageHeaderWidget(url: 'assets/images/grocery_images/banana.png',),
+                          getImageHeaderWidget(
+                            url: 'assets/images/grocery_images/banana.png',
+                          ),
                           Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 25),
-                                child: Column(
+                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  title: Text(
+                                    product.name,
+                                    style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        isLike = !isLike;
+                                      });
+                                    },
+                                    icon: getLikeIcon(isLike),
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                Row(
                                   children: [
-                                    ListTile(
-                                      contentPadding: EdgeInsets.zero,
-                                      title: Text(
-                                        product.name,
-                                        style: const TextStyle(
-                                            fontSize: 24, fontWeight: FontWeight.bold),
-
+                                    Text(
+                                      '\$${product.unitPrice}',
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      trailing: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            isLike = !isLike;
-                                          });
-                                        },
-                                        icon: getLikeIcon(isLike),
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '\$${product.unitPrice}',
-                                          style: const TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    getProductDataRowWidget('Expiration date:', '${product.expiryDate}'),
-                                    const Divider(
-                                      thickness: 1,
-                                      color: Colors.grey,
-                                    ),
-                                    getProductDataRowWidget('Category:', product.category),
-                                    const Divider(
-                                      thickness: 1,
-                                      color: Colors.grey,
-                                    ),
-                                    getProductDataRowWidget('Contact:', product.contactPhone),
-                                    const Divider(
-                                      thickness: 1,
-                                      color: Colors.grey,
-                                    ),
-                                    getProductDataRowWidget('Quantity:', '${product.availableQuantity}'),
-                                    const SizedBox(
-                                      height: 40,
-                                    ),
-                                    ListTile(
-                                      contentPadding: EdgeInsets.zero,
-                                      title: const Text(
-                                        'Comments',
-                                        style: TextStyle(
-                                            fontSize: 24, fontWeight: FontWeight.bold),
-
-                                      ),
-                                      trailing: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-
-                                          });
-                                        },
-                                        icon: const Icon(Icons.comment),
-                                        color: AppColors.primaryColor,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    commentItem('hamsho', 'pullshit'),
-                                    commentItem('hamsho', 'pullshit'),
-                                    commentItem('hamsho', 'pullshit'),
-                                    commentItem('hamsho', 'pullshit'),
+                                    )
                                   ],
                                 ),
-                              )
-                          )
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                getProductDataRowWidget('Expiration date:',
+                                    '${product.expiryDate}'),
+                                const Divider(
+                                  thickness: 1,
+                                  color: Colors.grey,
+                                ),
+                                getProductDataRowWidget(
+                                    'Category:', product.category),
+                                const Divider(
+                                  thickness: 1,
+                                  color: Colors.grey,
+                                ),
+                                getProductDataRowWidget(
+                                    'Contact:', product.contactPhone),
+                                const Divider(
+                                  thickness: 1,
+                                  color: Colors.grey,
+                                ),
+                                getProductDataRowWidget('Quantity:',
+                                    '${product.availableQuantity}'),
+                                const SizedBox(
+                                  height: 40,
+                                ),
+                                ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  title: const Text(
+                                    'Comments',
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      setState(() {});
+                                    },
+                                    icon: const Icon(Icons.comment),
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                commentItem('hamsho', 'pullshit'),
+                                commentItem('hamsho', 'pullshit'),
+                                commentItem('hamsho', 'pullshit'),
+                                commentItem('hamsho', 'pullshit'),
+                              ],
+                            ),
+                          ))
                         ],
                       ),
                     ),
@@ -178,14 +179,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
     );
   }
+
   dynamic response;
   late Product product;
   Future getHttp(int id) async {
     try {
-      response = await http.get(Uri.https(
-          baseUrl,
-          "/products/$id"));
-        print(response.body);
+      response = await http.get(Uri.https(baseUrl, "/products/$id"));
+      print(response.body);
       var jsonData = jsonDecode(response.body);
       print(jsonData["id"]);
       Product p = Product(
@@ -198,10 +198,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           expiryDate: jsonData['expiry_date'],
           unitPrice: jsonData['unit_price'],
           viewsCount: jsonData['views_count'],
-          contactPhone: jsonData['contact_phone']
-      );
+          contactPhone: jsonData['contact_phone']);
       product = p;
-
 
       //response = await dio.get('/test', queryParameters: {'id': 12, 'name': 'wendu'});
       // print(response.data.toString());
@@ -211,7 +209,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
     return product;
   }
-
 }
 
 Icon getLikeIcon(bool isLike) {
@@ -311,6 +308,15 @@ class Product {
   late double viewsCount;
   late String contactPhone;
 
-  Product({required this.id, required this.imageId, required this.name, required this.category, required this.availableQuantity, required this.liked, required this.expiryDate, required this.unitPrice, required this.viewsCount, required this.contactPhone});
-  
+  Product(
+      {required this.id,
+      required this.imageId,
+      required this.name,
+      required this.category,
+      required this.availableQuantity,
+      required this.liked,
+      required this.expiryDate,
+      required this.unitPrice,
+      required this.viewsCount,
+      required this.contactPhone});
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter/painting.dart';
 import 'common widgets/app_button.dart';
 import 'styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
