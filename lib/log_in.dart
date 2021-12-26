@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:products/sign_up.dart';
 import 'package:products/view.dart';
+import 'common widgets/profile.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
 

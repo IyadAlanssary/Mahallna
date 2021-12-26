@@ -92,11 +92,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ListTile(
                                   contentPadding: EdgeInsets.zero,
                                   title: Text(
-                                    product.name,
-                                    style: const TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                  product.name,
+                                  style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold),
+                                ),
                                   trailing: IconButton(
                                     onPressed: () {
                                       setState(() {
