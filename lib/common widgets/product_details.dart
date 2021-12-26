@@ -29,10 +29,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         future: getHttp(widget.id),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
-            return const SpinKitSpinningLines(
-              itemCount: 8,
-              color: AppColors.primaryColor,
-              size: 100.0,
+            return Container(
+              decoration: AppColors.myDecoration(),
+              child: const SpinKitSpinningLines(
+                itemCount: 8,
+                color: AppColors.primaryColor,
+                size: 100.0,
+              ),
             );
           } else {
             return Container(
@@ -89,11 +92,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ListTile(
                                   contentPadding: EdgeInsets.zero,
                                   title: Text(
-                                    product.name,
-                                    style: const TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                  product.name,
+                                  style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold),
+                                ),
                                   trailing: IconButton(
                                     onPressed: () {
                                       setState(() {
