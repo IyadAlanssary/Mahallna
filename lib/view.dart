@@ -19,7 +19,6 @@ class _ViewState extends State<View> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white38,
       body: Container(
         decoration: AppColors.myDecoration(),
         child: Padding(
@@ -29,7 +28,7 @@ class _ViewState extends State<View> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 30, bottom: 10),
+                padding: const EdgeInsets.only(top: 40, bottom: 10),
                 child: SvgPicture.asset("assets/icons/app_icon_color.svg"),
               ),
               const Search(),
