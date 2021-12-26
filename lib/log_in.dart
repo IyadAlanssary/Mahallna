@@ -111,7 +111,6 @@ class LogIn extends StatelessWidget {
           MaterialPageRoute(builder: (_) => View()),
         );
       },
-        },
     );
   }
 }
