@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:products/styles/colors.dart';
 import 'package:products/common widgets/get_image_header_widget.dart';
 import 'package:products/view.dart';
@@ -11,7 +12,8 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({Key? key}) : super(key: key);
+  int id;
+  ProductDetailsScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
@@ -19,215 +21,195 @@ class ProductDetailsScreen extends StatefulWidget {
 
 bool isLike = false;
 
-//   try {
-//     var response = await Dio().get(baseUrl + '/products/1');
-//
-//
-//
-//     // Map<String, dynamic> json = new Map();
-//     // json = response.data;
-//     // double id = json['id'];
-//     // double image_id = json['image_id'];
-//     // String name = json['name'];
-//
-//     // print(id);
-//     // print('\n');
-//     // print(response);
-//     // print('\n');
-//     // print(response.headers);
-//     // print('\n');
-//     // print(response.data);
-//     // print('\n');
-//     // print(response.requestOptions);
-//     // print('\n');
-//     // print(response.statusCode);
-//   } catch (e) {
-//     print(e);
-//   }
-// }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
-  // Future getProductData() async {
-  //   var response = await Dio().get(baseUrl + '/products/2');
-  //   var jsonData = response.data;
-  //   Product product = Product(jsonData['id'], jsonData['image_id'], jsonData['name'],
-  //       jsonData['category'], jsonData['availableQuantity'], jsonData['liked'], jsonData['expiryDate'],
-  //       jsonData['unitPrice'], jsonData['viewsCount'], jsonData['contactPhone']);
-  //
-  //   return product;
-  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: AppColors.myDecoration(),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return View();
-                        },
-                      ));
-                    },
-                    icon: const Icon(Icons.arrow_back),
-                    color: AppColors.primaryColor,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: const [
-                        Text(
-                          '20',
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Icon(
-                          Icons.remove_red_eye,
+      body: FutureBuilder<dynamic>(
+        future: getHttp(widget.id),
+        builder: (context, snapshot) {
+          if (snapshot.data == null) {
+            return const SpinKitSpinningLines(
+              itemCount: 8,
+              color: AppColors.primaryColor,
+              size: 100.0,
+            );
+          } else {
+            return Container(
+              decoration: AppColors.myDecoration(),
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return View();
+                              },
+                            ));
+                          },
+                          icon: const Icon(Icons.arrow_back),
                           color: AppColors.primaryColor,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            children: [
+                              Text(
+                                '${product.viewsCount}',
+                                style: const TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Icon(
+                                Icons.remove_red_eye,
+                                color: AppColors.primaryColor,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: ListView(
-                  children: [
-                    getImageHeaderWidget(url: 'assets/images/grocery_images/banana.png',),
                     Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25),
-                          child: Column(
-                            children: [
-                              ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                title: const Text(
-                                  'Banana',
-                                  style: TextStyle(
-                                      fontSize: 24, fontWeight: FontWeight.bold),
+                      child: ListView(
+                        children: [
+                          getImageHeaderWidget(url: 'assets/images/grocery_images/banana.png',),
+                          Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 25),
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      title: Text(
+                                        product.name,
+                                        style: const TextStyle(
+                                            fontSize: 24, fontWeight: FontWeight.bold),
 
-                                ),
-                                trailing: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      isLike = !isLike;
-                                    });
-                                  },
-                                  icon: getLikeIcon(isLike),
-                                  color: Colors.red,
-                                ),
-                              ),
-                              Row(
-                                children: const [
-                                  Text(
-                                    '\$20',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
+                                      ),
+                                      trailing: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            isLike = !isLike;
+                                          });
+                                        },
+                                        icon: getLikeIcon(isLike),
+                                        color: Colors.red,
+                                      ),
                                     ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              getProductDataRowWidget('Expiration date:', '12/1/2022'),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.grey,
-                              ),
-                              getProductDataRowWidget('Category:', 'category'),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.grey,
-                              ),
-                              getProductDataRowWidget('Contact:', '1234567890'),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.grey,
-                              ),
-                              getProductDataRowWidget('Quantity:', '50'),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                title: const Text(
-                                  'Comments',
-                                  style: TextStyle(
-                                      fontSize: 24, fontWeight: FontWeight.bold),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '\$${product.unitPrice}',
+                                          style: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    getProductDataRowWidget('Expiration date:', '${product.expiryDate}'),
+                                    const Divider(
+                                      thickness: 1,
+                                      color: Colors.grey,
+                                    ),
+                                    getProductDataRowWidget('Category:', product.category),
+                                    const Divider(
+                                      thickness: 1,
+                                      color: Colors.grey,
+                                    ),
+                                    getProductDataRowWidget('Contact:', product.contactPhone),
+                                    const Divider(
+                                      thickness: 1,
+                                      color: Colors.grey,
+                                    ),
+                                    getProductDataRowWidget('Quantity:', '${product.availableQuantity}'),
+                                    const SizedBox(
+                                      height: 40,
+                                    ),
+                                    ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      title: const Text(
+                                        'Comments',
+                                        style: TextStyle(
+                                            fontSize: 24, fontWeight: FontWeight.bold),
 
-                                ),
-                                trailing: IconButton(
-                                  onPressed: () {
-                                    setState(() {
+                                      ),
+                                      trailing: IconButton(
+                                        onPressed: () {
+                                          setState(() {
 
-                                    });
-                                  },
-                                  icon: const Icon(Icons.comment),
-                                  color: AppColors.primaryColor,
+                                          });
+                                        },
+                                        icon: const Icon(Icons.comment),
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    commentItem('hamsho', 'pullshit'),
+                                    commentItem('hamsho', 'pullshit'),
+                                    commentItem('hamsho', 'pullshit'),
+                                    commentItem('hamsho', 'pullshit'),
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              commentItem('hamsho', 'pullshit'),
-                              commentItem('hamsho', 'pullshit'),
-                              commentItem('hamsho', 'pullshit'),
-                              commentItem('hamsho', 'pullshit'),
-                            ],
-                          ),
-                        )
-                    )
+                              )
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
+            );
+          }
+        },
       ),
     );
   }
   dynamic response;
-  List<Product> products = [];
-  Future getHttp() async {
+  late Product product;
+  Future getHttp(int id) async {
     try {
       response = await http.get(Uri.https(
-          "74bbdce5-c395-497b-9acf-3f4bbf4b7604.mock.pstmn.io",
-          "/products/1"));
+          baseUrl,
+          "/products/$id"));
+        print(response.body);
       var jsonData = jsonDecode(response.body);
-      for (var p in jsonData) {
-        Product i = Product(
-          id: p['id'],
-          imageId: p[image_id],
-          name: p['name'],
-          category: p['category'],
-          availableQuantity: p['availableQuantity'],
-          liked: ,
-          expiryDate: ,
-          unitPrice: ,
-          viewsCount: ,
-          contactPhone: ,
-        );
-        products.add(i);
-      }
+      print(jsonData["id"]);
+      Product p = Product(
+          id: jsonData['id'],
+          imageId: jsonData['image_id'],
+          name: jsonData['name'],
+          category: jsonData['category'],
+          availableQuantity: jsonData['available_quantity'],
+          liked: jsonData['liked'],
+          expiryDate: jsonData['expiry_date'],
+          unitPrice: jsonData['unit_price'],
+          viewsCount: jsonData['views_count'],
+          contactPhone: jsonData['contact_phone']
+      );
+      product = p;
+
+
       //response = await dio.get('/test', queryParameters: {'id': 12, 'name': 'wendu'});
       // print(response.data.toString());
     } catch (e) {
       print("catched error");
       print(e);
     }
-    return products;
+    return product;
   }
 
 }
@@ -318,8 +300,8 @@ Widget commentItem(String name, String comment) {
 }
 
 class Product {
-  int id;
-  late double imageId;
+  late int id;
+  late int imageId;
   late String name;
   late String category;
   late int availableQuantity;
@@ -329,7 +311,6 @@ class Product {
   late double viewsCount;
   late String contactPhone;
 
-  Product(this.id, this.imageId, this.name, this.category, this.availableQuantity, this.liked, this.expiryDate, this.unitPrice, this.viewsCount, this.contactPhone);
-
-
+  Product({required this.id, required this.imageId, required this.name, required this.category, required this.availableQuantity, required this.liked, required this.expiryDate, required this.unitPrice, required this.viewsCount, required this.contactPhone});
+  
 }

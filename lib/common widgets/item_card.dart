@@ -81,7 +81,7 @@ class ItemCard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  addWidget(context),
+                  addWidget(context,item.id),
                 ],
               )
             ],
@@ -91,7 +91,7 @@ class ItemCard extends StatelessWidget {
     );
   }
 
-  Widget addWidget(BuildContext context) {
+  Widget addWidget(BuildContext context,int id) {
     return Container(
       height: 45,
       width: 45,
@@ -107,7 +107,7 @@ class ItemCard extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return const ProductDetailsScreen(); /////////////////////TODO: (item.id)
+                  return ProductDetailsScreen(id: id);
                 },
               ),
             );
