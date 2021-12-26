@@ -179,7 +179,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
     );
   }
-
   dynamic response;
   late Product product;
   Future getHttp(int id) async {
