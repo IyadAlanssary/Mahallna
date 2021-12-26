@@ -48,15 +48,15 @@ bool isLike = false;
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
-  Future getProductData() async {
-    var response = await Dio().get(baseUrl + '/products/2');
-    var jsonData = response.data;
-    Product product = Product(jsonData['id'], jsonData['image_id'], jsonData['name'],
-        jsonData['category'], jsonData['availableQuantity'], jsonData['liked'], jsonData['expiryDate'],
-        jsonData['unitPrice'], jsonData['viewsCount'], jsonData['contactPhone']);
-
-    return product;
-  }
+  // Future getProductData() async {
+  //   var response = await Dio().get(baseUrl + '/products/2');
+  //   var jsonData = response.data;
+  //   Product product = Product(jsonData['id'], jsonData['image_id'], jsonData['name'],
+  //       jsonData['category'], jsonData['availableQuantity'], jsonData['liked'], jsonData['expiryDate'],
+  //       jsonData['unitPrice'], jsonData['viewsCount'], jsonData['contactPhone']);
+  //
+  //   return product;
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -198,6 +198,38 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
     );
   }
+  dynamic response;
+  List<Product> products = [];
+  Future getHttp() async {
+    try {
+      response = await http.get(Uri.https(
+          "74bbdce5-c395-497b-9acf-3f4bbf4b7604.mock.pstmn.io",
+          "/products/1"));
+      var jsonData = jsonDecode(response.body);
+      for (var p in jsonData) {
+        Product i = Product(
+          id: p['id'],
+          imageId: p[image_id],
+          name: p['name'],
+          category: p['category'],
+          availableQuantity: p['availableQuantity'],
+          liked: ,
+          expiryDate: ,
+          unitPrice: ,
+          viewsCount: ,
+          contactPhone: ,
+        );
+        products.add(i);
+      }
+      //response = await dio.get('/test', queryParameters: {'id': 12, 'name': 'wendu'});
+      // print(response.data.toString());
+    } catch (e) {
+      print("catched error");
+      print(e);
+    }
+    return products;
+  }
+
 }
 
 Icon getLikeIcon(bool isLike) {
@@ -286,16 +318,16 @@ Widget commentItem(String name, String comment) {
 }
 
 class Product {
-  final int id;
-  final int imageId;
-  final String name;
-  final String category;
-  final int availableQuantity;
-  final bool liked;
-  final int expiryDate;
-  final int unitPrice;
-  final int viewsCount;
-  final String contactPhone;
+  int id;
+  late double imageId;
+  late String name;
+  late String category;
+  late int availableQuantity;
+  late bool liked;
+  late int expiryDate;
+  late double unitPrice;
+  late double viewsCount;
+  late String contactPhone;
 
   Product(this.id, this.imageId, this.name, this.category, this.availableQuantity, this.liked, this.expiryDate, this.unitPrice, this.viewsCount, this.contactPhone);
 
