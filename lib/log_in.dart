@@ -21,7 +21,9 @@ class _LogInState extends State<LogIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: double.maxFinite,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        //height: double.maxFinite,
         decoration: AppColors.myDecoration(),
         child: SafeArea(
           child: SingleChildScrollView(

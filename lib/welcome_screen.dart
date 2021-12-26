@@ -15,6 +15,8 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: AppColors.primaryColor,
         body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.symmetric(horizontal: 30),
           decoration: BoxDecoration(
             image: DecorationImage(

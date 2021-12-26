@@ -29,14 +29,15 @@ class AppColors {
   static Decoration myDecoration() {
     return BoxDecoration(
       image: DecorationImage(
-          colorFilter: ColorFilter.mode(
-            Colors.white.withOpacity(0.8),
-            BlendMode.dstATop,
-          ),
-          image: const AssetImage(
-            "assets/images/banner_background.png",
-          ),
-          fit: BoxFit.fitHeight),
+        colorFilter: ColorFilter.mode(
+          Colors.white.withOpacity(0.8),
+          BlendMode.dstATop,
+        ),
+        image: const AssetImage(
+          "assets/images/banner_background.png",
+        ),
+        fit: BoxFit.fitHeight,
+      ),
     );
   }
 }

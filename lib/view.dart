@@ -39,9 +39,9 @@ class _ViewState extends State<View> {
                   builder: (context, snapshot) {
                     if (snapshot.data == null) {
                       return const SpinKitSpinningLines(
-                        itemCount: 8,
+                        itemCount: 100,
                         color: AppColors.primaryColor,
-                        size: 100.0,
+                        size: 150.0,
                       );
                     } else {
                       // return ListView.builder(
