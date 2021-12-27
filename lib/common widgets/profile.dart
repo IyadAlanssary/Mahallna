@@ -8,6 +8,8 @@ import '../view.dart';
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
+
+
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -51,7 +53,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 const Center(
                   child: Padding(
-                    padding: EdgeInsets.only(top: 100,bottom: 20),
+                    padding: EdgeInsets.only(top: 60,bottom: 20),
                     child: CircleAvatar(
                       radius: 50.0,
                       backgroundColor: Colors.black,

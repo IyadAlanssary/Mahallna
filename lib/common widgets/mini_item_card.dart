@@ -1,9 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:products/common%20widgets/add_product_screen.dart';
+import 'package:products/common%20widgets/edit_product_screen.dart';
 import 'package:products/common%20widgets/product_details.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'grocery_item.dart';
 import 'package:products/styles/colors.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:http/http.dart' as http;
 
 class MiniItemCard extends StatelessWidget {
@@ -56,8 +60,9 @@ class MiniItemCard extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                Spacer(),
-                  addWidget(context, item.id),
+                const Spacer(),
+                  editWidget(context, item.id),
+                  infoWidget(context, item.id),
                 ],
               )
             ),
@@ -67,7 +72,7 @@ class MiniItemCard extends StatelessWidget {
     );
   }
 
-  Widget addWidget(BuildContext context,int id) {
+  Widget infoWidget(BuildContext context,int id) {
     return Container(
       height: 45,
       width: 45,
@@ -76,7 +81,7 @@ class MiniItemCard extends StatelessWidget {
           color: AppColors.primaryColor),
       child: Center(
         child: IconButton(
-          icon: const Icon(Icons.add),
+          icon: const Icon(FontAwesome.info),
           color: Colors.white,
           iconSize: 25,
           onPressed: () {
@@ -88,6 +93,35 @@ class MiniItemCard extends StatelessWidget {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget editWidget(BuildContext context,int id) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 5),
+      child: Container(
+        height: 45,
+        width: 45,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(17),
+            color: Colors.orange),
+        child: Center(
+          child: IconButton(
+            icon: const Icon(Icons.mode_edit),
+            color: Colors.white,
+            iconSize: 25,
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return EditProduct(productId: id);
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -124,4 +158,6 @@ Future getHttp() async {
   }
   return items;
 }
+
+
 
