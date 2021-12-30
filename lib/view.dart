@@ -31,7 +31,10 @@ class _ViewState extends State<View> {
                 padding: const EdgeInsets.only(top: 40, bottom: 10),
                 child: SvgPicture.asset("assets/icons/app_icon_color.svg"),
               ),
-              const Search(),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: Search(),
+              ),
               Expanded(
                 child: FutureBuilder<dynamic>(
                   future: getHttp(),
@@ -47,7 +50,7 @@ class _ViewState extends State<View> {
                       //    itemCount: snapshot.data.length,
                       //   itemBuilder: (context, i) {
                       return GridView.count(
-                        childAspectRatio: 1.25,
+                        childAspectRatio: 1,
                         crossAxisCount: 1,
                         semanticChildCount: snapshot.data.length,
                         children: ItemCard.cards,

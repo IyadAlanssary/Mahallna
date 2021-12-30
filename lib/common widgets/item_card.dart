@@ -18,7 +18,7 @@ class ItemCard extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        //width: width,
+        width: MediaQuery.of(context).size.width,
         height: height,
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -81,7 +81,7 @@ class ItemCard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  addWidget(context,item.id),
+                  addWidget(context, item.id),
                 ],
               )
             ],
@@ -91,7 +91,7 @@ class ItemCard extends StatelessWidget {
     );
   }
 
-  Widget addWidget(BuildContext context,int id) {
+  Widget addWidget(BuildContext context, int id) {
     return Container(
       height: 45,
       width: 45,
