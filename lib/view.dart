@@ -7,6 +7,7 @@ import 'package:products/search.dart';
 import 'styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'common widgets/item_card.dart';
+import 'package:products/bottom_navigation_bar.dart';
 
 class View extends StatefulWidget {
   View({Key? key}) : super(key: key);
@@ -18,60 +19,46 @@ class View extends StatefulWidget {
 class _ViewState extends State<View> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: AppColors.myDecoration(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 40, bottom: 10),
-                child: SvgPicture.asset("assets/icons/app_icon_color.svg"),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
-                child: Search(),
-              ),
-              Expanded(
-                child: FutureBuilder<dynamic>(
-                  future: getHttp(),
-                  builder: (context, snapshot) {
-                    if (snapshot.data == null) {
-                      return const SpinKitSpinningLines(
-                        itemCount: 100,
-                        color: AppColors.primaryColor,
-                        size: 150.0,
-                      );
-                    } else {
-                      // return ListView.builder(
-                      //    itemCount: snapshot.data.length,
-                      //   itemBuilder: (context, i) {
-                      return GridView.count(
-                        childAspectRatio: 1,
-                        crossAxisCount: 1,
-                        semanticChildCount: snapshot.data.length,
-                        children: ItemCard.cards,
-                      );
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 35, bottom: 10),
+          child: SvgPicture.asset("assets/icons/app_icon_color.svg"),
         ),
-      ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25.0),
+          child: Search(),
+        ),
+        Expanded(
+          child: FutureBuilder<dynamic>(
+              future: getHttp(),
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return const SpinKitSpinningLines(
+                    itemCount: 30,
+                    color: AppColors.primaryColor,
+                    size: 100.0,
+                  );
+                } else {
+                  return GridView.count(
+                    crossAxisCount: 1,
+                    childAspectRatio: 174 / (230 / 1.8),
+                    children: ItemCard.cards, //, ItemCard.cards
+                  );
+                }
+              }),
+        ),
+      ],
     );
   }
 
   dynamic response;
-  bool gotResponse = false;
   List<GroceryItem> items = [];
   Future getHttp() async {
-    if (!gotResponse) {
-      gotResponse = true;
+    if (!BottomNavBar.gotResponse) {
+      BottomNavBar.gotResponse = true;
       try {
         response = await http.get(Uri.https(
             "74bbdce5-c395-497b-9acf-3f4bbf4b7604.mock.pstmn.io",

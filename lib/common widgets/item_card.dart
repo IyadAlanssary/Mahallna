@@ -17,74 +17,76 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            colorFilter: ColorFilter.mode(
-              Colors.white.withOpacity(0.4),
-              BlendMode.dstATop,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        child: Container(
+          height: MediaQuery.of(context).size.height / 2.5,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.4),
+                BlendMode.dstATop,
+              ),
+              image: const AssetImage(
+                "assets/images/banner_background.png",
+              ),
+              fit: BoxFit.none,
             ),
-            image: const AssetImage(
-              "assets/images/banner_background.png",
+            border: Border.all(
+              color: borderColor,
             ),
-            fit: BoxFit.none,
+            borderRadius: BorderRadius.circular(
+              borderRadius,
+            ),
           ),
-          border: Border.all(
-            color: borderColor,
-          ),
-          borderRadius: BorderRadius.circular(
-            borderRadius,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 15,
-            vertical: 15,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Center(
-                  child: Image.asset(
-                    item.imagePath,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                item.name,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                item.description,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.darkGrey,
-                ),
-              ),
-              Row(
-                children: [
-                  Text(
-                    "\$${item.price.toStringAsFixed(2)}",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 15,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Image.asset(
+                      item.imagePath,
                     ),
                   ),
-                  const Spacer(),
-                  addWidget(context, item.id),
-                ],
-              )
-            ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  item.name,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  item.description,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.darkGrey,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "\$${item.price.toStringAsFixed(2)}",
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const Spacer(),
+                    addWidget(context, item.id),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

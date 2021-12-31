@@ -30,7 +30,7 @@ class AppColors {
     return BoxDecoration(
       image: DecorationImage(
         colorFilter: ColorFilter.mode(
-          Colors.white.withOpacity(0.8),
+          Colors.white.withOpacity(0.5),
           BlendMode.dstATop,
         ),
         image: const AssetImage(

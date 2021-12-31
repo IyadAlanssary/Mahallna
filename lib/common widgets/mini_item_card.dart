@@ -17,7 +17,7 @@ class MiniItemCard extends StatelessWidget {
   static List<MiniItemCard> miniCards = [];
   final double height = 80;
   final Color borderColor = AppColors.greyBorderColor;
-  final double borderRadius = 28;
+  final double borderRadius = 24;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class MiniItemCard extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Container(
             //height: height,
             decoration: BoxDecoration(
@@ -47,37 +47,39 @@ class MiniItemCard extends StatelessWidget {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 15,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    item.name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 15,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      item.name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                const Spacer(),
-                  editWidget(context, item.id),
-                  infoWidget(context, item.id),
-                ],
-              )
-            ),
+                    const Spacer(),
+                    editWidget(context, item.id),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    infoWidget(context, item.id),
+                  ],
+                )),
           ),
         ),
       ),
     );
   }
 
-  Widget infoWidget(BuildContext context,int id) {
+  Widget infoWidget(BuildContext context, int id) {
     return Container(
       height: 45,
       width: 45,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(17),
+          borderRadius: BorderRadius.circular(16),
           color: AppColors.primaryColor),
       child: Center(
         child: IconButton(
@@ -98,15 +100,15 @@ class MiniItemCard extends StatelessWidget {
     );
   }
 
-  Widget editWidget(BuildContext context,int id) {
+  Widget editWidget(BuildContext context, int id) {
     return Padding(
       padding: const EdgeInsets.only(right: 5),
       child: Container(
         height: 45,
         width: 45,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(17),
-            color: Colors.orange),
+            borderRadius: BorderRadius.circular(16),
+            color: Colors.orange.shade700),
         child: Center(
           child: IconButton(
             icon: const Icon(Icons.mode_edit),
@@ -158,6 +160,3 @@ Future getHttp() async {
   }
   return items;
 }
-
-
-

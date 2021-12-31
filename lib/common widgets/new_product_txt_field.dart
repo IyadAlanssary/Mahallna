@@ -10,15 +10,19 @@ class ProductText extends StatelessWidget {
   TextInputType? type = TextInputType.name;
   Icon? icon;
   int? maxLength;
-  bool initial=false;
+  bool initial = false;
   String? initialText;
   ProductText(
-      {Key? key, required this.hint,
-        required this.onChanged,
-        this.maxLines,
-        this.type,
-        this.icon,this.maxLength,
-        this.initial=false,this.initialText}) : super(key: key);
+      {Key? key,
+      required this.hint,
+      required this.onChanged,
+      this.maxLines,
+      this.type,
+      this.icon,
+      this.maxLength,
+      this.initial = false,
+      this.initialText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +31,16 @@ class ProductText extends StatelessWidget {
       child: Theme(
         data: Theme.of(context).copyWith(
           colorScheme: ThemeData().colorScheme.copyWith(
-            primary: AppColors.primaryColor,
-          ),
+                primary: AppColors.primaryColor,
+              ),
         ),
         child: TextField(
-          controller: initial?TextEditingController(text: initialText) : TextEditingController(),
-          inputFormatters: [FilteringTextInputFormatter.deny(RegExp('[-.,]')),],
+          controller: initial
+              ? TextEditingController(text: initialText)
+              : TextEditingController(),
+          inputFormatters: [
+            FilteringTextInputFormatter.deny(RegExp('[-.,]')),
+          ],
           maxLines: maxLines,
           maxLength: maxLength,
           keyboardType: type,
@@ -46,10 +54,10 @@ class ProductText extends StatelessWidget {
             fillColor: Colors.transparent,
             filled: true,
             hintText: hint,
-            hintStyle:
-            const TextStyle(color: AppColors.primaryColor, fontWeight: FontWeight.bold),
+            hintStyle: const TextStyle(
+                color: AppColors.darkGrey, fontWeight: FontWeight.bold),
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
             focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: AppColors.primaryColor),
             ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:products/sign_up.dart';
-import 'package:products/view.dart';
+import 'package:products/bottom_navigation_bar.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -23,17 +24,18 @@ class _LogInState extends State<LogIn> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        //height: double.maxFinite,
         decoration: AppColors.myDecoration(),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(50, 110, 50, 15),
+              padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  const SizedBox(height: 20),
+                  SvgPicture.asset("assets/icons/app_icon_color.svg"),
+                  const SizedBox(height: 80),
                   const Text(
                     'Log in',
                     style: TextStyle(
@@ -42,7 +44,7 @@ class _LogInState extends State<LogIn> {
                     ),
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 45,
                   ),
                   TextField(
                     controller: userNameController,
@@ -121,7 +123,7 @@ class _LogInState extends State<LogIn> {
       onPressed: () {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => View()),
+          MaterialPageRoute(builder: (_) => const BottomNavBar()),
         );
       },
     );
@@ -143,5 +145,41 @@ class _LogInState extends State<LogIn> {
       );
     }
     return const SizedBox(width: 1);
+  } /*
+  Future<void> checkLogin() async {
+    var map = <String, dynamic>{};
+    map['email'] = email;
+    map['password'] = password;
+    final response = await http.post(Uri.parse(Assets.link + "login"),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Accept": "application/json"
+        },
+        encoding: Encoding.getByName('utf-8'),
+        body: map);
+    Map<String, dynamic> resp = jsonDecode(response.body);
+    if (response.statusCode == 201) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => MainPage(
+                  token: resp["token"].toString(),
+                  id: resp["user"]["id"].toString())));
+    } else if (response.statusCode == 422) {
+      if (resp["errors"]["email"] != null) {
+        setState(() {
+          emailShadowColor = Assets.errorShadowColor;
+          error = resp["errors"]["email"].toString();
+        });
+      }
+      if (resp["errors"]["password"] != null) {
+        setState(() {
+          passwordShadowColor = Assets.errorShadowColor;
+          error = resp["errors"]["password"].toString();
+        });
+      }
+    }
+    print(response.body);
   }
+  */
 }

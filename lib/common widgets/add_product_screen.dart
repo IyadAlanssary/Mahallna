@@ -22,223 +22,206 @@ class _AddProductState extends State<AddProduct> {
   File? image;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        height: double.maxFinite,
-        decoration: AppColors.myDecoration(),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return View();
-                        },
-                      ));
-                    },
-                    icon: const Icon(Icons.arrow_back),
-                    color: AppColors.primaryColor,
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: IconButton(
-                        onPressed: () {
-
-                        },
-                        icon: const Icon(Icons.check),
-                        color: AppColors.primaryColor,
-                      )
-                  ),
-                ],
-              ),
-              Expanded(
-                child: ListView(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 15, 10, 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                image == null
-                                    ? InkWell(
-                                        onTap: () async {
-                                          print('pressed');
-                                          imagePicker();
-                                        },
-                                        child: Container(
-                                          height: 200,
-                                          decoration: BoxDecoration(
-                                              /*border: Border.all(color: darkSecondaryColor,width: 3),*/
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.withOpacity(0.8),
-                                                  spreadRadius: 5,
-                                                  blurRadius: 7,
-                                                  offset: const Offset(0,
-                                                      7), //changes position of shadow
-                                                )
-                                              ],
-                                              color: AppColors.darkGrey,
-                                              borderRadius: const BorderRadius.all(
-                                                  Radius.circular(15))),
-                                          child: const Center(
-                                            child: Icon(
-                                              Icons.camera_alt_outlined,
-                                              size: 70,
-                                            ),
-                                          ),
+    return SafeArea(
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              onPressed: () {
+                ///////////////TODO
+              },
+              icon: const Icon(Icons.check),
+              color: AppColors.primaryColor,
+              iconSize: 28,
+              tooltip: 'Add',
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 15, 10, 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            image == null
+                                ? InkWell(
+                                    onTap: () async {
+                                      print('pressed');
+                                      imagePicker();
+                                    },
+                                    child: Container(
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                          /*border: Border.all(color: darkSecondaryColor,width: 3),*/
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.8),
+                                              spreadRadius: 5,
+                                              blurRadius: 7,
+                                              offset: const Offset(0,
+                                                  7), //changes position of shadow
+                                            )
+                                          ],
+                                          color: AppColors.darkGrey,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(15))),
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.camera_alt_outlined,
+                                          size: 70,
                                         ),
-                                      )
-                                    : ImageLocal(image!),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                Theme(
-                                  data: ThemeData.light().copyWith(
-                                    colorScheme: const ColorScheme.light().copyWith(
-                                      primary: AppColors.primaryColor,
+                                      ),
                                     ),
-                                  ),
-                                  child: DateTimePicker(
-                                    cursorColor: AppColors.primaryColor,
-                                    style: const TextStyle(color: AppColors.primaryColor),
-                                    initialValue: DateTime.now().toString(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2100),
-                                    icon: const Icon(Icons.event),
-                                    dateLabelText: 'Expiration Date',
-                                    onChanged: (value) {},
-                                    onSaved: (val) {},
-                                  ),
+                                  )
+                                : ImageLocal(image!),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Theme(
+                              data: ThemeData.light().copyWith(
+                                colorScheme: const ColorScheme.light().copyWith(
+                                  primary: AppColors.primaryColor,
                                 ),
-                                //name
-                                ProductText(
-                                  hint: 'Name',
-                                  maxLines: 1,
-                                  icon: const Icon(Icons.drive_file_rename_outline),
-                                  onChanged: (value) {},
-                                ),
-                                //description
-                                // ProductText(
-                                //   hint: 'Description',
-                                //   icon: const Icon(Icons.article_rounded),
-                                //   type: TextInputType.multiline,
-                                //   onChanged: (value) {},
-                                // ),
-                                // social account
-                                // ProductText(
-                                //   hint: 'Social Account',
-                                //   icon: const Icon(Icons.facebook_rounded),
-                                //   type: TextInputType.url,
-                                //   onChanged: (value) {},
-                                // ),
-                                // phone
-                                ProductText(
-                                  hint: 'Phone',
-                                  icon: const Icon(Icons.phone),
-                                  type: TextInputType.phone,
-                                  onChanged: (value) {},
-                                ),
-                                // original price
-                                ProductText(
-                                  hint: 'Original Price',
-                                  icon: const Icon(FontAwesomeIcons.dollarSign),
-                                  type: TextInputType.phone,
-                                  onChanged: (value) {},
-                                ),
-                                // quantity
-                                ProductText(
-                                  hint: 'Quantity',
-                                  icon: const Icon(Icons.workspaces_filled),
+                              ),
+                              child: DateTimePicker(
+                                cursorColor: AppColors.primaryColor,
+                                style: const TextStyle(
+                                    color: AppColors.primaryColor),
+                                initialValue: DateTime.now().toString(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100),
+                                icon: const Icon(Icons.event),
+                                dateLabelText: 'Expiration Date',
+                                onChanged: (value) {},
+                                onSaved: (val) {},
+                              ),
+                            ),
+                            //name
+                            ProductText(
+                              hint: 'Name',
+                              maxLines: 1,
+                              icon: const Icon(Icons.drive_file_rename_outline),
+                              onChanged: (value) {},
+                            ),
+                            //description
+                            // ProductText(
+                            //   hint: 'Description',
+                            //   icon: const Icon(Icons.article_rounded),
+                            //   type: TextInputType.multiline,
+                            //   onChanged: (value) {},
+                            // ),
+                            // social account
+                            // ProductText(
+                            //   hint: 'Social Account',
+                            //   icon: const Icon(Icons.facebook_rounded),
+                            //   type: TextInputType.url,
+                            //   onChanged: (value) {},
+                            // ),
+                            // phone
+                            ProductText(
+                              hint: 'Phone',
+                              icon: const Icon(Icons.phone),
+                              type: TextInputType.phone,
+                              onChanged: (value) {},
+                            ),
+                            // original price
+                            ProductText(
+                              hint: 'Original Price',
+                              icon: const Icon(FontAwesomeIcons.dollarSign),
+                              type: TextInputType.phone,
+                              onChanged: (value) {},
+                            ),
+                            // quantity
+                            ProductText(
+                              hint: 'Quantity',
+                              icon: const Icon(Icons.workspaces_filled),
+                              type: TextInputType.number,
+                              onChanged: (value) {},
+                            ),
+                            const SizedBox(
+                              height: 40,
+                            ),
+                            //DarkBar('Sales Periods', 50),
+                            const ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(
+                                'Sales Plan:',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            // first period and price
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: ProductText(
+                                  hint: 'days',
+                                  maxLength: 3,
                                   type: TextInputType.number,
                                   onChanged: (value) {},
+                                )),
+                                const SizedBox(
+                                  width: 20,
                                 ),
-                                const SizedBox(height: 40,),
-                                //DarkBar('Sales Periods', 50),
-                                const ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  title: Text(
-                                    'Sales Plan:',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                // first period and price
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        child: ProductText(
-                                      hint: 'days',
-                                      maxLength: 3,
-                                      type: TextInputType.number,
-                                      onChanged: (value) {},
-                                    )),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded (
-                                        child: ProductText(
-                                      hint: 'Sale',
-                                      maxLength: 2,
-                                      type: TextInputType.number,
-                                      onChanged: (value) {},
-                                    )),
-                                  ],
-                                ),
-                                // second period and price
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        child: ProductText(
-                                          hint: 'days 2',
-                                          maxLength: 3,
-                                          type: TextInputType.number,
-                                          onChanged: (value) {},
-                                        )),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded (
-                                        child: ProductText(
-                                          hint: 'Sale 2',
-                                          maxLength: 2,
-                                          type: TextInputType.number,
-                                          onChanged: (value) {},
-                                        )),
-                                  ],
-                                ),
-                                // default sale
-                                ProductText(
-                                  hint: 'default sale',
+                                Expanded(
+                                    child: ProductText(
+                                  hint: 'Sale',
                                   maxLength: 2,
                                   type: TextInputType.number,
                                   onChanged: (value) {},
-                                ),
+                                )),
                               ],
                             ),
-                          ),
-                        ],
+                            // second period and price
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: ProductText(
+                                  hint: 'days 2',
+                                  maxLength: 3,
+                                  type: TextInputType.number,
+                                  onChanged: (value) {},
+                                )),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                    child: ProductText(
+                                  hint: 'Sale 2',
+                                  maxLength: 2,
+                                  type: TextInputType.number,
+                                  onChanged: (value) {},
+                                )),
+                              ],
+                            ),
+                            // default sale
+                            ProductText(
+                              hint: 'default sale',
+                              maxLength: 2,
+                              type: TextInputType.number,
+                              onChanged: (value) {},
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
