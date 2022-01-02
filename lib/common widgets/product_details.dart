@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -186,7 +187,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late Product product;
   Future getHttp(double id) async {
     try {
-      response = await http.get(Uri.parse(baseUrl2 + "/products/$id"));
+      response = await http.get(Uri.parse(baseUrl2 + "/products/$id"), headers: {
+        //'Content-Type': 'application/json',
+        //'Accept': 'application/json',
+        HttpHeaders.authorizationHeader:
+        'Bearer 4|OBzB0AF3ePGH2bWifEPngKuOeFqgc16lWQqkMuak',
+      });
       print(response.body);
       var jsonData = jsonDecode(response.body);
       print(jsonData["id"]);

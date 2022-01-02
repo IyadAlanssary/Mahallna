@@ -285,7 +285,12 @@ class _EditProductState extends State<EditProduct> {
   late Product product;
   Future getHttp(double id) async {
     try {
-      response = await http.get(Uri.parse(baseUrl + "/products/$id"));
+      response = await http.get(Uri.parse(baseUrl + "/products/$id"), headers: {
+        //'Content-Type': 'application/json',
+        //'Accept': 'application/json',
+        HttpHeaders.authorizationHeader:
+        'Bearer 4|OBzB0AF3ePGH2bWifEPngKuOeFqgc16lWQqkMuak',
+      });
       print(response.body);
       var jsonData = jsonDecode(response.body);
       print(jsonData["id"]);
