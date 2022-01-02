@@ -285,7 +285,7 @@ class _EditProductState extends State<EditProduct> {
   late Product product;
   Future getHttp(double id) async {
     try {
-      response = await http.get(Uri.https(baseUrl, "/products/$id"));
+      response = await http.get(Uri.parse(baseUrl + "/products/$id"));
       print(response.body);
       var jsonData = jsonDecode(response.body);
       print(jsonData["id"]);
