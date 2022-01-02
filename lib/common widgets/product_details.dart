@@ -11,7 +11,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ProductDetailsScreen extends StatefulWidget {
-  int id;
+  double id;
   ProductDetailsScreen({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -91,11 +91,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ListTile(
                                   contentPadding: EdgeInsets.zero,
                                   title: Text(
-                                  product.name,
-                                  style: const TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                                    product.name,
+                                    style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                   trailing: IconButton(
                                     onPressed: () {
                                       setState(() {
@@ -184,7 +184,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   dynamic response;
   late Product product;
-  Future getHttp(int id) async {
+  Future getHttp(double id) async {
     try {
       response = await http.get(Uri.https(baseUrl, "/products/$id"));
       print(response.body);
@@ -199,17 +199,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         secondPeriodSale: jsonData["sales_plan"]["second_period_sale"],
       );
       Product p = Product(
-          id: jsonData['id'],
-          imageId: jsonData['image_id'],
-          name: jsonData['name'],
-          category: jsonData['category'],
-          availableQuantity: jsonData['available_quantity'],
-          liked: jsonData['liked'],
-          expiryDate: jsonData['expiry_date'],
-          unitPrice: jsonData['unit_price'],
-          viewsCount: jsonData['views_count'],
-          contactPhone: jsonData['contact_phone'],
-          salesPlan: salesPlan,
+        id: jsonData['id'],
+        imageId: jsonData['image_id'],
+        name: jsonData['name'],
+        category: jsonData['category'],
+        availableQuantity: jsonData['available_quantity'],
+        liked: jsonData['liked'],
+        expiryDate: jsonData['expiry_date'],
+        unitPrice: jsonData['unit_price'],
+        viewsCount: jsonData['views_count'],
+        contactPhone: jsonData['contact_phone'],
+        salesPlan: salesPlan,
       );
 
       product = p;
@@ -310,7 +310,7 @@ Widget commentItem(String name, String comment) {
 }
 
 class Product {
-  late int id;
+  late double id;
   late int imageId;
   late String name;
   late String category;

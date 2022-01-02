@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Grocery App',
+      title: 'Mahallna',
       theme: AppColors.myTheme(),
       home: const SplashScreen(),
     );

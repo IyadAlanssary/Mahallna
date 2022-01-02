@@ -65,7 +65,7 @@ class ItemCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  item.description,
+                  item.category,
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -93,7 +93,7 @@ class ItemCard extends StatelessWidget {
     );
   }
 
-  Widget addWidget(BuildContext context, int id) {
+  Widget addWidget(BuildContext context, double id) {
     return Container(
       height: 45,
       width: 45,

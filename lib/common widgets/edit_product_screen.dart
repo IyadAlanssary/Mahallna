@@ -14,7 +14,7 @@ import '../const.dart';
 import '../view.dart';
 
 class EditProduct extends StatefulWidget {
-  int productId;
+  double productId;
   EditProduct({Key? key, required this.productId}) : super(key: key);
 
   @override
@@ -63,13 +63,10 @@ class _EditProductState extends State<EditProduct> {
                         Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: IconButton(
-                              onPressed: () {
-
-                              },
+                              onPressed: () {},
                               icon: const Icon(Icons.check),
                               color: AppColors.primaryColor,
-                            )
-                        ),
+                            )),
                       ],
                     ),
                     Expanded(
@@ -83,41 +80,45 @@ class _EditProductState extends State<EditProduct> {
                                 Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       const SizedBox(
                                         height: 20,
                                       ),
                                       image == null
                                           ? InkWell(
-                                        onTap: () async {
-                                          print('pressed');
-                                          imagePicker();
-                                        },
-                                        child: Container(
-                                          height: 200,
-                                          decoration: BoxDecoration(
-                                            /*border: Border.all(color: darkSecondaryColor,width: 3),*/
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.withOpacity(0.8),
-                                                  spreadRadius: 5,
-                                                  blurRadius: 7,
-                                                  offset: const Offset(0,
-                                                      7), //changes position of shadow
-                                                )
-                                              ],
-                                              color: AppColors.darkGrey,
-                                              borderRadius: const BorderRadius.all(
-                                                  Radius.circular(15))),
-                                          child: const Center(
-                                            child: Icon(
-                                              Icons.camera_alt_outlined,
-                                              size: 70,
-                                            ),
-                                          ),
-                                        ),
-                                      )
+                                              onTap: () async {
+                                                print('pressed');
+                                                imagePicker();
+                                              },
+                                              child: Container(
+                                                height: 200,
+                                                decoration: BoxDecoration(
+                                                    /*border: Border.all(color: darkSecondaryColor,width: 3),*/
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.8),
+                                                        spreadRadius: 5,
+                                                        blurRadius: 7,
+                                                        offset: const Offset(0,
+                                                            7), //changes position of shadow
+                                                      )
+                                                    ],
+                                                    color: AppColors.darkGrey,
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                15))),
+                                                child: const Center(
+                                                  child: Icon(
+                                                    Icons.camera_alt_outlined,
+                                                    size: 70,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
                                           : ImageLocal(image!),
                                       const SizedBox(
                                         height: 30,
@@ -128,7 +129,8 @@ class _EditProductState extends State<EditProduct> {
                                         initialText: product.name,
                                         hint: 'Name',
                                         maxLines: 1,
-                                        icon: const Icon(Icons.drive_file_rename_outline),
+                                        icon: const Icon(
+                                            Icons.drive_file_rename_outline),
                                         onChanged: (value) {},
                                       ),
                                       //description
@@ -151,20 +153,25 @@ class _EditProductState extends State<EditProduct> {
                                         initial: true,
                                         initialText: '${product.unitPrice}',
                                         hint: 'Original Price',
-                                        icon: const Icon(FontAwesomeIcons.dollarSign),
+                                        icon: const Icon(
+                                            FontAwesomeIcons.dollarSign),
                                         type: TextInputType.phone,
                                         onChanged: (value) {},
                                       ),
                                       // quantity
                                       ProductText(
                                         initial: true,
-                                        initialText: '${product.availableQuantity}',
+                                        initialText:
+                                            '${product.availableQuantity}',
                                         hint: 'Quantity',
-                                        icon: const Icon(Icons.workspaces_filled),
+                                        icon:
+                                            const Icon(Icons.workspaces_filled),
                                         type: TextInputType.number,
                                         onChanged: (value) {},
                                       ),
-                                      const SizedBox(height: 40,),
+                                      const SizedBox(
+                                        height: 40,
+                                      ),
                                       //DarkBar('Sales Periods', 50),
                                       const ListTile(
                                         contentPadding: EdgeInsets.zero,
@@ -180,25 +187,27 @@ class _EditProductState extends State<EditProduct> {
                                         children: [
                                           Expanded(
                                               child: ProductText(
-                                                initial: true,
-                                                initialText: '${product.salesPlan.firstPeriodDays}',
-                                                hint: 'days',
-                                                maxLength: 3,
-                                                type: TextInputType.number,
-                                                onChanged: (value) {},
-                                              )),
+                                            initial: true,
+                                            initialText:
+                                                '${product.salesPlan.firstPeriodDays}',
+                                            hint: 'days',
+                                            maxLength: 3,
+                                            type: TextInputType.number,
+                                            onChanged: (value) {},
+                                          )),
                                           const SizedBox(
                                             width: 20,
                                           ),
-                                          Expanded (
+                                          Expanded(
                                               child: ProductText(
-                                                initial: true,
-                                                initialText: '${product.salesPlan.firstPeriodSale}',
-                                                hint: 'Sale',
-                                                maxLength: 2,
-                                                type: TextInputType.number,
-                                                onChanged: (value) {},
-                                              )),
+                                            initial: true,
+                                            initialText:
+                                                '${product.salesPlan.firstPeriodSale}',
+                                            hint: 'Sale',
+                                            maxLength: 2,
+                                            type: TextInputType.number,
+                                            onChanged: (value) {},
+                                          )),
                                         ],
                                       ),
                                       // second period and price
@@ -206,31 +215,34 @@ class _EditProductState extends State<EditProduct> {
                                         children: [
                                           Expanded(
                                               child: ProductText(
-                                                initial: true,
-                                                initialText: '${product.salesPlan.secondPeriodDays}',
-                                                hint: 'days 2',
-                                                maxLength: 3,
-                                                type: TextInputType.number,
-                                                onChanged: (value) {},
-                                              )),
+                                            initial: true,
+                                            initialText:
+                                                '${product.salesPlan.secondPeriodDays}',
+                                            hint: 'days 2',
+                                            maxLength: 3,
+                                            type: TextInputType.number,
+                                            onChanged: (value) {},
+                                          )),
                                           const SizedBox(
                                             width: 20,
                                           ),
-                                          Expanded (
+                                          Expanded(
                                               child: ProductText(
-                                                initial: true,
-                                                initialText: '${product.salesPlan.secondPeriodSale}',
-                                                hint: 'Sale 2',
-                                                maxLength: 2,
-                                                type: TextInputType.number,
-                                                onChanged: (value) {},
-                                              )),
+                                            initial: true,
+                                            initialText:
+                                                '${product.salesPlan.secondPeriodSale}',
+                                            hint: 'Sale 2',
+                                            maxLength: 2,
+                                            type: TextInputType.number,
+                                            onChanged: (value) {},
+                                          )),
                                         ],
                                       ),
                                       // default sale
                                       ProductText(
                                         initial: true,
-                                        initialText: '${product.salesPlan.initialSale}',
+                                        initialText:
+                                            '${product.salesPlan.initialSale}',
                                         hint: 'default sale',
                                         maxLength: 2,
                                         type: TextInputType.number,
@@ -252,7 +264,6 @@ class _EditProductState extends State<EditProduct> {
           }
         },
       ),
-
     );
   }
 
@@ -272,7 +283,7 @@ class _EditProductState extends State<EditProduct> {
 
   dynamic response;
   late Product product;
-  Future getHttp(int id) async {
+  Future getHttp(double id) async {
     try {
       response = await http.get(Uri.https(baseUrl, "/products/$id"));
       print(response.body);
@@ -310,11 +321,10 @@ class _EditProductState extends State<EditProduct> {
     }
     return product;
   }
-
 }
 
 class Product {
-  late int id;
+  late double id;
   late int imageId;
   late String name;
   late String category;
@@ -328,16 +338,16 @@ class Product {
 
   Product(
       {required this.id,
-        required this.imageId,
-        required this.name,
-        required this.category,
-        required this.availableQuantity,
-        required this.liked,
-        required this.expiryDate,
-        required this.unitPrice,
-        required this.viewsCount,
-        required this.contactPhone,
-        required this.salesPlan});
+      required this.imageId,
+      required this.name,
+      required this.category,
+      required this.availableQuantity,
+      required this.liked,
+      required this.expiryDate,
+      required this.unitPrice,
+      required this.viewsCount,
+      required this.contactPhone,
+      required this.salesPlan});
 }
 
 class SalesPlan {

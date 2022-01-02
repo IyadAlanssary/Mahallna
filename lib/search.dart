@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:products/common widgets/item_card.dart';
+
+import 'common widgets/item_card.dart';
 
 class Search extends StatelessWidget {
-  const Search({Key? key}) : super(key: key);
+  Search({Key? key}) : super(key: key);
 
-  final String searchIcon = "assets/icons/search_icon.svg";
+  String searchIcon = "assets/icons/search_icon.svg";
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +50,6 @@ class Search extends StatelessWidget {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  List<String> searchTerms = [
-    'Apple',
-    'Banana',
-    'Watermelon',
-  ];
-
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -76,12 +73,16 @@ class CustomSearchDelegate extends SearchDelegate {
     );
   }
 
+  late List<String> names;
   @override
   Widget buildResults(BuildContext context) {
+    for (int i = 0; i < ItemCard.cards.length; i++) {
+      names.add(ItemCard.cards.elementAt(i).item.name);
+    }
     List<String> matchQuery = [];
-    for (var fruit in searchTerms) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
+    for (var n in names) {
+      if (n.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(n);
       }
     }
     return ListView.builder(
@@ -98,9 +99,9 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     List<String> matchQuery = [];
-    for (var fruit in searchTerms) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
+    for (var n in names) {
+      if (n.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(n);
       }
     }
     return ListView.builder(

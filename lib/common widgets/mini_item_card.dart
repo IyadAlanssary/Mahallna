@@ -74,7 +74,7 @@ class MiniItemCard extends StatelessWidget {
     );
   }
 
-  Widget infoWidget(BuildContext context, int id) {
+  Widget infoWidget(BuildContext context, double id) {
     return Container(
       height: 45,
       width: 45,
@@ -100,7 +100,7 @@ class MiniItemCard extends StatelessWidget {
     );
   }
 
-  Widget editWidget(BuildContext context, int id) {
+  Widget editWidget(BuildContext context, double id) {
     return Padding(
       padding: const EdgeInsets.only(right: 5),
       child: Container(
@@ -145,7 +145,7 @@ Future getHttp() async {
         GroceryItem i = GroceryItem(
             id: g['id'],
             name: g['name'],
-            description: g['description'],
+            category: g['category'],
             price: 1.99,
             imagePath: "assets/images/grocery_images/banana.png");
         items.add(i);

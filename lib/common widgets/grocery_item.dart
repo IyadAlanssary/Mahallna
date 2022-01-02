@@ -1,31 +1,23 @@
 class GroceryItem {
-  int id;
+  double id;
   late String name;
-  late String description;
+  late String category;
   late double price;
   late String imagePath;
 
   GroceryItem(
       {required this.id,
       required this.name,
-      required this.description,
+      required this.category,
       required this.price,
       required this.imagePath});
+
+  factory GroceryItem.fromJson(Map<dynamic, dynamic> json) => GroceryItem(
+        id: json["id"],
+        name: json["name"],
+        //imageId: json["image_id"].toDouble(),       //////////////
+        category: json["category"],
+        price: json["current_price"],
+        imagePath: "assets/images/grocery_images/banana.png",
+      );
 }
-/*
-  static GroceryItem item = GroceryItem(
-      name: "Organic Bananas",
-      description: "7 pieces",
-      price: 4.99,
-      imagePath: "assets/images/grocery_images/banana.png");
-  static GroceryItem item2 = GroceryItem(
-      name: "Red Apple",
-      description: "1kg, Price",
-      price: 4.99,
-      imagePath: "assets/images/grocery_images/Dominic.jpg");
-  static GroceryItem item6 = GroceryItem(
-      name: "Diet Coke",
-      description: "355ml, Price",
-      price: 1.99,
-      imagePath: "assets/images/beverages_images/diet_coke.png");
-*/

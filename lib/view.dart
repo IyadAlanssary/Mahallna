@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ import 'styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'common widgets/item_card.dart';
 import 'package:products/bottom_navigation_bar.dart';
+import 'package:products/const.dart';
+import 'package:dio/dio.dart';
 
 class View extends StatefulWidget {
   View({Key? key}) : super(key: key);
@@ -27,8 +30,8 @@ class _ViewState extends State<View> {
           padding: const EdgeInsets.only(top: 35, bottom: 10),
           child: SvgPicture.asset("assets/icons/app_icon_color.svg"),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
           child: Search(),
         ),
         Expanded(
@@ -54,36 +57,39 @@ class _ViewState extends State<View> {
     );
   }
 
-  dynamic response;
-  List<GroceryItem> items = [];
+  late var response;
+  static List<GroceryItem> items = [];
   Future getHttp() async {
+    print("im in");
     if (!BottomNavBar.gotResponse) {
       BottomNavBar.gotResponse = true;
       try {
-        response = await http.get(Uri.https(
-            "74bbdce5-c395-497b-9acf-3f4bbf4b7604.mock.pstmn.io",
-            "api/products"));
-        var jsonData = jsonDecode(response.body);
-        for (var g in jsonData) {
-          GroceryItem i = GroceryItem(
-              id: g['id'],
-              name: g['name'],
-              description: g['description'],
-              price: 1.99,
-              imagePath: "assets/images/grocery_images/banana.png");
-          items.add(i);
-          ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
-        }
-        //response = await dio.get('/test', queryParameters: {'id': 12, 'name': 'wendu'});
-        // print(response.data.toString());
+        print("\n1\n");
+        response = await http.get(Uri.parse(baseUrl2 + "/products"), headers: {
+          //'Content-Type': 'application/json',
+          //'Accept': 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer 4|OBzB0AF3ePGH2bWifEPngKuOeFqgc16lWQqkMuak',
+        });
       } catch (e) {
-        print("catched error");
         print(e);
       }
+      var jsonData = jsonDecode(response.body);
+      for (var g in jsonData) {
+        GroceryItem i = GroceryItem(
+            id: g['id'],
+            name: g['name'],
+            category: g['category'],
+            price: g['current_price'],
+            imagePath:
+                "assets/images/grocery_images/banana.png"); //////////////////TODO:change to g['image_id']
+        items.add(i);
+        ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
+        print("found one");
+      }
+      return items;
     }
-    return items;
   }
-}
 /*
     print("test");
 
@@ -97,3 +103,56 @@ class _ViewState extends State<View> {
 
 
  */
+/*
+Failed Attempt No.1
+try {
+        Dio dio = Dio();
+        print("im in dio");
+        //dio.options.headers['content-Type'] = 'application/json';
+        print("im in header");
+        response = await dio.get(
+          baseUrl2 + '/products',
+          options: Options(
+            headers: {
+              "Authorization":
+                  "Bearer 4|OBzB0AF3ePGH2bWifEPngKuOeFqgc16lWQqkMuak",
+            },
+          ),
+        );
+        print(response.data);
+      } catch (e) {
+        print("\n\n\n wwwww");
+        print(e);
+        print("\n\n\nwwwwwww");
+      }
+ */
+/*
+/*
+        final Map parsed = json.decode(response.body);
+        print("\n\n\nooooooooooooooooooooooooooooo");
+        print(parsed);
+
+        final groc = GroceryItem.fromJson(parsed);
+        print("\n\n\nwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+        print(groc);
+        print("NEW");
+         */
+         //jsonData = jsonData "[" + response.body + "]";
+      //jsonData = json.encode(jsonData);
+      //Map jsonData = jsonDecode(response.body);
+      //print(jsonData);
+      //////////////////////////
+        list = (jsonData as List)
+            .map((data) => GroceryItem.fromJson(data))
+            .toList();
+      //////////////////
+      //for(GroceryItem gg in groceryItemFromJson(String str)){
+
+        // }
+        // final List parsedList = json.decode(response.body);
+        // list = parsedList.map((val) => GroceryItem.fromJson(val)).toList();
+        //////////////
+
+ */
+
+}
