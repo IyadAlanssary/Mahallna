@@ -186,7 +186,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late Product product;
   Future getHttp(double id) async {
     try {
-      response = await http.get(Uri.https(baseUrl, "/products/$id"));
+      response = await http.get(Uri.parse(baseUrl2 + "/products/$id"));
       print(response.body);
       var jsonData = jsonDecode(response.body);
       print(jsonData["id"]);
