@@ -53,7 +53,9 @@ class _EditProductState extends State<EditProduct> {
                           onPressed: () {
                             Navigator.of(context).pop(MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return View();
+                                return View(
+                                  token: '',
+                                ); //////////////TODO fix
                               },
                             ));
                           },
@@ -289,7 +291,7 @@ class _EditProductState extends State<EditProduct> {
         //'Content-Type': 'application/json',
         //'Accept': 'application/json',
         HttpHeaders.authorizationHeader:
-        'Bearer 4|OBzB0AF3ePGH2bWifEPngKuOeFqgc16lWQqkMuak',
+            'Bearer 4|OBzB0AF3ePGH2bWifEPngKuOeFqgc16lWQqkMuak',
       });
       print(response.body);
       var jsonData = jsonDecode(response.body);

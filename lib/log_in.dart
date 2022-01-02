@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:products/const.dart';
 import 'package:products/sign_up.dart';
 import 'package:products/bottom_navigation_bar.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -13,8 +17,9 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
-  TextEditingController userNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  String errorMessage = " ";
 
   bool _isObscure = true;
 
@@ -47,9 +52,10 @@ class _LogInState extends State<LogIn> {
                     height: 45,
                   ),
                   TextField(
-                    controller: userNameController,
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
-                    decoration: textfld('Username', false),
+                    decoration: textfld('Phone', false),
                   ),
                   const SizedBox(
                     height: 20,
@@ -59,6 +65,13 @@ class _LogInState extends State<LogIn> {
                     textInputAction: TextInputAction.done,
                     obscureText: _isObscure,
                     decoration: textfld('Password', true),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    errorMessage,
+                    style: const TextStyle(color: Colors.red),
                   ),
                   const SizedBox(
                     height: 60,
@@ -121,12 +134,16 @@ class _LogInState extends State<LogIn> {
     return AppButton(
       label: "Log in",
       onPressed: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const BottomNavBar()),
-        );
+        checkInputs();
+        checkLogin();
       },
     );
+  }
+
+  late String phone, password;
+  void checkInputs() {
+    phone = phoneController.text;
+    password = passwordController.text;
   }
 
   SizedBox eyeButton(bool eye) {
@@ -145,41 +162,31 @@ class _LogInState extends State<LogIn> {
       );
     }
     return const SizedBox(width: 1);
-  } /*
+  }
+
+  late var response;
   Future<void> checkLogin() async {
     var map = <String, dynamic>{};
-    map['email'] = email;
+    map['phone'] = phone;
     map['password'] = password;
-    final response = await http.post(Uri.parse(Assets.link + "login"),
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Accept": "application/json"
-        },
-        encoding: Encoding.getByName('utf-8'),
-        body: map);
+    response = await http.post(Uri.parse(baseUrl2 + "/auth/login"), body: map);
     Map<String, dynamic> resp = jsonDecode(response.body);
-    if (response.statusCode == 201) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => MainPage(
-                  token: resp["token"].toString(),
-                  id: resp["user"]["id"].toString())));
-    } else if (response.statusCode == 422) {
-      if (resp["errors"]["email"] != null) {
+    if (response.statusCode <= 201) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (_) => BottomNavBar(
+                token: resp["token"].toString(), //TODO
+                id: resp["user"]["id"].toString())),
+      );
+    } else if (response.statusCode >= 400) {
+      print("\n Response status code: ");
+      print(response.statusCode);
+      if (resp["debug"]["message"] != null) {
         setState(() {
-          emailShadowColor = Assets.errorShadowColor;
-          error = resp["errors"]["email"].toString();
-        });
-      }
-      if (resp["errors"]["password"] != null) {
-        setState(() {
-          passwordShadowColor = Assets.errorShadowColor;
-          error = resp["errors"]["password"].toString();
+          errorMessage = resp["debug"]["message"];
         });
       }
     }
-    print(response.body);
   }
-  */
 }

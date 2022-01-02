@@ -8,8 +8,6 @@ import 'package:products/common widgets/new_product_txt_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import '../view.dart';
-
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
 

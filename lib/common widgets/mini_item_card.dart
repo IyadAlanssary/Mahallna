@@ -11,8 +11,10 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:http/http.dart' as http;
 
 class MiniItemCard extends StatelessWidget {
-  MiniItemCard({required Key key, required this.item}) : super(key: key);
+  MiniItemCard({required Key key, required this.item, required this.token})
+      : super(key: key);
 
+  String token;
   final GroceryItem item;
   static List<MiniItemCard> miniCards = [];
   final double height = 80;
@@ -65,7 +67,7 @@ class MiniItemCard extends StatelessWidget {
                     const SizedBox(
                       width: 8,
                     ),
-                    infoWidget(context, item.id),
+                    infoWidget(context, item.id, token),
                   ],
                 )),
           ),
@@ -74,7 +76,7 @@ class MiniItemCard extends StatelessWidget {
     );
   }
 
-  Widget infoWidget(BuildContext context, double id) {
+  Widget infoWidget(BuildContext context, double id, String token) {
     return Container(
       height: 45,
       width: 45,
@@ -90,7 +92,7 @@ class MiniItemCard extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return ProductDetailsScreen(id: id);
+                  return ProductDetailsScreen(id: id, token: token);
                 },
               ),
             );
@@ -133,7 +135,7 @@ class MiniItemCard extends StatelessWidget {
 dynamic response;
 bool gotResponse = false;
 List<GroceryItem> items = [];
-Future getHttp() async {
+Future getHttp(String token) async {
   if (!gotResponse) {
     gotResponse = true;
     try {
@@ -149,7 +151,8 @@ Future getHttp() async {
             price: 1.99,
             imagePath: "assets/images/grocery_images/banana.png");
         items.add(i);
-        MiniItemCard.miniCards.add(MiniItemCard(key: UniqueKey(), item: i));
+        MiniItemCard.miniCards
+            .add(MiniItemCard(key: UniqueKey(), item: i, token: token));
       }
       //response = await dio.get('/test', queryParameters: {'id': 12, 'name': 'wendu'});
       // print(response.data.toString());

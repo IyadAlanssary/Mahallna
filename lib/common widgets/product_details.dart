@@ -13,7 +13,8 @@ import 'package:http/http.dart' as http;
 
 class ProductDetailsScreen extends StatefulWidget {
   double id;
-  ProductDetailsScreen({Key? key, required this.id}) : super(key: key);
+  late String token;
+  ProductDetailsScreen({Key? key, required this.id, token}) : super(key: key);
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
@@ -50,7 +51,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           onPressed: () {
                             Navigator.of(context).pop(MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return View();
+                                return View(token: widget.token);
                               },
                             ));
                           },
@@ -183,15 +184,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  dynamic response;
+  late var response;
   late Product product;
   Future getHttp(double id) async {
     try {
-      response = await http.get(Uri.parse(baseUrl2 + "/products/$id"), headers: {
+      print("in details");
+      response =
+          await http.get(Uri.parse(baseUrl2 + "/products/$id"), headers: {
         //'Content-Type': 'application/json',
         //'Accept': 'application/json',
         HttpHeaders.authorizationHeader:
-        'Bearer 4|OBzB0AF3ePGH2bWifEPngKuOeFqgc16lWQqkMuak',
+            'Bearer 1|3Ksf90dxVr5Tnzx08Mm94ovu1jSvUXTuYDufLoEr',
       });
       print(response.body);
       var jsonData = jsonDecode(response.body);
@@ -223,7 +226,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       //response = await dio.get('/test', queryParameters: {'id': 12, 'name': 'wendu'});
       // print(response.data.toString());
     } catch (e) {
-      print("catched error");
+      print("caught error");
       print(e);
     }
     return product;

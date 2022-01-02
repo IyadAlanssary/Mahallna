@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'package:products/const.dart';
 import 'package:flutter/material.dart';
+import 'bottom_navigation_bar.dart';
 import 'log_in.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -12,8 +16,9 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  String errorMessage = " ";
   bool _isObscure = true;
-  TextEditingController userNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -53,9 +58,10 @@ class _SignUpState extends State<SignUp> {
                     height: 10,
                   ),
                   TextField(
-                    controller: userNameController,
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
-                    decoration: textfld('Username', false),
+                    decoration: textfld('Phone', false),
                   ),
                   const SizedBox(
                     height: 10,
@@ -74,6 +80,11 @@ class _SignUpState extends State<SignUp> {
                     textInputAction: TextInputAction.done,
                     obscureText: _isObscure,
                     decoration: textfld('Confirm Password', true),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    errorMessage,
+                    style: const TextStyle(color: Colors.red),
                   ),
                   const SizedBox(
                     height: 35,
@@ -98,7 +109,8 @@ class _SignUpState extends State<SignUp> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => LogIn()),
+                              MaterialPageRoute(
+                                  builder: (context) => const LogIn()),
                             );
                           }),
                     ],
@@ -132,11 +144,9 @@ class _SignUpState extends State<SignUp> {
     return AppButton(
       label: "Sign Up",
       onPressed: () {
-        // Navigator.of(context).pushReplacement(MaterialPageRoute(
-        //   builder: (BuildContext context) {
-        //     return const DashboardScreen();
-        //   },
-        // ));
+        if (checkInputs()) {
+          signUp();
+        }
       },
     );
   }
@@ -157,5 +167,48 @@ class _SignUpState extends State<SignUp> {
       );
     }
     return const SizedBox(width: 1);
+  }
+
+  late String fullName, phone, password, confirmPassword;
+  bool checkInputs() {
+    fullName = fullNameController.text;
+    phone = phoneController.text;
+    password = passwordController.text;
+    confirmPassword = confirmPasswordController.text;
+    if (password != confirmPassword) {
+      setState(() {
+        errorMessage = "Password and Confirm Password must match";
+      });
+      return false;
+    }
+    return true;
+  }
+
+  late var response;
+  Future<void> signUp() async {
+    var map = <String, dynamic>{};
+    map['name'] = fullName;
+    map['phone'] = phone;
+    map['password'] = password;
+    response =
+        await http.post(Uri.parse(baseUrl2 + "/auth/register"), body: map);
+    Map<String, dynamic> resp = jsonDecode(response.body);
+    if (response.statusCode <= 201) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (_) => BottomNavBar(
+                token: resp["token"].toString(), //TODO
+                id: resp["user"]["id"].toString())),
+      );
+    } else if (response.statusCode >= 400) {
+      print("\n Response status code: ");
+      print(response.statusCode);
+      if (resp["debug"]["message"] != null) {
+        setState(() {
+          errorMessage = resp["debug"]["message"];
+        });
+      }
+    }
   }
 }

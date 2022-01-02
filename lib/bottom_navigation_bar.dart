@@ -5,7 +5,9 @@ import 'package:products/common widgets/add_product_screen.dart';
 import 'styles/colors.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({Key? key}) : super(key: key);
+  final String token, id;
+  const BottomNavBar({Key? key, required this.token, required this.id})
+      : super(key: key);
   static bool gotResponse = false;
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
@@ -19,11 +21,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
     });
   }
 
-  static final List<Widget> _pages = <Widget>[
-    View(),
-    const AddProduct(),
-    const Profile()
-  ];
+  Widget change(int index) {
+    if (index == 0) {
+      return View(token: widget.token);
+    } else if (index == 1) {
+      return const AddProduct();
+    } else {
+      return Profile(token: widget.token);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +39,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: _pages.elementAt(_selectedIndex), //New
+              child: change(_selectedIndex), //New
             ),
             BottomNavigationBar(
               showUnselectedLabels: false,

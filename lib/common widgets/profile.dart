@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:products/styles/colors.dart';
 import 'package:products/common widgets/mini_item_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:products/log_in.dart';
+import 'package:http/http.dart' as http;
 
-import '../view.dart';
+import '../const.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  final String token;
+  const Profile({Key? key, required this.token}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -22,7 +27,7 @@ class _ProfileState extends State<Profile> {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              onPressed: () {},
+              onPressed: () => logOut(widget.token),
               icon: const Icon(Icons.exit_to_app),
               iconSize: 28,
               color: AppColors.primaryColor,
@@ -60,7 +65,6 @@ class _ProfileState extends State<Profile> {
           ),
           Expanded(
             child: FutureBuilder<dynamic>(
-              future: getHttp(),
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   return const SpinKitSpinningLines(
@@ -79,10 +83,37 @@ class _ProfileState extends State<Profile> {
                   );
                 }
               },
+              future: getHttp(widget.token),
             ),
           ),
         ],
       ),
     );
+  }
+
+  late var response;
+
+  Future<void> logOut(String token) async {
+    try {
+      response =
+          await http.post(Uri.parse(baseUrl2 + "/auth/logout"), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+      if (response.statusCode <= 201) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const LogIn(),
+          ),
+        );
+      } else if (response.statusCode >= 400) {
+        print("\n Response status code: ");
+        print(response.statusCode);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

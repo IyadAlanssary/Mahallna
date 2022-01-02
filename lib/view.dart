@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -10,16 +11,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'common widgets/item_card.dart';
 import 'package:products/bottom_navigation_bar.dart';
 import 'package:products/const.dart';
-import 'package:dio/dio.dart';
 
 class View extends StatefulWidget {
-  View({Key? key}) : super(key: key);
+  final String token;
+  const View({Key? key, required this.token}) : super(key: key);
 
   @override
   State<View> createState() => _ViewState();
 }
 
 class _ViewState extends State<View> {
+  late bool loadingTimeFinished = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,14 +38,25 @@ class _ViewState extends State<View> {
         ),
         Expanded(
           child: FutureBuilder<dynamic>(
-              future: getHttp(),
+              future: getHttp(widget.token),
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
-                  return const SpinKitSpinningLines(
-                    itemCount: 30,
-                    color: AppColors.primaryColor,
-                    size: 100.0,
-                  );
+                  Timer(
+                      const Duration(seconds: 5),
+                      () => {
+                            setState(() {
+                              loadingTimeFinished = true;
+                            })
+                          });
+                  if (!loadingTimeFinished) {
+                    return const SpinKitSpinningLines(
+                      itemCount: 30,
+                      color: AppColors.primaryColor,
+                      size: 100.0,
+                    );
+                  } else {
+                    return const Text("No Products Available");
+                  }
                 } else {
                   return GridView.count(
                     crossAxisCount: 1,
@@ -59,7 +72,7 @@ class _ViewState extends State<View> {
 
   late var response;
   static List<GroceryItem> items = [];
-  Future getHttp() async {
+  Future getHttp(String token) async {
     print("im in");
     if (!BottomNavBar.gotResponse) {
       BottomNavBar.gotResponse = true;
@@ -68,8 +81,7 @@ class _ViewState extends State<View> {
         response = await http.get(Uri.parse(baseUrl2 + "/products"), headers: {
           //'Content-Type': 'application/json',
           //'Accept': 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer 4|OBzB0AF3ePGH2bWifEPngKuOeFqgc16lWQqkMuak',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
         });
       } catch (e) {
         print(e);
@@ -87,8 +99,8 @@ class _ViewState extends State<View> {
         ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
         print("found one");
       }
-      return items;
     }
+    return items;
   }
 /*
     print("test");
