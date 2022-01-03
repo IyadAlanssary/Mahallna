@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:products/common%20widgets/user.dart';
 import 'package:products/styles/colors.dart';
 import 'package:products/common widgets/get_image_header_widget.dart';
 import 'package:products/view.dart';
@@ -13,8 +14,7 @@ import 'package:http/http.dart' as http;
 
 class ProductDetailsScreen extends StatefulWidget {
   double id;
-  late String token;
-  ProductDetailsScreen({Key? key, required this.id, token}) : super(key: key);
+  ProductDetailsScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
@@ -51,7 +51,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           onPressed: () {
                             Navigator.of(context).pop(MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return View(token: widget.token);
+                                return const View();
                               },
                             ));
                           },
@@ -188,13 +188,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late Product product;
   Future getHttp(double id) async {
     try {
+      String token = User.currentUser.token;
       print("in details");
       response =
           await http.get(Uri.parse(baseUrl2 + "/products/$id"), headers: {
         //'Content-Type': 'application/json',
         //'Accept': 'application/json',
-        HttpHeaders.authorizationHeader:
-            'Bearer 1|3Ksf90dxVr5Tnzx08Mm94ovu1jSvUXTuYDufLoEr',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
       });
       print(response.body);
       var jsonData = jsonDecode(response.body);

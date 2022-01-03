@@ -53,9 +53,7 @@ class _EditProductState extends State<EditProduct> {
                           onPressed: () {
                             Navigator.of(context).pop(MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return View(
-                                  token: '',
-                                ); //////////////TODO fix
+                                return View();
                               },
                             ));
                           },

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:products/const.dart';
 import 'package:flutter/material.dart';
 import 'bottom_navigation_bar.dart';
+import 'common widgets/user.dart';
 import 'log_in.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
@@ -194,12 +195,20 @@ class _SignUpState extends State<SignUp> {
         await http.post(Uri.parse(baseUrl2 + "/auth/register"), body: map);
     Map<String, dynamic> resp = jsonDecode(response.body);
     if (response.statusCode <= 201) {
+      User.currentUser = User(
+        id: resp["user"]['id'],
+        name: resp["user"]['name'],
+        phone: resp["user"]['phone'],
+        token: resp["token"],
+        //imageId: resp["user"]["image_id"],//TODO
+      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (_) => BottomNavBar(
-                token: resp["token"].toString(), //TODO
-                id: resp["user"]["id"].toString())),
+            builder: (_) => const BottomNavBar(
+                //token: resp["token"].toString(), //TODO
+                //id: resp["user"]["id"].toString()
+                )),
       );
     } else if (response.statusCode >= 400) {
       print("\n Response status code: ");

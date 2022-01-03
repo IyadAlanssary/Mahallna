@@ -5,10 +5,11 @@ import 'package:products/common widgets/add_product_screen.dart';
 import 'styles/colors.dart';
 
 class BottomNavBar extends StatefulWidget {
-  final String token, id;
-  const BottomNavBar({Key? key, required this.token, required this.id})
-      : super(key: key);
+  //final String token, id;
+  const BottomNavBar({Key? key}) : super(key: key);
   static bool gotResponse = false;
+  static bool gotMiniResponse = false;
+
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
@@ -23,11 +24,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   Widget change(int index) {
     if (index == 0) {
-      return View(token: widget.token);
+      return const View();
     } else if (index == 1) {
       return const AddProduct();
     } else {
-      return Profile(token: widget.token);
+      return Profile();
     }
   }
 

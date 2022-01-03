@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:products/const.dart';
 import 'package:products/sign_up.dart';
 import 'package:products/bottom_navigation_bar.dart';
+import 'common widgets/user.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -164,24 +165,31 @@ class _LogInState extends State<LogIn> {
     return const SizedBox(width: 1);
   }
 
-  late var response;
+  late var postRequest;
   Future<void> checkLogin() async {
     var map = <String, dynamic>{};
     map['phone'] = phone;
     map['password'] = password;
-    response = await http.post(Uri.parse(baseUrl2 + "/auth/login"), body: map);
-    Map<String, dynamic> resp = jsonDecode(response.body);
-    if (response.statusCode <= 201) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (_) => BottomNavBar(
-                token: resp["token"].toString(), //TODO
-                id: resp["user"]["id"].toString())),
+    postRequest =
+        await http.post(Uri.parse(baseUrl2 + "/auth/login"), body: map);
+    Map<String, dynamic> resp = jsonDecode(postRequest.body);
+
+    if (postRequest.statusCode <= 201) {
+      User.currentUser = User(
+        id: resp["user"]["id"],
+        name: resp["user"]['name'],
+        phone: resp["user"]['phone'],
+        token: resp["token"],
+        //imageId: resp["user"]["image_id"],//TODO
       );
-    } else if (response.statusCode >= 400) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const BottomNavBar(),
+          ));
+    } else if (postRequest.statusCode >= 400) {
       print("\n Response status code: ");
-      print(response.statusCode);
+      print(postRequest.statusCode);
       if (resp["debug"]["message"] != null) {
         setState(() {
           errorMessage = resp["debug"]["message"];

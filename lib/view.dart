@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:products/common%20widgets/grocery_item.dart';
 import 'package:products/search.dart';
+import 'common widgets/user.dart';
 import 'styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'common widgets/item_card.dart';
@@ -13,8 +14,8 @@ import 'package:products/bottom_navigation_bar.dart';
 import 'package:products/const.dart';
 
 class View extends StatefulWidget {
-  final String token;
-  const View({Key? key, required this.token}) : super(key: key);
+  //final String token;
+  const View({Key? key}) : super(key: key);
 
   @override
   State<View> createState() => _ViewState();
@@ -38,7 +39,7 @@ class _ViewState extends State<View> {
         ),
         Expanded(
           child: FutureBuilder<dynamic>(
-              future: getHttp(widget.token),
+              future: getHttp(),
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   Timer(
@@ -72,11 +73,12 @@ class _ViewState extends State<View> {
 
   late var response;
   static List<GroceryItem> items = [];
-  Future getHttp(String token) async {
+  Future getHttp() async {
     print("im in");
     if (!BottomNavBar.gotResponse) {
       BottomNavBar.gotResponse = true;
       try {
+        String token = User.currentUser.token;
         print("\n1\n");
         response = await http.get(Uri.parse(baseUrl2 + "/products"), headers: {
           //'Content-Type': 'application/json',

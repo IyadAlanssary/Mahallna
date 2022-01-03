@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:products/common%20widgets/user.dart';
 import 'package:products/styles/colors.dart';
 import 'package:products/common widgets/mini_item_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,14 +12,17 @@ import 'package:http/http.dart' as http;
 import '../const.dart';
 
 class Profile extends StatefulWidget {
-  final String token;
-  const Profile({Key? key, required this.token}) : super(key: key);
+  //final String token;
+
+  const Profile({Key? key}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
+  bool loadingTimeFinished = false;
+  String myProductsMessage = ' ';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,7 +32,7 @@ class _ProfileState extends State<Profile> {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              onPressed: () => logOut(widget.token),
+              onPressed: () => logOut(),
               icon: const Icon(Icons.exit_to_app),
               iconSize: 28,
               color: AppColors.primaryColor,
@@ -43,39 +48,62 @@ class _ProfileState extends State<Profile> {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 40),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 40),
             child: Text(
-              'Hamsho',
-              style: TextStyle(
+              User.currentUser.name,
+              style: const TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 15, left: 20),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 40),
+            child: Text(
+              User.currentUser.phone,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15, left: 20),
             child: ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(
-                'My Products:',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                myProductsMessage,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
           ),
           Expanded(
             child: FutureBuilder<dynamic>(
+              future: getHttp(),
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
-                  return const SpinKitSpinningLines(
-                    itemCount: 8,
-                    color: AppColors.primaryColor,
-                    size: 100.0,
-                  );
+                  Timer(
+                      const Duration(seconds: 5),
+                      () => {
+                            setState(() {
+                              loadingTimeFinished = true;
+                            })
+                          });
+                  if (!loadingTimeFinished) {
+                    return const SpinKitSpinningLines(
+                      itemCount: 30,
+                      color: AppColors.primaryColor,
+                      size: 100.0,
+                    );
+                  } else {
+                    setState(() {
+                      myProductsMessage = "No Products Available";
+                    });
+                    return const Text("No Products Available");
+                  }
                 } else {
-                  // return ListView.builder(
-                  //    itemCount: snapshot.data.length,
-                  //   itemBuilder: (context, i) {
                   return GridView.count(
                     childAspectRatio: 4,
                     crossAxisCount: 1,
@@ -83,7 +111,6 @@ class _ProfileState extends State<Profile> {
                   );
                 }
               },
-              future: getHttp(widget.token),
             ),
           ),
         ],
@@ -92,9 +119,9 @@ class _ProfileState extends State<Profile> {
   }
 
   late var response;
-
-  Future<void> logOut(String token) async {
+  Future<void> logOut() async {
     try {
+      String token = User.currentUser.token;
       response =
           await http.post(Uri.parse(baseUrl2 + "/auth/logout"), headers: {
         'Content-Type': 'application/json',

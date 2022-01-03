@@ -82,7 +82,7 @@ class ItemCard extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    addWidget(context, item.id),
+                    productDetailsIcon(context, item.id),
                   ],
                 )
               ],
@@ -93,7 +93,7 @@ class ItemCard extends StatelessWidget {
     );
   }
 
-  Widget addWidget(BuildContext context, double id) {
+  Widget productDetailsIcon(BuildContext context, double id) {
     return Container(
       height: 45,
       width: 45,
@@ -102,7 +102,7 @@ class ItemCard extends StatelessWidget {
           color: AppColors.primaryColor),
       child: Center(
         child: IconButton(
-          icon: const Icon(Icons.add),
+          icon: const Icon(Icons.navigate_next),
           color: Colors.white,
           iconSize: 25,
           onPressed: () {

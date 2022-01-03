@@ -1,20 +1,22 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:products/common%20widgets/add_product_screen.dart';
 import 'package:products/common%20widgets/edit_product_screen.dart';
 import 'package:products/common%20widgets/product_details.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:products/common%20widgets/user.dart';
+import '../bottom_navigation_bar.dart';
+import '../const.dart';
 import 'grocery_item.dart';
 import 'package:products/styles/colors.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:http/http.dart' as http;
 
 class MiniItemCard extends StatelessWidget {
-  MiniItemCard({required Key key, required this.item, required this.token})
-      : super(key: key);
+  MiniItemCard({required Key key, required this.item}) : super(key: key);
 
-  String token;
   final GroceryItem item;
   static List<MiniItemCard> miniCards = [];
   final double height = 80;
@@ -67,7 +69,7 @@ class MiniItemCard extends StatelessWidget {
                     const SizedBox(
                       width: 8,
                     ),
-                    infoWidget(context, item.id, token),
+                    infoWidget(context, item.id),
                   ],
                 )),
           ),
@@ -76,7 +78,7 @@ class MiniItemCard extends StatelessWidget {
     );
   }
 
-  Widget infoWidget(BuildContext context, double id, String token) {
+  Widget infoWidget(BuildContext context, double id) {
     return Container(
       height: 45,
       width: 45,
@@ -92,7 +94,7 @@ class MiniItemCard extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return ProductDetailsScreen(id: id, token: token);
+                  return ProductDetailsScreen(id: id);
                 },
               ),
             );
@@ -132,33 +134,34 @@ class MiniItemCard extends StatelessWidget {
   }
 }
 
-dynamic response;
-bool gotResponse = false;
+late var response;
 List<GroceryItem> items = [];
-Future getHttp(String token) async {
-  if (!gotResponse) {
-    gotResponse = true;
+Future getHttp() async {
+  print("im in");
+  if (!BottomNavBar.gotMiniResponse) {
+    BottomNavBar.gotMiniResponse = true;
     try {
-      response = await http.get(Uri.https(
-          "74bbdce5-c395-497b-9acf-3f4bbf4b7604.mock.pstmn.io",
-          "api/products"));
-      var jsonData = jsonDecode(response.body);
-      for (var g in jsonData) {
-        GroceryItem i = GroceryItem(
-            id: g['id'],
-            name: g['name'],
-            category: g['category'],
-            price: 1.99,
-            imagePath: "assets/images/grocery_images/banana.png");
-        items.add(i);
-        MiniItemCard.miniCards
-            .add(MiniItemCard(key: UniqueKey(), item: i, token: token));
-      }
-      //response = await dio.get('/test', queryParameters: {'id': 12, 'name': 'wendu'});
-      // print(response.data.toString());
+      String token = User.currentUser.token;
+      print("\n1\n");
+      response = await http.get(Uri.parse(baseUrl2 + "/products"), headers: {
+        //'Content-Type': 'application/json',
+        //'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
     } catch (e) {
-      print("catched error");
       print(e);
+    }
+    var jsonData = jsonDecode(response.body);
+    for (var g in jsonData) {
+      GroceryItem i = GroceryItem(
+          id: g['id'],
+          name: g['name'],
+          category: g['category'],
+          price: g['current_price'],
+          imagePath:
+              "assets/images/grocery_images/banana.png"); //////////////////TODO:change to g['image_id']
+      items.add(i);
+      MiniItemCard.miniCards.add(MiniItemCard(key: UniqueKey(), item: i));
     }
   }
   return items;
