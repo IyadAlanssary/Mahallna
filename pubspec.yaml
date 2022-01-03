@@ -1,5 +1,5 @@
 name: products
-description: An app to buy and sell products.
+description: An interactive app to buy and sell products.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -68,11 +68,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    - assets/images/categories_images/
-    - assets/images/grocery_images/
-    - assets/images/beverages_images/
     - assets/icons/
-    - assets/icons/account_icons/
     - assets/fonts/
 
   fonts:

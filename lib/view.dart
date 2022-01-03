@@ -14,7 +14,6 @@ import 'package:products/bottom_navigation_bar.dart';
 import 'package:products/const.dart';
 
 class View extends StatefulWidget {
-  //final String token;
   const View({Key? key}) : super(key: key);
 
   @override
@@ -23,6 +22,7 @@ class View extends StatefulWidget {
 
 class _ViewState extends State<View> {
   late bool loadingTimeFinished = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -96,7 +96,7 @@ class _ViewState extends State<View> {
             category: g['category'],
             price: g['current_price'],
             imagePath:
-                "assets/images/grocery_images/banana.png"); //////////////////TODO:change to g['image_id']
+                "assets/images/apple.png"); //////////////////TODO:change to g['image_id']
         items.add(i);
         ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
         print("found one");
@@ -104,69 +104,4 @@ class _ViewState extends State<View> {
     }
     return items;
   }
-/*
-    print("test");
-
-      print(response);
-      print("test2");
-      print(response.data[0]['id']);
-      print("response headers: ");
-      print(response.headers);
-      print("status code: ");
-      print(response.statusCode);
-
-
- */
-/*
-Failed Attempt No.1
-try {
-        Dio dio = Dio();
-        print("im in dio");
-        //dio.options.headers['content-Type'] = 'application/json';
-        print("im in header");
-        response = await dio.get(
-          baseUrl2 + '/products',
-          options: Options(
-            headers: {
-              "Authorization":
-                  "Bearer 4|OBzB0AF3ePGH2bWifEPngKuOeFqgc16lWQqkMuak",
-            },
-          ),
-        );
-        print(response.data);
-      } catch (e) {
-        print("\n\n\n wwwww");
-        print(e);
-        print("\n\n\nwwwwwww");
-      }
- */
-/*
-/*
-        final Map parsed = json.decode(response.body);
-        print("\n\n\nooooooooooooooooooooooooooooo");
-        print(parsed);
-
-        final groc = GroceryItem.fromJson(parsed);
-        print("\n\n\nwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
-        print(groc);
-        print("NEW");
-         */
-         //jsonData = jsonData "[" + response.body + "]";
-      //jsonData = json.encode(jsonData);
-      //Map jsonData = jsonDecode(response.body);
-      //print(jsonData);
-      //////////////////////////
-        list = (jsonData as List)
-            .map((data) => GroceryItem.fromJson(data))
-            .toList();
-      //////////////////
-      //for(GroceryItem gg in groceryItemFromJson(String str)){
-
-        // }
-        // final List parsedList = json.decode(response.body);
-        // list = parsedList.map((val) => GroceryItem.fromJson(val)).toList();
-        //////////////
-
- */
-
 }

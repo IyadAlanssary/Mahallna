@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:products/common%20widgets/user.dart';
 import 'package:products/styles/colors.dart';
 import 'package:products/common widgets/mini_item_card.dart';
@@ -22,7 +23,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool loadingTimeFinished = false;
-  String myProductsMessage = ' ';
+  String myProductsMessage = 'My Products';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -99,7 +100,7 @@ class _ProfileState extends State<Profile> {
                     );
                   } else {
                     setState(() {
-                      myProductsMessage = "No Products Available";
+                      myProductsMessage = " y";
                     });
                     return const Text("No Products Available");
                   }
@@ -129,6 +130,8 @@ class _ProfileState extends State<Profile> {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
       if (response.statusCode <= 201) {
+        MiniItemCard.miniCards.clear();
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

@@ -2,10 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:products/common%20widgets/add_product_screen.dart';
 import 'package:products/common%20widgets/edit_product_screen.dart';
 import 'package:products/common%20widgets/product_details.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:products/common%20widgets/user.dart';
 import '../bottom_navigation_bar.dart';
 import '../const.dart';
@@ -139,29 +137,32 @@ List<GroceryItem> items = [];
 Future getHttp() async {
   print("im in");
   if (!BottomNavBar.gotMiniResponse) {
-    BottomNavBar.gotMiniResponse = true;
+    BottomNavBar.gotMiniResponse = false;
     try {
       String token = User.currentUser.token;
-      print("\n1\n");
-      response = await http.get(Uri.parse(baseUrl2 + "/products"), headers: {
+      response =
+          await http.get(Uri.parse(baseUrl2 + "/users/my_products"), headers: {
         //'Content-Type': 'application/json',
         //'Accept': 'application/json',
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
+      print("im in response");
     } catch (e) {
       print(e);
     }
     var jsonData = jsonDecode(response.body);
+    print("im in json");
     for (var g in jsonData) {
       GroceryItem i = GroceryItem(
           id: g['id'],
           name: g['name'],
           category: g['category'],
-          price: g['current_price'],
+          price: g['unit_price'],
           imagePath:
               "assets/images/grocery_images/banana.png"); //////////////////TODO:change to g['image_id']
       items.add(i);
       MiniItemCard.miniCards.add(MiniItemCard(key: UniqueKey(), item: i));
+      print("im in done");
     }
   }
   return items;
