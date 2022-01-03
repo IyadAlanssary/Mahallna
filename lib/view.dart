@@ -16,6 +16,8 @@ import 'package:products/const.dart';
 class View extends StatefulWidget {
   const View({Key? key}) : super(key: key);
 
+  static List<GroceryItem> items = [];
+
   @override
   State<View> createState() => _ViewState();
 }
@@ -72,7 +74,7 @@ class _ViewState extends State<View> {
   }
 
   late var response;
-  static List<GroceryItem> items = [];
+
   Future getHttp() async {
     print("im in");
     if (!BottomNavBar.gotResponse) {
@@ -97,11 +99,11 @@ class _ViewState extends State<View> {
             price: g['current_price'],
             imagePath:
                 "assets/images/apple.png"); //////////////////TODO:change to g['image_id']
-        items.add(i);
+        View.items.add(i);
         ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
         print("found one");
       }
     }
-    return items;
+    return View.items;
   }
 }

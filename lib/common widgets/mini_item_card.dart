@@ -133,7 +133,7 @@ class MiniItemCard extends StatelessWidget {
 }
 
 late var response;
-List<GroceryItem> items = [];
+List<GroceryItem> miniItems = [];
 Future getHttp() async {
   print("im in");
   if (!BottomNavBar.gotMiniResponse) {
@@ -160,10 +160,10 @@ Future getHttp() async {
           price: g['unit_price'],
           imagePath:
               "assets/images/grocery_images/banana.png"); //////////////////TODO:change to g['image_id']
-      items.add(i);
+      miniItems.add(i);
       MiniItemCard.miniCards.add(MiniItemCard(key: UniqueKey(), item: i));
       print("im in done");
     }
   }
-  return items;
+  return miniItems;
 }

@@ -37,7 +37,7 @@ class _LogInState extends State<LogIn> {
               padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
+                //mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SvgPicture.asset("assets/icons/app_icon_color.svg"),

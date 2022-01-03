@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const WelcomeScreen(),
+              builder: (_) => const WelcomeScreen(),
             )));
   }
 
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
         ],
-      )), //FlutterLogo(size:MediaQuery.of(context).size.height)
+      )),
     );
   }
 }

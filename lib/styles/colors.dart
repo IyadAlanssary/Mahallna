@@ -11,6 +11,7 @@ class AppColors {
 
   static ThemeData myTheme() {
     return ThemeData.light().copyWith(
+      appBarTheme: const AppBarTheme(color: primaryColor),
       textTheme: ThemeData.light().textTheme.apply(
             fontFamily: sourceSansFontFamily,
           ),
@@ -36,7 +37,7 @@ class AppColors {
         image: const AssetImage(
           "assets/images/banner_background.png",
         ),
-        fit: BoxFit.fitHeight,
+        fit: BoxFit.cover,
       ),
     );
   }
