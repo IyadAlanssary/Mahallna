@@ -83,7 +83,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       child: ListView(
                         children: [
                           getImageHeaderWidget(
-                            url: 'assets/images/grocery_images/banana.png',
+                            url: 'assets/images/apple.png',
                           ),
                           Expanded(
                               child: Padding(
@@ -190,23 +190,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     try {
       String token = User.currentUser.token;
       print("in details");
+      print(id);
       response =
           await http.get(Uri.parse(baseUrl2 + "/products/$id"), headers: {
-        //'Content-Type': 'application/json',
-        //'Accept': 'application/json',
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
-      print(response.body);
       var jsonData = jsonDecode(response.body);
       print(jsonData["id"]);
-      print(jsonData["sales_plan"]["initial_sale"]);
-      SalesPlan salesPlan = SalesPlan(
-        initialSale: jsonData["sales_plan"]["initial_sale"],
-        firstPeriodDays: jsonData["sales_plan"]["first_period_days"],
-        firstPeriodSale: jsonData["sales_plan"]["first_period_sale"],
-        secondPeriodDays: jsonData["sales_plan"]["second_period_days"],
-        secondPeriodSale: jsonData["sales_plan"]["second_period_sale"],
-      );
+      //print(jsonData["sales_plan"]["initial_sale"]);
+      // SalesPlan salesPlan = SalesPlan(
+      //   initialSale: jsonData["sales_plan"]["initial_sale"],
+      //   firstPeriodDays: jsonData["sales_plan"]["first_period_days"],
+      //   firstPeriodSale: jsonData["sales_plan"]["first_period_sale"],
+      //   secondPeriodDays: jsonData["sales_plan"]["second_period_days"],
+      //   secondPeriodSale: jsonData["sales_plan"]["second_period_sale"],
+      // );
       Product p = Product(
         id: jsonData['id'],
         imageId: jsonData['image_id'],
@@ -218,7 +216,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         unitPrice: jsonData['unit_price'],
         viewsCount: jsonData['views_count'],
         contactPhone: jsonData['contact_phone'],
-        salesPlan: salesPlan,
       );
 
       product = p;
@@ -329,7 +326,6 @@ class Product {
   late double unitPrice;
   late double viewsCount;
   late String contactPhone;
-  late SalesPlan salesPlan;
 
   Product(
       {required this.id,
@@ -341,22 +337,21 @@ class Product {
       required this.expiryDate,
       required this.unitPrice,
       required this.viewsCount,
-      required this.contactPhone,
-      required this.salesPlan});
+      required this.contactPhone});
 }
 
-class SalesPlan {
-  SalesPlan({
-    required this.initialSale,
-    required this.firstPeriodDays,
-    required this.firstPeriodSale,
-    required this.secondPeriodDays,
-    required this.secondPeriodSale,
-  });
-
-  int initialSale;
-  int firstPeriodDays;
-  int firstPeriodSale;
-  int secondPeriodDays;
-  int secondPeriodSale;
-}
+// class SalesPlan {
+//   SalesPlan({
+//     required this.initialSale,
+//     required this.firstPeriodDays,
+//     required this.firstPeriodSale,
+//     required this.secondPeriodDays,
+//     required this.secondPeriodSale,
+//   });
+//
+//   int initialSale;
+//   int firstPeriodDays;
+//   int firstPeriodSale;
+//   int secondPeriodDays;
+//   int secondPeriodSale;
+// }

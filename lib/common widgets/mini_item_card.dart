@@ -142,8 +142,6 @@ Future getHttp() async {
       String token = User.currentUser.token;
       response =
           await http.get(Uri.parse(baseUrl2 + "/users/my_products"), headers: {
-        //'Content-Type': 'application/json',
-        //'Accept': 'application/json',
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
       print("im in response");
