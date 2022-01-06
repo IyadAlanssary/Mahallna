@@ -25,58 +25,56 @@ class MiniItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Container(
-            //height: height,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                colorFilter: ColorFilter.mode(
-                  Colors.white.withOpacity(0.4),
-                  BlendMode.dstATop,
-                ),
-                image: const AssetImage(
-                  "assets/images/banner_background.png",
-                ),
-                fit: BoxFit.none,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Container(
+          //height: height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.9),
+                BlendMode.dstATop,
               ),
-              border: Border.all(
-                color: borderColor,
+              image: const AssetImage(
+                "assets/images/banner_background.png",
               ),
-              borderRadius: BorderRadius.circular(
-                borderRadius,
-              ),
+              fit: BoxFit.none,
             ),
-            child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 15,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      item.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const Spacer(),
-                    editWidget(context, item.id),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    infoWidget(context, item.id),
-                  ],
-                )),
+            border: Border.all(
+              color: borderColor,
+            ),
+            borderRadius: BorderRadius.circular(
+              borderRadius,
+            ),
           ),
+          child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 15,
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    item.name,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const Spacer(),
+                  //TODO     editWidget(context, item.id),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  //TODO     infoWidget(context, item.id),
+                ],
+              )),
         ),
       ),
     );
   }
 
-  Widget infoWidget(BuildContext context, double id) {
+  Widget infoWidget(BuildContext context, int id) {
     return Container(
       height: 45,
       width: 45,
@@ -102,7 +100,7 @@ class MiniItemCard extends StatelessWidget {
     );
   }
 
-  Widget editWidget(BuildContext context, double id) {
+  Widget editWidget(BuildContext context, int id) {
     return Padding(
       padding: const EdgeInsets.only(right: 5),
       child: Container(
@@ -134,34 +132,39 @@ class MiniItemCard extends StatelessWidget {
 
 late var response;
 List<GroceryItem> miniItems = [];
-Future getHttp() async {
+Future getMiniItemsHttp() async {
   print("im in");
   if (!BottomNavBar.gotMiniResponse) {
     BottomNavBar.gotMiniResponse = false;
     try {
       String token = User.currentUser.token;
       response =
-          await http.get(Uri.parse(baseUrl2 + "/users/my_products"), headers: {
+          await http.get(Uri.parse(baseUrl2 + "/users/me/products"), headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
       print("im in response");
+      var jsonData = jsonDecode(response.body);
+      print("im in json");
+      miniItems.clear();
+      MiniItemCard.miniCards.clear();
+      for (var g in jsonData) {
+        GroceryItem i = GroceryItem(
+            id: g['id'],
+            name: g['name'],
+            category: g['category'],
+            price: g['unit_price'].toString(),
+            imagePath:
+                "assets/images/grocery_images/banana.png"); //////////////////TODO:change to g['image_id']
+        miniItems.add(i);
+        MiniItemCard.miniCards.add(MiniItemCard(key: UniqueKey(), item: i));
+        print("im in done");
+      }
     } catch (e) {
-      print(e);
-    }
-    var jsonData = jsonDecode(response.body);
-    print("im in json");
-    for (var g in jsonData) {
-      GroceryItem i = GroceryItem(
-          id: g['id'],
-          name: g['name'],
-          category: g['category'],
-          price: g['unit_price'],
-          imagePath:
-              "assets/images/grocery_images/banana.png"); //////////////////TODO:change to g['image_id']
-      miniItems.add(i);
-      MiniItemCard.miniCards.add(MiniItemCard(key: UniqueKey(), item: i));
-      print("im in done");
+      print("Get my products $e");
     }
   }
-  return miniItems;
+  if (miniItems.isNotEmpty) {
+    return miniItems;
+  }
+  return null;
 }

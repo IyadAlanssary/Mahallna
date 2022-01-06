@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:products/const.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'bottom_navigation_bar.dart';
 import 'common widgets/user.dart';
 import 'log_in.dart';
@@ -202,13 +203,16 @@ class _SignUpState extends State<SignUp> {
         token: resp["token"],
         //imageId: resp["user"]["image_id"],//TODO
       );
+      WidgetsFlutterBinding.ensureInitialized();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('is_register', true);
+      await prefs.setString('token', resp["token"]);
+      await prefs.setInt('id', resp["user"]["id"]);
+      await prefs.setString('name', resp["user"]["name"]);
+      await prefs.setString('phone', resp["user"]["phone"]);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (_) => const BottomNavBar(
-                //token: resp["token"].toString(), //TODO
-                //id: resp["user"]["id"].toString()
-                )),
+        MaterialPageRoute(builder: (_) => const BottomNavBar()),
       );
     } else if (response.statusCode >= 400) {
       print("\n Response status code: ");

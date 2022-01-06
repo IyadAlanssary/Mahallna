@@ -1,8 +1,8 @@
 class GroceryItem {
-  double id;
+  int id;
   String name;
   late String category;
-  double price;
+  String price;
   String imagePath;
 
   GroceryItem(

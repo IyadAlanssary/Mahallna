@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:products/common%20widgets/user.dart';
 import 'package:products/styles/colors.dart';
 import 'package:products/common widgets/mini_item_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:products/log_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../const.dart';
 
@@ -24,6 +24,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   bool loadingTimeFinished = false;
   String myProductsMessage = 'My Products';
+  String firstLetterOfName = User.currentUser.name[0];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,27 +41,31 @@ class _ProfileState extends State<Profile> {
               tooltip: 'Log Out',
             ),
           ),
-          const Center(
+          Center(
             child: Padding(
-              padding: EdgeInsets.only(top: 5, bottom: 15),
+              padding: const EdgeInsets.only(top: 5, bottom: 15),
               child: CircleAvatar(
+                child: Text(
+                  firstLetterOfName.toUpperCase(),
+                  style: const TextStyle(fontSize: 48, color: Colors.white),
+                ),
                 radius: 50.0,
-                backgroundColor: Colors.black,
+                backgroundColor: Colors.black54,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 40),
+            padding: const EdgeInsets.only(bottom: 10),
             child: Text(
               User.currentUser.name,
               style: const TextStyle(
-                fontSize: 30,
+                fontSize: 36,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 40),
+            padding: const EdgeInsets.only(bottom: 25),
             child: Text(
               User.currentUser.phone,
               style: const TextStyle(
@@ -82,7 +87,7 @@ class _ProfileState extends State<Profile> {
           ),
           Expanded(
             child: FutureBuilder<dynamic>(
-              future: getHttp(),
+              future: getMiniItemsHttp(),
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   Timer(
@@ -99,14 +104,11 @@ class _ProfileState extends State<Profile> {
                       size: 100.0,
                     );
                   } else {
-                    setState(() {
-                      myProductsMessage = " y";
-                    });
-                    return const Text("No Products Available");
+                    return const Text("You Don't have any products");
                   }
                 } else {
                   return GridView.count(
-                    childAspectRatio: 4,
+                    childAspectRatio: 5,
                     crossAxisCount: 1,
                     children: MiniItemCard.miniCards,
                   );
@@ -119,19 +121,23 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  late var response;
   Future<void> logOut() async {
     try {
       String token = User.currentUser.token;
-      response =
+      var response =
           await http.post(Uri.parse(baseUrl2 + "/auth/logout"), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
       if (response.statusCode <= 201) {
-        MiniItemCard.miniCards.clear();
-
+        WidgetsFlutterBinding.ensureInitialized();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.remove('is_register');
+        prefs.remove('token');
+        prefs.remove('name');
+        prefs.remove('phone');
+        prefs.remove('id');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

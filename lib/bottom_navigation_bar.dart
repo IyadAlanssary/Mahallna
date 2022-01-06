@@ -5,7 +5,6 @@ import 'package:products/common widgets/add_product_screen.dart';
 import 'styles/colors.dart';
 
 class BottomNavBar extends StatefulWidget {
-  //final String token, id;
   const BottomNavBar({Key? key}) : super(key: key);
   static bool gotResponse = false;
   static bool gotMiniResponse = false;
@@ -24,11 +23,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   Widget change(int index) {
     if (index == 0) {
-      return const View();
+      return const Home();
     } else if (index == 1) {
       return const AddProduct();
     } else {
-      return Profile();
+      return const Profile();
     }
   }
 
@@ -45,7 +44,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             BottomNavigationBar(
               showUnselectedLabels: false,
               backgroundColor: Colors.transparent,
-              elevation: 35,
+              elevation: 50,
               selectedFontSize: 14,
               selectedIconTheme:
                   const IconThemeData(color: AppColors.primaryColor, size: 22),

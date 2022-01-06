@@ -14,7 +14,7 @@ import '../const.dart';
 import '../view.dart';
 
 class EditProduct extends StatefulWidget {
-  double productId;
+  int productId;
   EditProduct({Key? key, required this.productId}) : super(key: key);
 
   @override
@@ -53,7 +53,7 @@ class _EditProductState extends State<EditProduct> {
                           onPressed: () {
                             Navigator.of(context).pop(MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return View();
+                                return Home();
                               },
                             ));
                           },
@@ -283,7 +283,7 @@ class _EditProductState extends State<EditProduct> {
 
   dynamic response;
   late Product product;
-  Future getHttp(double id) async {
+  Future getHttp(int id) async {
     try {
       response = await http.get(Uri.parse(baseUrl + "/products/$id"), headers: {
         //'Content-Type': 'application/json',
@@ -329,7 +329,7 @@ class _EditProductState extends State<EditProduct> {
 }
 
 class Product {
-  late double id;
+  late int id;
   late int imageId;
   late String name;
   late String category;

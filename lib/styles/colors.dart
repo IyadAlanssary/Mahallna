@@ -11,7 +11,11 @@ class AppColors {
 
   static ThemeData myTheme() {
     return ThemeData.light().copyWith(
-      appBarTheme: const AppBarTheme(color: primaryColor),
+      appBarTheme: const AppBarTheme(
+          color: primaryColor,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+          )),
       textTheme: ThemeData.light().textTheme.apply(
             fontFamily: sourceSansFontFamily,
           ),
@@ -31,7 +35,7 @@ class AppColors {
     return BoxDecoration(
       image: DecorationImage(
         colorFilter: ColorFilter.mode(
-          Colors.white.withOpacity(0.5),
+          Colors.white.withOpacity(0.6),
           BlendMode.dstATop,
         ),
         image: const AssetImage(

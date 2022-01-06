@@ -13,16 +13,16 @@ import 'common widgets/item_card.dart';
 import 'package:products/bottom_navigation_bar.dart';
 import 'package:products/const.dart';
 
-class View extends StatefulWidget {
-  const View({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   static List<GroceryItem> items = [];
 
   @override
-  State<View> createState() => _ViewState();
+  State<Home> createState() => _HomeState();
 }
 
-class _ViewState extends State<View> {
+class _HomeState extends State<Home> {
   late bool loadingTimeFinished = false;
 
   @override
@@ -35,13 +35,13 @@ class _ViewState extends State<View> {
           padding: const EdgeInsets.only(top: 35, bottom: 10),
           child: SvgPicture.asset("assets/icons/app_icon_color.svg"),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
+        const Padding(
+          padding: EdgeInsets.only(left: 25, right: 25, bottom: 5.0),
           child: Search(),
         ),
         Expanded(
           child: FutureBuilder<dynamic>(
-              future: getHttp(),
+              future: getAllProductsHttp(),
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   Timer(
@@ -73,13 +73,12 @@ class _ViewState extends State<View> {
     );
   }
 
-  late var response;
-
-  Future getHttp() async {
+  Future getAllProductsHttp() async {
     print("im in");
     if (!BottomNavBar.gotResponse) {
-      BottomNavBar.gotResponse = true;
+      BottomNavBar.gotResponse = false;
       try {
+        late http.Response response;
         String token = User.currentUser.token;
         print("\n1\n");
         response = await http.get(Uri.parse(baseUrl2 + "/products"), headers: {
@@ -87,23 +86,28 @@ class _ViewState extends State<View> {
           //'Accept': 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer $token',
         });
+        var jsonData = jsonDecode(response.body);
+        print("found one $jsonData");
+        Home.items.clear();
+        ItemCard.cards.clear();
+        for (var g in jsonData) {
+          GroceryItem i = GroceryItem(
+              id: g['id'],
+              name: g['name'],
+              category: g['category'],
+              price: g['current_price'].toString(),
+              imagePath:
+                  "assets/images/apple.png"); //////////////////TODO:change to g['image_id']
+          Home.items.add(i);
+          ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
+        }
       } catch (e) {
-        print(e);
-      }
-      var jsonData = jsonDecode(response.body);
-      for (var g in jsonData) {
-        GroceryItem i = GroceryItem(
-            id: g['id'],
-            name: g['name'],
-            category: g['category'],
-            price: g['current_price'],
-            imagePath:
-                "assets/images/apple.png"); //////////////////TODO:change to g['image_id']
-        View.items.add(i);
-        ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
-        print("found one");
+        print("get products error $e");
       }
     }
-    return View.items;
+    if (Home.items.isNotEmpty) {
+      return Home.items;
+    }
+    return null;
   }
 }

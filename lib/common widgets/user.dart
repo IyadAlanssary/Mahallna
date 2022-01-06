@@ -1,7 +1,7 @@
 class User {
   static late User currentUser;
   String token;
-  double id;
+  int id;
   String name;
   String phone;
   late String imageId;

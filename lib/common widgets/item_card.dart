@@ -9,7 +9,7 @@ class ItemCard extends StatelessWidget {
   final GroceryItem item;
   static List<ItemCard> cards = [];
   final double width = 174;
-  final double height = 230;
+  final double height = 220;
   final Color borderColor = AppColors.greyBorderColor;
   final double borderRadius = 28;
 
@@ -20,7 +20,7 @@ class ItemCard extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: Container(
-          height: MediaQuery.of(context).size.height / 2.5,
+          height: MediaQuery.of(context).size.height / 2.6,
           decoration: BoxDecoration(
             image: DecorationImage(
               colorFilter: ColorFilter.mode(
@@ -75,14 +75,15 @@ class ItemCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "\$${item.price.toStringAsFixed(2)}",
+                      item.price.toString().substring(0, 4) +
+                          " lira", //TODO attention here
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     const Spacer(),
-                    productDetailsIcon(context, item.id),
+                    //TODO productDetailsIcon(context, item.id),
                   ],
                 )
               ],
@@ -93,7 +94,7 @@ class ItemCard extends StatelessWidget {
     );
   }
 
-  Widget productDetailsIcon(BuildContext context, double id) {
+  Widget productDetailsIcon(BuildContext context, int id) {
     return Container(
       height: 45,
       width: 45,

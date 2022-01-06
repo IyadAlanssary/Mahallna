@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:products/common%20widgets/blue_screen_of_death.dart';
 import 'package:products/const.dart';
 import 'package:products/sign_up.dart';
 import 'package:products/bottom_navigation_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'common widgets/user.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
@@ -75,7 +77,7 @@ class _LogInState extends State<LogIn> {
                     style: const TextStyle(color: Colors.red),
                   ),
                   const SizedBox(
-                    height: 60,
+                    height: 35,
                   ),
                   getButton(context),
                   const SizedBox(height: 18),
@@ -147,6 +149,18 @@ class _LogInState extends State<LogIn> {
     password = passwordController.text;
   }
 
+  int hidden = 0;
+  void blue() {
+    if (hidden == 7) {
+      hidden = 0;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const BlueScreenOfDeath(),
+          ));
+    }
+  }
+
   SizedBox eyeButton(bool eye) {
     if (eye) {
       return SizedBox(
@@ -158,6 +172,8 @@ class _LogInState extends State<LogIn> {
             onPressed: () {
               setState(() {
                 _isObscure = !_isObscure;
+                blue();
+                hidden++;
               });
             }),
       );
@@ -165,12 +181,11 @@ class _LogInState extends State<LogIn> {
     return const SizedBox(width: 1);
   }
 
-  late var postRequest;
   Future<void> checkLogin() async {
     var map = <String, dynamic>{};
     map['phone'] = phone;
     map['password'] = password;
-    postRequest =
+    var postRequest =
         await http.post(Uri.parse(baseUrl2 + "/auth/login"), body: map);
     Map<String, dynamic> resp = jsonDecode(postRequest.body);
 
@@ -182,6 +197,14 @@ class _LogInState extends State<LogIn> {
         token: resp["token"],
         //imageId: resp["user"]["image_id"],//TODO
       );
+      WidgetsFlutterBinding.ensureInitialized();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('is_register', true);
+      await prefs.setString('token', resp["token"]);
+      await prefs.setInt('id', resp["user"]["id"]);
+      await prefs.setString('name', resp["user"]["name"]);
+      await prefs.setString('phone', resp["user"]["phone"]);
+
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(

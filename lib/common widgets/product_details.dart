@@ -13,7 +13,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ProductDetailsScreen extends StatefulWidget {
-  double id;
+  int id;
   ProductDetailsScreen({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -51,7 +51,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           onPressed: () {
                             Navigator.of(context).pop(MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return const View();
+                                return const Home();
                               },
                             ));
                           },
@@ -186,7 +186,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   late var response;
   late Product product;
-  Future getHttp(double id) async {
+  Future getHttp(int id) async {
     try {
       String token = User.currentUser.token;
       print("in details");
@@ -316,7 +316,7 @@ Widget commentItem(String name, String comment) {
 }
 
 class Product {
-  late double id;
+  late int id;
   late int imageId;
   late String name;
   late String category;
