@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:products/common%20widgets/user.dart';
+import 'package:products/Models/user.dart';
 import 'package:products/styles/colors.dart';
 import 'package:products/common widgets/mini_item_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,7 +10,7 @@ import 'package:products/log_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../const.dart';
+import 'Models/const.dart';
 
 class Profile extends StatefulWidget {
   //final String token;

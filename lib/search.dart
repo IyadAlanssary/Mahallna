@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:products/view.dart';
+import 'package:products/home.dart';
 import 'package:search_page/search_page.dart';
-import 'common widgets/grocery_item.dart';
+import 'Models/grocery_item.dart';
 import 'styles/colors.dart';
 
 class Search extends StatefulWidget {

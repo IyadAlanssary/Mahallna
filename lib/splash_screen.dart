@@ -7,7 +7,7 @@ import 'package:products/styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'common widgets/user.dart';
+import 'Models/user.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

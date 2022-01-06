@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:products/common%20widgets/blue_screen_of_death.dart';
-import 'package:products/const.dart';
+import 'package:products/styles/blue_screen_of_death.dart';
+import 'package:products/Models/const.dart';
 import 'package:products/sign_up.dart';
 import 'package:products/bottom_navigation_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'common widgets/user.dart';
+import 'Models/user.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';

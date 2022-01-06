@@ -4,11 +4,11 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:products/common%20widgets/user.dart';
+import 'package:products/Models/user.dart';
 import 'package:products/styles/colors.dart';
 import 'package:products/common widgets/get_image_header_widget.dart';
-import 'package:products/view.dart';
-import 'package:products/const.dart';
+import 'package:products/home.dart';
+import 'package:products/Models/const.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:products/view.dart';
-import 'package:products/common widgets/profile.dart';
-import 'package:products/common widgets/add_product_screen.dart';
+import 'package:products/home.dart';
+import 'package:products/profile.dart';
+import 'package:products/add_product_screen.dart';
 import 'styles/colors.dart';
 
 class BottomNavBar extends StatefulWidget {

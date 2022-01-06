@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:products/log_in.dart';
-import '../const.dart';
+import '../Models/const.dart';
 
 class BlueScreenOfDeath extends StatefulWidget {
   const BlueScreenOfDeath({Key? key}) : super(key: key);

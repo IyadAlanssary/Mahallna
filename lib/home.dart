@@ -4,14 +4,14 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
-import 'package:products/common%20widgets/grocery_item.dart';
+import 'package:products/Models/grocery_item.dart';
 import 'package:products/search.dart';
-import 'common widgets/user.dart';
+import 'Models/user.dart';
 import 'styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'common widgets/item_card.dart';
 import 'package:products/bottom_navigation_bar.dart';
-import 'package:products/const.dart';
+import 'package:products/Models/const.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

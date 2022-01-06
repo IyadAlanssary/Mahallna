@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:products/common%20widgets/product_details.dart';
-import 'grocery_item.dart';
+import 'package:products/product_details.dart';
+import '../Models/grocery_item.dart';
 import 'package:products/styles/colors.dart';
 
 class ItemCard extends StatelessWidget {

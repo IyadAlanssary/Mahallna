@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:products/common%20widgets/edit_product_screen.dart';
-import 'package:products/common%20widgets/product_details.dart';
-import 'package:products/common%20widgets/user.dart';
+import 'package:products/edit_product_screen.dart';
+import 'package:products/product_details.dart';
+import 'package:products/Models/user.dart';
 import '../bottom_navigation_bar.dart';
-import '../const.dart';
-import 'grocery_item.dart';
+import '../Models/const.dart';
+import '../Models/grocery_item.dart';
 import 'package:products/styles/colors.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:http/http.dart' as http;

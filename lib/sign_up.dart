@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:products/const.dart';
+import 'package:products/Models/const.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'bottom_navigation_bar.dart';
-import 'common widgets/user.dart';
+import 'Models/user.dart';
 import 'log_in.dart';
 import 'styles/colors.dart';
 import 'common widgets/app_button.dart';

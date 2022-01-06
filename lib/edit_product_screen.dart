@@ -10,8 +10,8 @@ import 'package:products/common widgets/image_local.dart';
 import 'package:products/common widgets/new_product_txt_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import '../const.dart';
-import '../view.dart';
+import 'Models/const.dart';
+import 'home.dart';
 
 class EditProduct extends StatefulWidget {
   int productId;
