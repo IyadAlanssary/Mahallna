@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:products/common widgets/image_local.dart';
 import 'package:products/common widgets/new_product_txt_field.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 import 'dart:io';
 
 class AddProduct extends StatefulWidget {
