@@ -85,8 +85,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           getImageHeaderWidget(
                             url: 'assets/images/apple.png',
                           ),
-                          Expanded(
-                              child: Padding(
+                          Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 25),
                             child: Column(
                               children: [
@@ -170,7 +169,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 commentItem('hamsho', 'pullshit'),
                               ],
                             ),
-                          ))
+                          )
                         ],
                       ),
                     ),
@@ -184,14 +183,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  late var response;
   late Product product;
   Future getHttp(int id) async {
     try {
       String token = User.currentUser.token;
       print("in details");
       print(id);
-      response =
+      var response =
           await http.get(Uri.parse(baseUrl2 + "/products/$id"), headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
@@ -213,15 +211,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         availableQuantity: jsonData['available_quantity'],
         liked: jsonData['liked'],
         expiryDate: jsonData['expiry_date'],
-        unitPrice: jsonData['unit_price'],
-        viewsCount: jsonData['views_count'],
+        unitPrice: jsonData['unit_price'].toString(),
+        viewsCount: jsonData['views_count'].toString(),
         contactPhone: jsonData['contact_phone'],
       );
 
       product = p;
-
-      //response = await dio.get('/test', queryParameters: {'id': 12, 'name': 'wendu'});
-      // print(response.data.toString());
     } catch (e) {
       print("caught error");
       print(e);
@@ -323,8 +318,8 @@ class Product {
   late int availableQuantity;
   late bool liked;
   late int expiryDate;
-  late double unitPrice;
-  late double viewsCount;
+  late String unitPrice;
+  late String viewsCount;
   late String contactPhone;
 
   Product(

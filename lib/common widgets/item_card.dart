@@ -83,7 +83,7 @@ class ItemCard extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    //TODO productDetailsIcon(context, item.id),
+                    productDetailsIcon(context, item.id),
                   ],
                 )
               ],

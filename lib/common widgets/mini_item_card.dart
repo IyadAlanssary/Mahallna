@@ -62,11 +62,11 @@ class MiniItemCard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  //TODO     editWidget(context, item.id),
+                  editWidget(context, item.id),
                   const SizedBox(
                     width: 8,
                   ),
-                  //TODO     infoWidget(context, item.id),
+                  infoWidget(context, item.id),
                 ],
               )),
         ),
