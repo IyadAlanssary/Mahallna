@@ -8,6 +8,16 @@ class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
   static bool gotResponse = false;
   static bool gotMiniResponse = false;
+  static String sortValue = 'name';
+  static String directionValue = 'descending';
+  static var sortChoices = [
+    "name",
+    "category",
+  ];
+  static var directionChoices = [
+    "descending",
+    "ascending",
+  ];
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();

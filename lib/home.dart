@@ -27,65 +27,169 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(top: 35, bottom: 10),
-          child: SvgPicture.asset("assets/icons/app_icon_color.svg"),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 25, right: 25, bottom: 5.0),
-          child: Search(),
-        ),
-        Expanded(
-          child: FutureBuilder<dynamic>(
-              future: getAllProductsHttp(),
-              builder: (context, snapshot) {
-                if (snapshot.data == null) {
-                  Timer(
-                      const Duration(seconds: 5),
-                      () => {
-                            setState(() {
-                              loadingTimeFinished = true;
-                            })
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 35, bottom: 10),
+            child: SvgPicture.asset("assets/icons/app_icon_color.svg"),
+          ),
+          Row(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 25, right: 10, bottom: 5.0),
+                child: Search(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white70,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: IconButton(
+                    tooltip: "Sort",
+                    iconSize: 28,
+                    onPressed: () {
+                      setState(() {});
+
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return dropDownSort();
                           });
-                  if (!loadingTimeFinished) {
-                    return const SpinKitSpinningLines(
-                      itemCount: 30,
-                      color: AppColors.primaryColor,
-                      size: 100.0,
-                    );
+                      setState(() {});
+                    },
+                    icon: const Icon(Icons.sort),
+                  ),
+                ),
+              )
+            ],
+          ),
+          Expanded(
+            child: FutureBuilder<dynamic>(
+                future: getAllProductsHttp(),
+                builder: (context, snapshot) {
+                  if (snapshot.data == null) {
+                    Timer(
+                        const Duration(seconds: 5),
+                        () => {
+                              setState(() {
+                                loadingTimeFinished = true;
+                              })
+                            });
+                    if (!loadingTimeFinished) {
+                      return const SpinKitSpinningLines(
+                        itemCount: 30,
+                        color: AppColors.primaryColor,
+                        size: 100.0,
+                      );
+                    } else {
+                      return const Text("No Products Available");
+                    }
                   } else {
-                    return const Text("No Products Available");
+                    return GridView.count(
+                      crossAxisCount: 1,
+                      childAspectRatio: 174 / (230 / 1.8),
+                      children: ItemCard.cards, //, ItemCard.cards
+                    );
                   }
-                } else {
-                  return GridView.count(
-                    crossAxisCount: 1,
-                    childAspectRatio: 174 / (230 / 1.8),
-                    children: ItemCard.cards, //, ItemCard.cards
-                  );
-                }
-              }),
-        ),
-      ],
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // @override
+  // void initState() {
+  //   sortValue = sortChoices.first;
+  //   directionValue = directionChoices.first;
+  //   super.initState();
+  // }
+
+  Widget dropDownSort() {
+    return AlertDialog(
+      title: const Text('Sort by'),
+      elevation: 50,
+      content: Row(
+        children: [
+          DropdownButton(
+            iconEnabledColor: Colors.teal,
+            iconSize: 20,
+            hint: const Text('Choose'),
+            menuMaxHeight: 200,
+            dropdownColor: Colors.teal.shade100,
+            icon: const Icon(Icons.keyboard_arrow_down),
+            onChanged: (String? newValue) {
+              setState(() {
+                BottomNavBar.sortValue = newValue!;
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const BottomNavBar()));
+              });
+            },
+            items: BottomNavBar.sortChoices.map((String items) {
+              return DropdownMenuItem<String>(
+                value: items,
+                child: Text(items),
+              );
+            }).toList(),
+            value: BottomNavBar.sortValue,
+          ),
+          const Spacer(),
+          DropdownButton(
+            iconEnabledColor: Colors.teal,
+            iconSize: 20,
+            menuMaxHeight: 200,
+            dropdownColor: Colors.teal.shade100,
+            value: BottomNavBar.directionValue,
+            icon: const Icon(Icons.keyboard_arrow_down),
+            items: BottomNavBar.directionChoices.map((String items) {
+              return DropdownMenuItem(
+                value: items,
+                child: Text(items),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                BottomNavBar.directionValue = newValue!;
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const BottomNavBar()));
+              });
+            },
+          ),
+        ],
+      ),
     );
   }
 
   Future getAllProductsHttp() async {
-    print("im in");
+    String sort = BottomNavBar.sortValue;
+    String dir = BottomNavBar.directionValue;
+    print("im in $sort");
+    print("im in $dir");
     if (!BottomNavBar.gotResponse) {
       BottomNavBar.gotResponse = false;
       try {
         late http.Response response;
         String token = User.currentUser.token;
         print("\n1\n");
-        response = await http.get(Uri.parse(baseUrl2 + "/products"), headers: {
-          //'Content-Type': 'application/json',
-          //'Accept': 'application/json',
-          HttpHeaders.authorizationHeader: 'Bearer $token',
-        });
+        response = await http.get(
+            Uri.parse(baseUrl2 + "/products?sort_by=$sort&sort_dir=$dir"),
+            headers: {
+              //'Content-Type': 'application/json',
+              //'Accept': 'application/json',
+              HttpHeaders.authorizationHeader: 'Bearer $token',
+            });
         var jsonData = jsonDecode(response.body);
         print("found one $jsonData");
         Home.items.clear();

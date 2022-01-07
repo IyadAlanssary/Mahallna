@@ -20,7 +20,7 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(15),
-      width: double.maxFinite,
+      width: MediaQuery.of(context).size.width - 100,
       decoration: BoxDecoration(
         color: Colors.white70,
         borderRadius: BorderRadius.circular(20),
