@@ -193,7 +193,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           await http.get(Uri.parse(baseUrl2 + "/products/$id"), headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
-      var jsonData = jsonDecode(response.body);
+      dynamic jsonData = jsonDecode(response.body);
       print(jsonData["id"]);
       //print(jsonData["sales_plan"]["initial_sale"]);
       // SalesPlan salesPlan = SalesPlan(

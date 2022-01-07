@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
+import 'Models/const.dart';
 import 'Models/user.dart';
 
 class AddProduct extends StatefulWidget {
@@ -22,7 +23,19 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
+  late String name;
+  late String phone;
+  late String quantity;
+  late String originalPrice;
+  late String category;
+  late String expiryDate;
+  late double initialSale;
+  late double firstPeriodSale;
+  late String firstPeriodDays;
+  late double secondPeriodSale;
+  late String secondPeriodDays;
   File? image;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -32,7 +45,9 @@ class _AddProductState extends State<AddProduct> {
             alignment: Alignment.topRight,
             child: IconButton(
               onPressed: () {
-                //postProduct(prod);
+                setState(() {
+                  postProduct();
+                });
               },
               icon: const Icon(Icons.check),
               color: AppColors.primaryColor,
@@ -115,7 +130,9 @@ class _AddProductState extends State<AddProduct> {
                               hint: 'Name',
                               maxLines: 1,
                               icon: const Icon(Icons.drive_file_rename_outline),
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                name = value!;
+                              },
                             ),
                             ProductText(
                               hint: 'Phone',
@@ -228,45 +245,42 @@ class _AddProductState extends State<AddProduct> {
     }
   }
 
-  Future postProduct(Map<String,dynamic> prod) async {
-    try {
-      String token = User.currentUser.token;
-      print("in details");
-      var headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token'
-      };
-      var request = http.Request('POST', Uri.parse('http://localhost:8000/api/products'));
-      request.body = json.encode({
-        "image": "WW91IGxhenkgYmFzdGFyZHMgZ28gaW1wbGVtZW50IHRoZSBtdWx0aXBhcnQvZm9ybS1kYXRhIGVuY29kZXIuCg==",
-        "details": {
-          "name": "Bananas",
-          "description": "The type you like the most.",
-          "category": "Vegetables",
-          "available_quantity": 69,
-          "expiry_date": 1640366075,
-          "unit_price": 86585544.15898922,
-          "contact_phone": "+963949654321",
-          "initial_sale": 69,
-          "first_period_days": 81665552,
-          "first_period_sale": 69,
-          "second_period_days": 92282931,
-          "second_period_sale": 69
-        }
-      });
-      request.headers.addAll(headers);
-
-      http.StreamedResponse response = await request.send();
-
-      if (response.statusCode == 200) {
-        print(await response.stream.bytesToString());
+  Future postProduct() async {
+    print('in Add');
+    Map<String,dynamic> prod = {
+      "image": "WW91IGxhenkgYmFzdGFyZHMgZ28gaW1wbGVtZW50IHRoZSBtdWx0aXBhcnQvZm9ybS1kYXRhIGVuY29kZXIuCg==",
+      "details": {
+        "name": "Potato",
+        "description": "The type you like the most.",
+        "category": "Vegetables",
+        "available_quantity": 69,
+        "expiry_date": 3640366075,
+        "unit_price": 86585544.15898922,
+        "contact_phone": "+963949654321",
+        "initial_sale": 69,
+        "first_period_days": 81665552,
+        "first_period_sale": 69,
+        "second_period_days": 92282931,
+        "second_period_sale": 69
       }
-      else {
-        print(response.reasonPhrase);
-      }
+    };
+    String token = User.currentUser.token;
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.Request('POST', Uri.parse('http://localhost:8000/api/products'));
+    //var postRequest = await http.post(Uri.parse(baseUrl2 + "products"), body: prod);
+    request.body = json.encode(prod);
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode <= 201) {
+      print(await response.stream.bytesToString());
     }
-    catch (e){
-      print(e);
+    else {
+      print(response.reasonPhrase);
     }
   }
 }
