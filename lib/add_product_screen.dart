@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +10,8 @@ import 'package:products/common widgets/new_product_txt_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
+
+import 'Models/user.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
@@ -28,7 +32,7 @@ class _AddProductState extends State<AddProduct> {
             alignment: Alignment.topRight,
             child: IconButton(
               onPressed: () {
-                ///////////////TODO
+                //postProduct(prod);
               },
               icon: const Icon(Icons.check),
               color: AppColors.primaryColor,
@@ -77,7 +81,7 @@ class _AddProductState extends State<AddProduct> {
                                               Radius.circular(15))),
                                       child: const Center(
                                         child: Icon(
-                                          Icons.camera_alt_outlined,
+                                          Icons.image,
                                           size: 70,
                                         ),
                                       ),
@@ -113,21 +117,6 @@ class _AddProductState extends State<AddProduct> {
                               icon: const Icon(Icons.drive_file_rename_outline),
                               onChanged: (value) {},
                             ),
-                            //description
-                            // ProductText(
-                            //   hint: 'Description',
-                            //   icon: const Icon(Icons.article_rounded),
-                            //   type: TextInputType.multiline,
-                            //   onChanged: (value) {},
-                            // ),
-                            // social account
-                            // ProductText(
-                            //   hint: 'Social Account',
-                            //   icon: const Icon(Icons.facebook_rounded),
-                            //   type: TextInputType.url,
-                            //   onChanged: (value) {},
-                            // ),
-                            // phone
                             ProductText(
                               hint: 'Phone',
                               icon: const Icon(Icons.phone),
@@ -236,6 +225,48 @@ class _AddProductState extends State<AddProduct> {
       });
     } on PlatformException catch (e) {
       print('could not load image');
+    }
+  }
+
+  Future postProduct(Map<String,dynamic> prod) async {
+    try {
+      String token = User.currentUser.token;
+      print("in details");
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request('POST', Uri.parse('http://localhost:8000/api/products'));
+      request.body = json.encode({
+        "image": "WW91IGxhenkgYmFzdGFyZHMgZ28gaW1wbGVtZW50IHRoZSBtdWx0aXBhcnQvZm9ybS1kYXRhIGVuY29kZXIuCg==",
+        "details": {
+          "name": "Bananas",
+          "description": "The type you like the most.",
+          "category": "Vegetables",
+          "available_quantity": 69,
+          "expiry_date": 1640366075,
+          "unit_price": 86585544.15898922,
+          "contact_phone": "+963949654321",
+          "initial_sale": 69,
+          "first_period_days": 81665552,
+          "first_period_sale": 69,
+          "second_period_days": 92282931,
+          "second_period_sale": 69
+        }
+      });
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+    }
+    catch (e){
+      print(e);
     }
   }
 }
