@@ -108,7 +108,7 @@ class _ProfileState extends State<Profile> {
                   }
                 } else {
                   return GridView.count(
-                    childAspectRatio: 15,
+                    childAspectRatio: 5,
                     crossAxisCount: 1,
                     children: MiniItemCard.miniCards,
                   );

@@ -47,6 +47,8 @@ dependencies:
   filter_list: ^1.0.0
   search_page: ^2.0.0+1
   shared_preferences: ^2.0.11
+  universal_io: ^2.0.4
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

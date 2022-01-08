@@ -188,20 +188,24 @@ class _HomeState extends State<Home> {
             headers: {
               //'Content-Type': 'application/json',
               //'Accept': 'application/json',
-              HttpHeaders.authorizationHeader: 'Bearer $token',
+              HttpHeaders.authorizationHeader: 'Bearer $token'
             });
         var jsonData = jsonDecode(response.body);
-        print("found one $jsonData");
+        print("jsondata: ${jsonData}\nres.body: ${response.body}");
         Home.items.clear();
         ItemCard.cards.clear();
         for (var g in jsonData) {
+          var res =
+          await http.get(Uri.parse(baseUrl2 + "/images/${g['image_id']}"), headers: {
+            HttpHeaders.authorizationHeader: 'Bearer $token',
+          });
           GroceryItem i = GroceryItem(
               id: g['id'],
               name: g['name'],
+              imageString: res.body,
               category: g['category'],
               price: g['current_price'].toString(),
-              imagePath:
-                  "assets/images/apple.png"); //////////////////TODO:change to g['image_id']
+              imagePath: baseUrl2 + "/images/${g['image_id']}"); //////////////////TODO:change to g['image_id']
           Home.items.add(i);
           ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
         }

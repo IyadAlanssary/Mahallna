@@ -188,6 +188,7 @@ class _LogInState extends State<LogIn> {
     var postRequest =
         await http.post(Uri.parse(baseUrl2 + "/auth/login"), body: map);
     Map<String, dynamic> resp = jsonDecode(postRequest.body);
+    print(postRequest.body);
 
     if (postRequest.statusCode <= 201) {
       User.currentUser = User(
