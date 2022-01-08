@@ -91,7 +91,7 @@ class _ProfileState extends State<Profile> {
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   Timer(
-                      const Duration(seconds: 5),
+                      const Duration(seconds: 8),
                       () => {
                             setState(() {
                               loadingTimeFinished = true;
@@ -108,7 +108,7 @@ class _ProfileState extends State<Profile> {
                   }
                 } else {
                   return GridView.count(
-                    childAspectRatio: 15,
+                    childAspectRatio: 5,
                     crossAxisCount: 1,
                     children: MiniItemCard.miniCards,
                   );

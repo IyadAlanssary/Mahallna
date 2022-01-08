@@ -62,6 +62,9 @@ class _SignUpState extends State<SignUp> {
                   TextField(
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
+                    onTap: () {
+                      phoneController.text = "+963";
+                    },
                     textInputAction: TextInputAction.next,
                     decoration: textfld('Phone', false),
                   ),
@@ -89,7 +92,7 @@ class _SignUpState extends State<SignUp> {
                     style: const TextStyle(color: Colors.red),
                   ),
                   const SizedBox(
-                    height: 35,
+                    height: 20,
                   ),
                   getButton(context),
                   const SizedBox(height: 18),

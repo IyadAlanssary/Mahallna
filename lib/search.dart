@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:products/home.dart';
 import 'package:search_page/search_page.dart';
 import 'Models/grocery_item.dart';
+import 'product_details.dart';
 import 'styles/colors.dart';
 
 class Search extends StatefulWidget {
@@ -95,6 +96,15 @@ class _SearchState extends State<Search> {
           title: Text(groceryItem.name),
           subtitle: Text(groceryItem.category),
           trailing: Text('${groceryItem.price} Lira'),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ProductDetailsScreen(id: groceryItem.id);
+                },
+              ),
+            );
+          },
         ),
       ),
     );

@@ -7,7 +7,6 @@ import 'package:products/product_details.dart';
 import 'package:products/Models/user.dart';
 import '../bottom_navigation_bar.dart';
 import '../Models/const.dart';
-import '../Models/grocery_item.dart';
 import 'package:products/styles/colors.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +14,7 @@ import 'package:http/http.dart' as http;
 class MiniItemCard extends StatelessWidget {
   MiniItemCard({required Key key, required this.item}) : super(key: key);
 
-  final GroceryItem item;
+  final MiniGroceryItem item;
   static List<MiniItemCard> miniCards = [];
   final double height = 80;
   final Color borderColor = AppColors.greyBorderColor;
@@ -28,7 +27,7 @@ class MiniItemCard extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Container(
-          //height: height,
+          height: height,
           decoration: BoxDecoration(
             image: DecorationImage(
               colorFilter: ColorFilter.mode(
@@ -130,15 +129,13 @@ class MiniItemCard extends StatelessWidget {
   }
 }
 
-late var response;
-List<GroceryItem> miniItems = [];
+List<MiniGroceryItem> miniItems = [];
 Future getMiniItemsHttp() async {
-  print("im in");
   if (!BottomNavBar.gotMiniResponse) {
-    BottomNavBar.gotMiniResponse = false;
+    BottomNavBar.gotMiniResponse = true;
     try {
       String token = User.currentUser.token;
-      response =
+      var response =
           await http.get(Uri.parse(baseUrl2 + "/users/me/products"), headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
@@ -148,13 +145,10 @@ Future getMiniItemsHttp() async {
       miniItems.clear();
       MiniItemCard.miniCards.clear();
       for (var g in jsonData) {
-        GroceryItem i = GroceryItem(
-            id: g['id'],
-            name: g['name'],
-            category: g['category'],
-            price: g['unit_price'].toString(),
-            imagePath:
-                "assets/images/grocery_images/banana.png"); //////////////////TODO:change to g['image_id']
+        MiniGroceryItem i = MiniGroceryItem(
+          id: g['id'],
+          name: g['name'],
+        );
         miniItems.add(i);
         MiniItemCard.miniCards.add(MiniItemCard(key: UniqueKey(), item: i));
         print("im in done");
@@ -167,4 +161,14 @@ Future getMiniItemsHttp() async {
     return miniItems;
   }
   return null;
+}
+
+class MiniGroceryItem {
+  int id;
+  String name;
+
+  MiniGroceryItem({
+    required this.id,
+    required this.name,
+  });
 }

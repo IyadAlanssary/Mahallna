@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:products/Models/grocery_item.dart';
 import 'package:products/search.dart';
 import 'Models/user.dart';
+import 'styles/blue_screen_of_death.dart';
 import 'styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'common widgets/item_card.dart';
@@ -24,92 +25,95 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late bool loadingTimeFinished = false;
+  int hidden = 0;
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 35, bottom: 10),
-            child: SvgPicture.asset("assets/icons/app_icon_color.svg"),
-          ),
-          Row(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 25, right: 10, bottom: 5.0),
-                child: Search(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: IconButton(
-                    tooltip: "Sort",
-                    iconSize: 28,
-                    onPressed: () {
-                      setState(() {});
-
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return dropDownSort();
-                          });
-                      setState(() {});
-                    },
-                    icon: const Icon(Icons.sort),
-                  ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 35, bottom: 10),
+          child: SvgPicture.asset("assets/icons/app_icon_color.svg"),
+        ),
+        Row(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 25, right: 10, bottom: 5.0),
+              child: Search(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.circular(14),
                 ),
-              )
-            ],
-          ),
-          Expanded(
-            child: FutureBuilder<dynamic>(
-                future: getAllProductsHttp(),
-                builder: (context, snapshot) {
-                  if (snapshot.data == null) {
-                    Timer(
-                        const Duration(seconds: 5),
-                        () => {
-                              setState(() {
-                                loadingTimeFinished = true;
-                              })
-                            });
-                    if (!loadingTimeFinished) {
-                      return const SpinKitSpinningLines(
-                        itemCount: 30,
-                        color: AppColors.primaryColor,
-                        size: 100.0,
-                      );
-                    } else {
-                      return const Text("No Products Available");
-                    }
-                  } else {
-                    return GridView.count(
-                      crossAxisCount: 1,
-                      childAspectRatio: 174 / (230 / 1.8),
-                      children: ItemCard.cards, //, ItemCard.cards
+                child: IconButton(
+                  icon: const Icon(Icons.sort),
+                  tooltip: "Sort",
+                  iconSize: 28,
+                  onPressed: () {
+                    setState(() {
+                      blue();
+                    });
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return dropDownSort();
+                        });
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
+        Expanded(
+          child: FutureBuilder<dynamic>(
+              future: getAllProductsHttp(),
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  Timer(
+                      const Duration(seconds: 15),
+                      () => {
+                            setState(() {
+                              loadingTimeFinished = true;
+                            })
+                          });
+                  if (!loadingTimeFinished) {
+                    return const SpinKitSpinningLines(
+                      itemCount: 30,
+                      color: AppColors.primaryColor,
+                      size: 100.0,
                     );
+                  } else {
+                    return const Text("No Products Available");
                   }
-                }),
-          ),
-        ],
-      ),
+                } else {
+                  return GridView.count(
+                    crossAxisCount: 1,
+                    childAspectRatio: 174 / (230 / 1.8),
+                    children: ItemCard.cards, //, ItemCard.cards
+                  );
+                }
+              }),
+        ),
+      ],
     );
   }
 
-  // @override
-  // void initState() {
-  //   sortValue = sortChoices.first;
-  //   directionValue = directionChoices.first;
-  //   super.initState();
-  // }
+  void blue() {
+    hidden++;
+    if (hidden == 7) {
+      hidden = 0;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const BlueScreenOfDeath(),
+          ));
+    }
+  }
 
   Widget dropDownSort() {
     return AlertDialog(
@@ -127,11 +131,7 @@ class _HomeState extends State<Home> {
             onChanged: (String? newValue) {
               setState(() {
                 BottomNavBar.sortValue = newValue!;
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const BottomNavBar()));
+                reloadHome();
               });
             },
             items: BottomNavBar.sortChoices.map((String items) {
@@ -159,11 +159,7 @@ class _HomeState extends State<Home> {
             onChanged: (String? newValue) {
               setState(() {
                 BottomNavBar.directionValue = newValue!;
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const BottomNavBar()));
+                reloadHome();
               });
             },
           ),
@@ -172,36 +168,45 @@ class _HomeState extends State<Home> {
     );
   }
 
+  void reloadHome() {
+    BottomNavBar.gotResponse = false;
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => const BottomNavBar()));
+  }
+
   Future getAllProductsHttp() async {
     String sort = BottomNavBar.sortValue;
     String dir = BottomNavBar.directionValue;
     print("im in $sort");
     print("im in $dir");
     if (!BottomNavBar.gotResponse) {
-      BottomNavBar.gotResponse = false;
+      BottomNavBar.gotResponse = true;
       try {
         late http.Response response;
         String token = User.currentUser.token;
-        print("\n1\n");
         response = await http.get(
             Uri.parse(baseUrl2 + "/products?sort_by=$sort&sort_dir=$dir"),
             headers: {
-              //'Content-Type': 'application/json',
-              //'Accept': 'application/json',
               HttpHeaders.authorizationHeader: 'Bearer $token',
             });
         var jsonData = jsonDecode(response.body);
-        print("found one $jsonData");
         Home.items.clear();
         ItemCard.cards.clear();
         for (var g in jsonData) {
+          var uri = Uri.parse(baseUrl2 + "/images/367292193393741824");
+          var imageResponse = await http.get(uri,
+              headers: {HttpHeaders.authorizationHeader: 'Bearer $token'});
+
           GroceryItem i = GroceryItem(
-              id: g['id'],
-              name: g['name'],
-              category: g['category'],
-              price: g['current_price'].toString(),
-              imagePath:
-                  "assets/images/apple.png"); //////////////////TODO:change to g['image_id']
+            id: g['id'],
+            name: g['name'],
+            category: g['category'],
+            price: g['current_price'].toString(),
+            imageId: g['image_id'].toString(),
+            image: Image.memory(imageResponse.bodyBytes),
+          );
           Home.items.add(i);
           ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
         }

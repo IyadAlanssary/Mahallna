@@ -39,7 +39,6 @@ class _LogInState extends State<LogIn> {
               padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                //mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SvgPicture.asset("assets/icons/app_icon_color.svg"),
@@ -54,8 +53,11 @@ class _LogInState extends State<LogIn> {
                   const SizedBox(
                     height: 45,
                   ),
-                  TextField(
+                  TextFormField(
                     controller: phoneController,
+                    onTap: () {
+                      phoneController.text = "+963";
+                    },
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
                     decoration: textfld('Phone', false),
