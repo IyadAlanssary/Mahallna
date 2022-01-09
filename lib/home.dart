@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   Timer(
-                      const Duration(seconds: 10),
+                      const Duration(seconds: 4),
                       () => {
                             setState(() {
                               loadingTimeFinished = true;
@@ -86,7 +86,7 @@ class _HomeState extends State<Home> {
                           });
                   if (!loadingTimeFinished) {
                     return const SpinKitSpinningLines(
-                      itemCount: 30,
+                      itemCount: 8,
                       color: AppColors.primaryColor,
                       size: 100.0,
                     );
