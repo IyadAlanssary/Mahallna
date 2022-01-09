@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -87,7 +88,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       child: ListView(
                         children: [
                           getImageHeaderWidget(
-                            image: product.imageString,
+                            image: product.imageBytes,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -260,7 +261,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       Product p = Product(
         id: jsonData['id'],
         imageId: jsonData['image_id'],
-        imageString: response.body,
+        imageBytes: response.bodyBytes,
         name: jsonData['name'],
         category: jsonData['category'],
         availableQuantity: jsonData['available_quantity'],
@@ -275,7 +276,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       );
 
       product = p;
-      print(product.imageString);
+      // print(product.imageString);
 
 
     } catch (e) {
@@ -418,7 +419,7 @@ Widget commentItem(String name, String comment) {
 class Product {
   late int id;
   late int imageId;
-  late String imageString;
+  late Uint8List imageBytes;
   late String name;
   late String category;
   late int availableQuantity;
@@ -434,7 +435,7 @@ class Product {
   Product(
       {required this.id,
       required this.imageId,
-        required this.imageString,
+        required this.imageBytes,
       required this.name,
       required this.category,
       required this.availableQuantity,

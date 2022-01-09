@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
 class getImageHeaderWidget extends StatefulWidget {
-  String image;
+  Uint8List image;
   getImageHeaderWidget({Key? key, required this.image}) : super(key: key);
 
   @override
@@ -25,7 +26,7 @@ class _getImageHeaderWidgetState extends State<getImageHeaderWidget> {
                 color: Colors.transparent,
                 image: DecorationImage(
                   alignment: Alignment.center,
-                  image: Image.memory(base64Decode(widget.image)).image,
+                  image: Image.memory(widget.image).image,
                   fit: BoxFit.contain,
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(15))

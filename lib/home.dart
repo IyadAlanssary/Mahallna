@@ -202,7 +202,7 @@ class _HomeState extends State<Home> {
           GroceryItem i = GroceryItem(
               id: g['id'],
               name: g['name'],
-              imageString: res.body,
+              imageBytes: res.bodyBytes,
               category: g['category'],
               price: g['current_price'].toString(),
               imagePath: baseUrl2 + "/images/${g['image_id']}"); //////////////////TODO:change to g['image_id']

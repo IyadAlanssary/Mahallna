@@ -51,7 +51,7 @@ class ItemCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Center(
-                    child: Image.memory(base64Decode(item.imageString!)),
+                    child: Image.memory(item.imageBytes!),
                     // child: NetworkImage(item.imagePath)
                   ),
                 ),
