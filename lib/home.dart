@@ -206,7 +206,7 @@ class _HomeState extends State<Home> {
               name: g['name'],
               imageBytes: res.bodyBytes,
               category: g['category'],
-              price: g['current_price'].toString(),
+              price: g['current_price'].roundToDouble().toString(),
               expiryDate: DateFormat('yyyy-MM-dd').format(
                   DateTime.fromMillisecondsSinceEpoch(g['expiry_date'])),
               imagePath: "$baseUrl2/images/${g['image_id']}");
