@@ -157,6 +157,8 @@ class _AddProductState extends State<AddProduct> {
                             ),
                             ProductText(
                               hint: 'Phone',
+                              initial: true,
+                              initialText: '+963',
                               icon: const Icon(Icons.phone),
                               type: TextInputType.phone,
                               onChanged: (value) {
@@ -200,6 +202,14 @@ class _AddProductState extends State<AddProduct> {
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
+                            ),
+                            ProductText(
+                              hint: 'default sale',
+                              maxLength: 2,
+                              type: TextInputType.number,
+                              onChanged: (value) {
+                                initialSale = double.tryParse(value!);
+                              },
                             ),
                             // first period and price
                             Row(
@@ -252,15 +262,6 @@ class _AddProductState extends State<AddProduct> {
                                   },
                                 )),
                               ],
-                            ),
-                            // default sale
-                            ProductText(
-                              hint: 'default sale',
-                              maxLength: 2,
-                              type: TextInputType.number,
-                              onChanged: (value) {
-                                initialSale = double.tryParse(value!);
-                              },
                             ),
                           ],
                         ),

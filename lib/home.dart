@@ -203,9 +203,8 @@ class _HomeState extends State<Home> {
               imageBytes: res.bodyBytes,
               category: g['category'],
               price: g['current_price'].toString(),
-              expiryDate: g['expiry'],
-              imagePath: baseUrl2 +
-                  "/images/${g['image_id']}"); //////////////////TODO:change to g['image_id']
+              expiryDate: g['expiry_date'],
+              imagePath: "$baseUrl2/images/${g['image_id']}"); //////////////////TODO:change to g['image_id']
           Home.items.add(i);
           ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
         }

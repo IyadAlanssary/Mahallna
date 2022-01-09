@@ -18,3 +18,13 @@ class GroceryItem {
       required this.expiryDate,
       this.imageBytes});
 }
+
+class MiniGroceryItem {
+  int id;
+  String name;
+
+  MiniGroceryItem({
+    required this.id,
+    required this.name,
+  });
+}

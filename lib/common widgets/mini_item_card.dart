@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:products/Models/grocery_item.dart';
 import 'package:products/edit_product_screen.dart';
 import 'package:products/product_details.dart';
 import 'package:products/Models/user.dart';
 import '../bottom_navigation_bar.dart';
 import '../Models/const.dart';
+
 import 'package:products/styles/colors.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:http/http.dart' as http;
@@ -187,17 +189,10 @@ Future getMiniItemsHttp() async {
   return null;
 }
 
-class MiniGroceryItem {
-  int id;
-  String name;
 
-  MiniGroceryItem({
-    required this.id,
-    required this.name,
-  });
-}
 
 Future<void> deleteProduct(int id) async {
+  print("im in delete, $id");
   String token = User.currentUser.token;
   var headers = {'Authorization': 'Bearer $token'};
   var request = http.Request('DELETE', Uri.parse(baseUrl2 + '/products/$id'));

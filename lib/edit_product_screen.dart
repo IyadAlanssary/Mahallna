@@ -229,13 +229,12 @@ class _EditProductState extends State<EditProduct> {
   }
   Future postProduct() async {
     String token = User.currentUser.token;
-    var response =
-    await http.get(Uri.parse(baseUrl2 + "/images/${product.imageId}"), headers: {
-      HttpHeaders.authorizationHeader: 'Bearer $token',
-    });
+    // var response =
+    // await http.get(Uri.parse(baseUrl2 + "/images/${product.imageId}"), headers: {
+    //   HttpHeaders.authorizationHeader: 'Bearer $token',
+    // });
 
     Map<String,dynamic> prod = {
-      "image": response.body,
       "details": {
         "name": name ?? product.name,
         "description": "The type you like the most.",
