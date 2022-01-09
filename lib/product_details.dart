@@ -23,7 +23,6 @@ class ProductDetailsScreen extends StatefulWidget {
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
 }
 
-
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   String? comment;
 
