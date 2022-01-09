@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:products/Models/grocery_item.dart';
 import 'package:products/search.dart';
 import 'Models/user.dart';
@@ -35,7 +36,9 @@ class _HomeState extends State<Home> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 35, bottom: 10),
-          child: SvgPicture.asset("assets/icons/app_icon_color.svg"),
+          child: InkWell(
+              onTap: reloadHome,
+              child: SvgPicture.asset("assets/icons/app_icon_color.svg")),
         ),
         Row(
           children: [
@@ -92,6 +95,7 @@ class _HomeState extends State<Home> {
                   }
                 } else {
                   return GridView.count(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     crossAxisCount: 1,
                     childAspectRatio: 174 / (230 / 1.8),
                     children: ItemCard.cards, //, ItemCard.cards
@@ -203,8 +207,9 @@ class _HomeState extends State<Home> {
               imageBytes: res.bodyBytes,
               category: g['category'],
               price: g['current_price'].toString(),
-              expiryDate: g['expiry_date'],
-              imagePath: "$baseUrl2/images/${g['image_id']}"); //////////////////TODO:change to g['image_id']
+              expiryDate: DateFormat('yyyy-MM-dd').format(
+                  DateTime.fromMillisecondsSinceEpoch(g['expiry_date'])),
+              imagePath: "$baseUrl2/images/${g['image_id']}");
           Home.items.add(i);
           ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
         }

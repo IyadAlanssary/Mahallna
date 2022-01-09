@@ -73,9 +73,9 @@ class _SearchState extends State<Search> {
             selectionHandleColor: Colors.white,
             selectionColor: Colors.teal.shade200,
           ),
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             elevation: 30,
-            color: AppColors.primaryColor.withOpacity(0.8),
+            color: AppColors.primaryColor,
           ),
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: Colors.teal.shade100,
@@ -111,3 +111,4 @@ class _SearchState extends State<Search> {
     );
   }
 }
+//TODO DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(product.expiryDate))),

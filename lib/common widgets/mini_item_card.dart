@@ -183,13 +183,11 @@ Future getMiniItemsHttp() async {
       print("Get my products $e");
     }
   }
-  if (miniItems.isNotEmpty) {
-    return miniItems;
+  if (MiniItemCard.miniCards.isNotEmpty) {
+    return MiniItemCard.miniCards;
   }
   return null;
 }
-
-
 
 Future<void> deleteProduct(int id) async {
   print("im in delete, $id");

@@ -46,7 +46,7 @@ class _LogInState extends State<LogIn> {
                     width: 50,
                     height: 50,
                   ),
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 60),
                   const Text(
                     'Log in',
                     style: TextStyle(

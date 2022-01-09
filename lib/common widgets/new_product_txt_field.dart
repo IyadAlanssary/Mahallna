@@ -35,6 +35,7 @@ class ProductText extends StatelessWidget {
               ),
         ),
         child: TextField(
+          textInputAction: TextInputAction.next,
           controller: initial
               ? TextEditingController(text: initialText)
               : TextEditingController(),

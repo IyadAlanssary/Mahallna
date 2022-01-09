@@ -7,7 +7,7 @@ class GroceryItem {
   String price;
   String imagePath;
   Uint8List? imageBytes;
-  int expiryDate;
+  String expiryDate;
 
   GroceryItem(
       {required this.id,
