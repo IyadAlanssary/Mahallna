@@ -24,6 +24,11 @@ class EditProduct extends StatefulWidget {
 }
 
 class _EditProductState extends State<EditProduct> {
+  late String? name;
+  late String? phone;
+  late String? quantity;
+  late String? originalPrice;
+  late String? category;
   File? image;
   @override
   Widget build(BuildContext context) {
@@ -99,22 +104,19 @@ class _EditProductState extends State<EditProduct> {
                                         maxLines: 1,
                                         icon: const Icon(
                                             Icons.drive_file_rename_outline),
-                                        onChanged: (value) {},
+                                        onChanged: (value) {
+                                          name = value;
+                                        },
                                       ),
-                                      //description
-                                      // ProductText(
-                                      //   hint: 'Description',
-                                      //   icon: const Icon(Icons.article_rounded),
-                                      //   type: TextInputType.multiline,
-                                      //   onChanged: (value) {},
-                                      // ),
                                       ProductText(
                                         initial: true,
                                         initialText: product.contactPhone,
                                         hint: 'Phone',
                                         icon: const Icon(Icons.phone),
                                         type: TextInputType.phone,
-                                        onChanged: (value) {},
+                                        onChanged: (value) {
+                                          phone = value;
+                                        },
                                       ),
                                       // original price
                                       ProductText(
@@ -124,9 +126,20 @@ class _EditProductState extends State<EditProduct> {
                                         icon: const Icon(
                                             FontAwesomeIcons.dollarSign),
                                         type: TextInputType.phone,
-                                        onChanged: (value) {},
+                                        onChanged: (value) {
+                                          originalPrice = value;
+                                        },
                                       ),
-                                      // quantity
+                                      ProductText(
+                                        initial: true,
+                                        hint: 'Category',
+                                        initialText: product.category,
+                                        icon: const Icon(Icons.view_list),
+                                        type: TextInputType.multiline,
+                                        onChanged: (value) {
+                                          category = value;
+                                        },
+                                      ),
                                       ProductText(
                                         initial: true,
                                         initialText:
@@ -135,7 +148,9 @@ class _EditProductState extends State<EditProduct> {
                                         icon:
                                             const Icon(Icons.workspaces_filled),
                                         type: TextInputType.number,
-                                        onChanged: (value) {},
+                                        onChanged: (value) {
+                                          quantity = value;
+                                        },
                                       ),
                                       const SizedBox(
                                         height: 40,
@@ -167,7 +182,7 @@ class _EditProductState extends State<EditProduct> {
       print("in edit");
       print(id);
       var response =
-      await http.get(Uri.parse(baseUrl2 + "/products/366871311303184384"), headers: {
+      await http.get(Uri.parse(baseUrl2 + "/products/$id"), headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
       var jsonData = jsonDecode(response.body);
@@ -182,12 +197,28 @@ class _EditProductState extends State<EditProduct> {
       // );
       Product p = Product(
         id: jsonData['id'],
+        imageId: jsonData['image_id'],
         name: jsonData['name'],
         category: jsonData['category'],
-        availableQuantity: jsonData['available_quantity'],
+        availableQuantity: jsonData['available_quantity'].toString(),
+        liked: jsonData['liked'],
+        expiryDate: jsonData['expiry_date'],
         unitPrice: jsonData['unit_price'].toString(),
+        viewsCount: jsonData['views_count'].toString(),
         contactPhone: jsonData['contact_phone'],
+          initialSale: jsonData["initial_sale"].toString(),
+          firstPeriodDays: jsonData["first_period_days"].toString(),
+          firstPeriodSale: jsonData["first_period_sale"].toString(),
+          secondPeriodDays: jsonData["second_period_days"].toString(),
+          secondPeriodSale: jsonData["second_period_sale"].toString(),
       );
+      print('hiosaifojoa, ' + p.category);
+
+      name = p.name;
+      phone = p.contactPhone;
+      originalPrice = p.unitPrice;
+      category = p.category;
+      quantity = p.availableQuantity;
 
       product = p;
     } catch (e) {
@@ -197,59 +228,84 @@ class _EditProductState extends State<EditProduct> {
     return product;
   }
   Future postProduct() async {
-    print('in Add');
+    String token = User.currentUser.token;
+    var response =
+    await http.get(Uri.parse(baseUrl2 + "/images/${product.imageId}"), headers: {
+      HttpHeaders.authorizationHeader: 'Bearer $token',
+    });
+
     Map<String,dynamic> prod = {
-      "image": "WW91IGxhenkgYmFzdGFyZHMgZ28gaW1wbGVtZW50IHRoZSBtdWx0aXBhcnQvZm9ybS1kYXRhIGVuY29kZXIuCg==",
+      "image": response.body,
       "details": {
-        "name": "Potato",
+        "name": name ?? product.name,
         "description": "The type you like the most.",
-        "category": "Vegetables",
-        "available_quantity": 69,
-        "expiry_date": 3640366075,
-        "unit_price": 86585544.15898922,
-        "contact_phone": "+963949654321",
-        "initial_sale": 69,
-        "first_period_days": 81665552,
-        "first_period_sale": 69,
-        "second_period_days": 92282931,
-        "second_period_sale": 69
+        "category": category ?? product.category,
+        "available_quantity": quantity ?? product.availableQuantity,
+        "expiry_date": product.expiryDate,
+        "unit_price": originalPrice ?? product.unitPrice,
+        "contact_phone": phone ?? product.contactPhone,
+        "initial_sale": product.initialSale,
+        "first_period_days": product.firstPeriodDays,
+        "first_period_sale": product.firstPeriodSale,
+        "second_period_days": product.secondPeriodDays,
+        "second_period_sale": product.secondPeriodSale
       }
     };
-    String token = User.currentUser.token;
+    print('prod: ' + prod.toString());
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
     };
-    var request = http.Request('POST', Uri.parse('http://localhost:8000/api/products'));
+    var request = http.Request('PUT', Uri.parse(baseUrl2 + '/products/${product.id}'));
     //var postRequest = await http.post(Uri.parse(baseUrl2 + "products"), body: prod);
     request.body = json.encode(prod);
     request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
+    http.StreamedResponse res = await request.send();
 
     if (response.statusCode <= 201) {
-      print(await response.stream.bytesToString());
+      print(await res.stream.bytesToString());
     }
     else {
-      print(response.reasonPhrase);
+      print(await res.stream.bytesToString());
     }
   }
 }
 
 class Product {
   late int id;
+  late int imageId;
   late String name;
   late String category;
-  late int availableQuantity;
+  late String availableQuantity;
+  late bool liked;
+  late int expiryDate;
   late String unitPrice;
+  late String viewsCount;
   late String contactPhone;
+
+  String initialSale;
+  String firstPeriodDays;
+  String firstPeriodSale;
+  String secondPeriodDays;
+  String secondPeriodSale;
 
   Product(
       {required this.id,
-      required this.name,
-      required this.category,
-      required this.availableQuantity,
-      required this.unitPrice,
-      required this.contactPhone});
+        required this.imageId,
+        required this.name,
+        required this.category,
+        required this.availableQuantity,
+        required this.liked,
+        required this.expiryDate,
+        required this.unitPrice,
+        required this.viewsCount,
+        required this.contactPhone,
+        required this.initialSale,
+        required this.firstPeriodDays,
+        required this.firstPeriodSale,
+        required this.secondPeriodDays,
+        required this.secondPeriodSale,
+      });
 }
 

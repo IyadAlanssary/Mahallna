@@ -179,8 +179,6 @@ class _HomeState extends State<Home> {
   Future getAllProductsHttp() async {
     String sort = BottomNavBar.sortValue;
     String dir = BottomNavBar.directionValue;
-    print("im in $sort");
-    print("im in $dir");
     if (!BottomNavBar.gotResponse) {
       BottomNavBar.gotResponse = true;
       try {
@@ -195,18 +193,17 @@ class _HomeState extends State<Home> {
         Home.items.clear();
         ItemCard.cards.clear();
         for (var g in jsonData) {
-          var uri = Uri.parse(baseUrl2 + "/images/367292193393741824");
-          var imageResponse = await http.get(uri,
-              headers: {HttpHeaders.authorizationHeader: 'Bearer $token'});
-
+          var res =
+          await http.get(Uri.parse(baseUrl2 + "/images/${g['image_id']}"), headers: {
+            HttpHeaders.authorizationHeader: 'Bearer $token',
+          });
           GroceryItem i = GroceryItem(
-            id: g['id'],
-            name: g['name'],
-            category: g['category'],
-            price: g['current_price'].toString(),
-            imageId: g['image_id'].toString(),
-            image: Image.memory(imageResponse.bodyBytes),
-          );
+              id: g['id'],
+              name: g['name'],
+              imageBytes: res.bodyBytes,
+              category: g['category'],
+              price: g['current_price'].toString(),
+              imagePath: baseUrl2 + "/images/${g['image_id']}"); //////////////////TODO:change to g['image_id']
           Home.items.add(i);
           ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
         }

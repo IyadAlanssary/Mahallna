@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -10,7 +11,9 @@ import 'package:products/common widgets/get_image_header_widget.dart';
 import 'package:products/home.dart';
 import 'package:products/Models/const.dart';
 import 'dart:convert';
+import 'common widgets/new_product_txt_field.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   int id;
@@ -23,6 +26,8 @@ class ProductDetailsScreen extends StatefulWidget {
 bool isLike = false;
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  String? comment;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +68,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           child: Row(
                             children: [
                               Text(
-                                '${product.viewsCount}',
+                                product.viewsCount,
                                 style: const TextStyle(
                                   color: AppColors.primaryColor,
                                   fontSize: 20,
@@ -83,34 +88,51 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       child: ListView(
                         children: [
                           getImageHeaderWidget(
-                            url: 'assets/images/apple.png',
+                            image: product.imageBytes,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 25),
                             child: Column(
                               children: [
-                                ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  title: Text(
-                                    product.name,
-                                    style: const TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  trailing: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        isLike = !isLike;
-                                      });
-                                    },
-                                    icon: getLikeIcon(isLike),
-                                    color: Colors.red,
-                                  ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                            Text(
+                                product.name,
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          product.likesCount,
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        IconButton(
+                                              onPressed: () async {
+                                                if (await likeRequest(widget.id, !isLike)) {
+                                                  setState(() {
+                                                    isLike = !isLike;
+                                                  });
+                                                }
+                                              },
+                                              icon: getLikeIcon(isLike),
+                                              color: Colors.red,
+
+                                            ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                                 Row(
                                   children: [
                                     Text(
-                                      '\$${product.unitPrice}',
+                                      '\$${product.currentPrice}',
                                       style: const TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
@@ -122,7 +144,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   height: 20,
                                 ),
                                 getProductDataRowWidget('Expiration date:',
-                                    '${product.expiryDate}'),
+                                    DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(product.expiryDate))),
                                 const Divider(
                                   thickness: 1,
                                   color: Colors.grey,
@@ -144,29 +166,57 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 const SizedBox(
                                   height: 40,
                                 ),
-                                ListTile(
+                                const ListTile(
                                   contentPadding: EdgeInsets.zero,
-                                  title: const Text(
+                                  title: Text(
                                     'Comments',
                                     style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  trailing: IconButton(
-                                    onPressed: () {
-                                      setState(() {});
-                                    },
-                                    icon: const Icon(Icons.comment),
-                                    color: AppColors.primaryColor,
+                                  trailing: Icon(
+                                      Icons.comment,
+                                    color: Colors.black,
                                   ),
                                 ),
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                commentItem('hamsho', 'pullshit'),
-                                commentItem('hamsho', 'pullshit'),
-                                commentItem('hamsho', 'pullshit'),
-                                commentItem('hamsho', 'pullshit'),
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: ProductText(hint: 'Type something',
+                                          icon: const Icon(Icons.comment),
+                                          type: TextInputType.multiline,
+                                          onChanged: (value) {
+                                            comment = value;
+                                          }
+                                      ),
+                                    ),
+                                    IconButton(onPressed: () async {
+                                      print(comment);
+                                      if (comment != null) {
+                                        if (await commentRequest(widget.id, comment!)) {
+                                          setState(() {});
+                                        }
+                                      }
+                                    },
+                                      icon: const Icon(Icons.check),
+                                      color: AppColors.primaryColor,)
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: product.comments.length,
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                  return commentItem(product.comments[index]['user_name'].toString(), product.comments[index]['content']);
+                                }),
+
                               ],
                             ),
                           )
@@ -194,18 +244,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
       dynamic jsonData = jsonDecode(response.body);
+      print('tisdmtsd + ' + response.body);
       print(jsonData["id"]);
-      //print(jsonData["sales_plan"]["initial_sale"]);
-      // SalesPlan salesPlan = SalesPlan(
-      //   initialSale: jsonData["sales_plan"]["initial_sale"],
-      //   firstPeriodDays: jsonData["sales_plan"]["first_period_days"],
-      //   firstPeriodSale: jsonData["sales_plan"]["first_period_sale"],
-      //   secondPeriodDays: jsonData["sales_plan"]["second_period_days"],
-      //   secondPeriodSale: jsonData["sales_plan"]["second_period_sale"],
-      // );
+
+      response =
+      await http.get(Uri.parse(baseUrl2 + "/images/${jsonData['image_id']}"), headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+      var res =
+      await http.get(Uri.parse(baseUrl2 + "/products/$id/comments"), headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+      print('comments: ' + res.body);
+      var comments = jsonDecode(res.body);
+
       Product p = Product(
         id: jsonData['id'],
         imageId: jsonData['image_id'],
+        imageBytes: response.bodyBytes,
         name: jsonData['name'],
         category: jsonData['category'],
         availableQuantity: jsonData['available_quantity'],
@@ -213,15 +269,65 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         expiryDate: jsonData['expiry_date'],
         unitPrice: jsonData['unit_price'].toString(),
         viewsCount: jsonData['views_count'].toString(),
+        likesCount: jsonData['likes_count'].toString(),
         contactPhone: jsonData['contact_phone'],
+        currentPrice: jsonData['current_price'].toString(),
+        comments: comments
       );
 
       product = p;
+      // print(product.imageString);
+
+
     } catch (e) {
       print("caught error");
       print(e);
     }
     return product;
+  }
+}
+  Future<bool> likeRequest(int id, bool isLike) async {
+  try {
+    String token = User.currentUser.token;
+    if (isLike) {
+      await http.post(Uri.parse(baseUrl2 + "/products/$id/like"), headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+    } else {
+      await http.delete(Uri.parse(baseUrl2 + "/products/$id/like"), headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
+    }
+    return true;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+  }
+
+Future<bool> commentRequest(int id, String body) async {
+  try {
+    String token = User.currentUser.token;
+    http.Response response;
+
+    print('body: ' + body);
+
+      response =
+      await http.post(Uri.parse(baseUrl2 + "/products/$id/comments"), headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+        'Content-Type': 'application/json'
+      },
+      body: jsonEncode({"content": body}),
+      );
+
+      print('res body: ' + response.body);
+
+      if (response.statusCode == 404) return false;
+
+      return true;
+  } catch (e) {
+    print(e);
+    return false;
   }
 }
 
@@ -313,40 +419,34 @@ Widget commentItem(String name, String comment) {
 class Product {
   late int id;
   late int imageId;
+  late Uint8List imageBytes;
   late String name;
   late String category;
   late int availableQuantity;
   late bool liked;
   late int expiryDate;
   late String unitPrice;
+  late String currentPrice;
   late String viewsCount;
+  late String likesCount;
   late String contactPhone;
+  List<dynamic> comments;
 
   Product(
       {required this.id,
       required this.imageId,
+        required this.imageBytes,
       required this.name,
       required this.category,
       required this.availableQuantity,
       required this.liked,
       required this.expiryDate,
       required this.unitPrice,
-      required this.viewsCount,
-      required this.contactPhone});
+        required this.viewsCount,
+        required this.likesCount,
+      required this.contactPhone,
+      required this.currentPrice,
+      required this.comments});
 }
 
-// class SalesPlan {
-//   SalesPlan({
-//     required this.initialSale,
-//     required this.firstPeriodDays,
-//     required this.firstPeriodSale,
-//     required this.secondPeriodDays,
-//     required this.secondPeriodSale,
-//   });
-//
-//   int initialSale;
-//   int firstPeriodDays;
-//   int firstPeriodSale;
-//   int secondPeriodDays;
-//   int secondPeriodSale;
-// }
+

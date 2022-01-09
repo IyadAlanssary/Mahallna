@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:products/product_details.dart';
 import '../Models/grocery_item.dart';
@@ -48,9 +50,11 @@ class ItemCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                    child: Center(
-                  child: item.image, //TODO
-                )),
+                  child: Center(
+                    child: Image.memory(item.imageBytes!),
+                    // child: NetworkImage(item.imagePath)
+                  ),
+                ),
                 const SizedBox(
                   height: 5,
                 ),
@@ -72,8 +76,7 @@ class ItemCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      item.price.toString().substring(0, 4) +
-                          " lira", //TODO attention here
+                "\$" + item.price.toString(), //TODO attention here
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,

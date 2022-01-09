@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:products/common widgets/image_local.dart';
 import 'package:products/common widgets/new_product_txt_field.dart';
 import 'package:image_picker/image_picker.dart';
+import 'Models/const.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
@@ -23,18 +24,19 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
-  late String name;
-  late String phone;
-  late String quantity;
-  late String originalPrice;
-  late String category;
-  late String expiryDate;
-  late double initialSale;
-  late double firstPeriodSale;
-  late String firstPeriodDays;
-  late double secondPeriodSale;
-  late String secondPeriodDays;
+  late String? name;
+  late String? phone;
+  late String? quantity;
+  late String? originalPrice;
+  late String? category;
+  late String? expiryDate;
+  late double? initialSale;
+  late double? firstPeriodSale;
+  late String? firstPeriodDays;
+  late double? secondPeriodSale;
+  late String? secondPeriodDays;
   File? image;
+  String? imageString;
 
   @override
   Widget build(BuildContext context) {
@@ -73,36 +75,38 @@ class _AddProductState extends State<AddProduct> {
                             ),
                             image == null
                                 ? InkWell(
-                                    onTap: () async {
-                                      print('pressed');
-                                      imagePicker();
-                                    },
-                                    child: Container(
-                                      height: 200,
-                                      decoration: BoxDecoration(
-                                          /*border: Border.all(color: darkSecondaryColor,width: 3),*/
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.8),
-                                              spreadRadius: 5,
-                                              blurRadius: 7,
-                                              offset: const Offset(0,
-                                                  7), //changes position of shadow
-                                            )
-                                          ],
-                                          color: AppColors.darkGrey,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(15))),
-                                      child: const Center(
-                                        child: Icon(
-                                          Icons.image,
-                                          size: 70,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : ImageLocal(image!),
+                              onTap: () async {
+                                print('pressed');
+                                imagePicker();
+                              },
+                              child: Container(
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  /*border: Border.all(color: darkSecondaryColor,width: 3),*/
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.8),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: const Offset(0,
+                                            7), //changes position of shadow
+                                      )
+                                    ],
+                                    color: AppColors.darkGrey,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15))),
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.camera_alt_outlined,
+                                    size: 70,
+                                  ),
+                                ),
+                              ),
+                            )
+                                : Builder(builder: (context) {
+                                  print('path ' + image.toString());
+                                  return ImageLocal(image!);
+                                }),
                             const SizedBox(
                               height: 30,
                             ),
@@ -121,8 +125,25 @@ class _AddProductState extends State<AddProduct> {
                                 lastDate: DateTime(2100),
                                 icon: const Icon(Icons.event),
                                 dateLabelText: 'Expiration Date',
-                                onChanged: (value) {},
-                                onSaved: (val) {},
+                                onChanged: (value) {
+                                  expiryDate = value;
+                                  if (expiryDate != null) {
+                                    expiryDate = DateTime
+                                        .parse(expiryDate!)
+                                        .millisecondsSinceEpoch.toString();
+                                    print(expiryDate);
+                                  }
+                                },
+                                onSaved: (val) {
+                                  expiryDate = val;
+                                  if (expiryDate != null) {
+                                    expiryDate = DateTime
+                                        .parse(expiryDate!)
+                                        .millisecondsSinceEpoch.toString();
+                                    print(expiryDate);
+                                  }
+
+                                },
                               ),
                             ),
                             //name
@@ -131,28 +152,42 @@ class _AddProductState extends State<AddProduct> {
                               maxLines: 1,
                               icon: const Icon(Icons.drive_file_rename_outline),
                               onChanged: (value) {
-                                name = value!;
+                                name = value;
                               },
                             ),
                             ProductText(
                               hint: 'Phone',
                               icon: const Icon(Icons.phone),
                               type: TextInputType.phone,
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                phone = value;
+                              },
                             ),
                             // original price
                             ProductText(
                               hint: 'Original Price',
                               icon: const Icon(FontAwesomeIcons.dollarSign),
                               type: TextInputType.phone,
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                originalPrice = value;
+                              },
+                            ),
+                            ProductText(
+                              hint: 'Category',
+                              icon: const Icon(Icons.view_list),
+                              type: TextInputType.multiline,
+                              onChanged: (value) {
+                                category = value;
+                              },
                             ),
                             // quantity
                             ProductText(
                               hint: 'Quantity',
                               icon: const Icon(Icons.workspaces_filled),
                               type: TextInputType.number,
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                quantity = value;
+                              },
                             ),
                             const SizedBox(
                               height: 40,
@@ -174,7 +209,9 @@ class _AddProductState extends State<AddProduct> {
                                   hint: 'days',
                                   maxLength: 3,
                                   type: TextInputType.number,
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    firstPeriodDays = value;
+                                  },
                                 )),
                                 const SizedBox(
                                   width: 20,
@@ -184,7 +221,9 @@ class _AddProductState extends State<AddProduct> {
                                   hint: 'Sale',
                                   maxLength: 2,
                                   type: TextInputType.number,
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    firstPeriodSale = double.tryParse(value!);
+                                  },
                                 )),
                               ],
                             ),
@@ -196,7 +235,9 @@ class _AddProductState extends State<AddProduct> {
                                   hint: 'days 2',
                                   maxLength: 3,
                                   type: TextInputType.number,
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    secondPeriodDays = value;
+                                  },
                                 )),
                                 const SizedBox(
                                   width: 20,
@@ -206,7 +247,9 @@ class _AddProductState extends State<AddProduct> {
                                   hint: 'Sale 2',
                                   maxLength: 2,
                                   type: TextInputType.number,
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    secondPeriodSale = double.tryParse(value!);
+                                  },
                                 )),
                               ],
                             ),
@@ -215,7 +258,9 @@ class _AddProductState extends State<AddProduct> {
                               hint: 'default sale',
                               maxLength: 2,
                               type: TextInputType.number,
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                initialSale = double.tryParse(value!);
+                              },
                             ),
                           ],
                         ),
@@ -233,12 +278,20 @@ class _AddProductState extends State<AddProduct> {
 
   Future imagePicker() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      ImagePicker imagePicker = ImagePicker();
+      PickedFile? compressedImage = await imagePicker.getImage(
+          source: ImageSource.gallery,
+        imageQuality: 85
+      );
+      final image = compressedImage;
+      //final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
 
       final imageTemp = File(image.path);
       setState(() {
         this.image = imageTemp;
+        this.imageString = base64Encode(imageTemp.readAsBytesSync());
+        //print(imageString);
       });
     } on PlatformException catch (e) {
       print('could not load image');
@@ -248,20 +301,20 @@ class _AddProductState extends State<AddProduct> {
   Future postProduct() async {
     print('in Add');
     Map<String,dynamic> prod = {
-      "image": "WW91IGxhenkgYmFzdGFyZHMgZ28gaW1wbGVtZW50IHRoZSBtdWx0aXBhcnQvZm9ybS1kYXRhIGVuY29kZXIuCg==",
+      "image": imageString,
       "details": {
-        "name": "Potato",
+        "name": name,
         "description": "The type you like the most.",
-        "category": "Vegetables",
-        "available_quantity": 69,
-        "expiry_date": 3640366075,
-        "unit_price": 86585544.15898922,
-        "contact_phone": "+963949654321",
-        "initial_sale": 69,
-        "first_period_days": 81665552,
-        "first_period_sale": 69,
-        "second_period_days": 92282931,
-        "second_period_sale": 69
+        "category": category,
+        "available_quantity": quantity,
+        "expiry_date": expiryDate,
+        "unit_price": originalPrice,
+        "contact_phone": phone,
+        "initial_sale": initialSale,
+        "first_period_days": firstPeriodDays,
+        "first_period_sale": firstPeriodSale,
+        "second_period_days": firstPeriodDays,
+        "second_period_sale": secondPeriodSale
       }
     };
     String token = User.currentUser.token;
@@ -269,7 +322,7 @@ class _AddProductState extends State<AddProduct> {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
     };
-    var request = http.Request('POST', Uri.parse('http://localhost:8000/api/products'));
+    var request = http.Request('POST', Uri.parse(baseUrl2 + '/products'));
     //var postRequest = await http.post(Uri.parse(baseUrl2 + "products"), body: prod);
     request.body = json.encode(prod);
     request.headers.addAll(headers);
@@ -280,7 +333,7 @@ class _AddProductState extends State<AddProduct> {
       print(await response.stream.bytesToString());
     }
     else {
-      print(response.reasonPhrase);
+      print(await response.stream.bytesToString());
     }
   }
 }

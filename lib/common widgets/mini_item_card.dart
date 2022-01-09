@@ -63,9 +63,13 @@ class MiniItemCard extends StatelessWidget {
                   const Spacer(),
                   editWidget(context, item.id),
                   const SizedBox(
-                    width: 8,
+                    width: 4,
                   ),
                   infoWidget(context, item.id),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  deleteWidget(context, item.id)
                 ],
               )),
         ),
@@ -127,6 +131,29 @@ class MiniItemCard extends StatelessWidget {
       ),
     );
   }
+
+  Widget deleteWidget(BuildContext context, int id) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 5),
+      child: Container(
+        height: 45,
+        width: 45,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Colors.red.shade700),
+        child: Center(
+          child: IconButton(
+            icon: const Icon(Icons.delete),
+            color: Colors.white,
+            iconSize: 25,
+            onPressed: () {
+              deleteProduct(id);
+            },
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 List<MiniGroceryItem> miniItems = [];
@@ -171,4 +198,23 @@ class MiniGroceryItem {
     required this.id,
     required this.name,
   });
+}
+
+Future<void> deleteProduct(int id) async {
+  String token = User.currentUser.token;
+  var headers = {
+    'Authorization': 'Bearer $token'
+  };
+  var request = http.Request('DELETE', Uri.parse(baseUrl2 + '/products/$id'));
+
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    print(await response.stream.bytesToString());
+  }
+  else {
+    print(response.reasonPhrase);
+  }
 }
