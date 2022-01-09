@@ -23,7 +23,7 @@ class ProductDetailsScreen extends StatefulWidget {
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
 }
 
-bool isLike = false;
+// bool isLike = false;
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   String? comment;
@@ -115,13 +115,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         ),
                                         IconButton(
                                               onPressed: () async {
-                                                if (await likeRequest(widget.id, !isLike)) {
+                                                if (await likeRequest(widget.id, !product.liked)) {
                                                   setState(() {
-                                                    isLike = !isLike;
+                                                    product.liked = !product.liked;
                                                   });
                                                 }
                                               },
-                                              icon: getLikeIcon(isLike),
+                                              icon: getLikeIcon(product.liked),
                                               color: Colors.red,
 
                                             ),
