@@ -36,12 +36,16 @@ class _LogInState extends State<LogIn> {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
+              padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SvgPicture.asset("assets/icons/app_icon_color.svg"),
+                  SvgPicture.asset(
+                    "assets/icons/app_icon_color.svg",
+                    width: 50,
+                    height: 50,
+                  ),
                   const SizedBox(height: 80),
                   const Text(
                     'Log in',
@@ -126,6 +130,7 @@ class _LogInState extends State<LogIn> {
       ),
       labelStyle: const TextStyle(
         color: AppColors.darkGrey,
+        letterSpacing: 4,
       ),
       border: const UnderlineInputBorder(
         borderSide: BorderSide(color: AppColors.primaryColor),

@@ -3,10 +3,11 @@ import 'dart:typed_data';
 class GroceryItem {
   int id;
   String name;
-  late String category;
+  String category;
   String price;
   String imagePath;
   Uint8List? imageBytes;
+  int expiryDate;
 
   GroceryItem(
       {required this.id,
@@ -14,5 +15,6 @@ class GroceryItem {
       required this.category,
       required this.price,
       required this.imagePath,
+      required this.expiryDate,
       this.imageBytes});
 }

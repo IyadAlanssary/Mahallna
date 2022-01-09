@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Models/const.dart';
+import 'bottom_navigation_bar.dart';
 
 class Profile extends StatefulWidget {
   //final String token;
@@ -91,7 +92,7 @@ class _ProfileState extends State<Profile> {
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   Timer(
-                      const Duration(seconds: 8),
+                      const Duration(seconds: 5),
                       () => {
                             setState(() {
                               loadingTimeFinished = true;
@@ -130,26 +131,25 @@ class _ProfileState extends State<Profile> {
         'Accept': 'application/json',
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
-      if (response.statusCode <= 201) {
-        WidgetsFlutterBinding.ensureInitialized();
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.remove('is_register');
-        prefs.remove('token');
-        prefs.remove('name');
-        prefs.remove('phone');
-        prefs.remove('id');
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const LogIn(),
-          ),
-        );
-      } else if (response.statusCode >= 400) {
-        print("\n Response status code: ");
-        print(response.statusCode);
-      }
+      BottomNavBar.gotMiniResponse = false;
+      BottomNavBar.gotResponse = false;
+      WidgetsFlutterBinding.ensureInitialized();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove('is_register');
+      prefs.remove('token');
+      prefs.remove('name');
+      prefs.remove('phone');
+      prefs.remove('id');
+      print("\n Response status code: ");
+      print(response.statusCode);
     } catch (e) {
       print(e);
     }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const LogIn(),
+      ),
+    );
   }
 }

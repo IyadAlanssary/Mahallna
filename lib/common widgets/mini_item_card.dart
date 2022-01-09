@@ -159,16 +159,14 @@ class MiniItemCard extends StatelessWidget {
 List<MiniGroceryItem> miniItems = [];
 Future getMiniItemsHttp() async {
   if (!BottomNavBar.gotMiniResponse) {
-    BottomNavBar.gotMiniResponse = true;
+    BottomNavBar.gotMiniResponse = false;
     try {
       String token = User.currentUser.token;
       var response =
           await http.get(Uri.parse(baseUrl2 + "/users/me/products"), headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
-      print("im in response");
       var jsonData = jsonDecode(response.body);
-      print("im in json");
       miniItems.clear();
       MiniItemCard.miniCards.clear();
       for (var g in jsonData) {
@@ -178,7 +176,6 @@ Future getMiniItemsHttp() async {
         );
         miniItems.add(i);
         MiniItemCard.miniCards.add(MiniItemCard(key: UniqueKey(), item: i));
-        print("im in done");
       }
     } catch (e) {
       print("Get my products $e");
@@ -202,9 +199,7 @@ class MiniGroceryItem {
 
 Future<void> deleteProduct(int id) async {
   String token = User.currentUser.token;
-  var headers = {
-    'Authorization': 'Bearer $token'
-  };
+  var headers = {'Authorization': 'Bearer $token'};
   var request = http.Request('DELETE', Uri.parse(baseUrl2 + '/products/$id'));
 
   request.headers.addAll(headers);
@@ -213,8 +208,7 @@ Future<void> deleteProduct(int id) async {
 
   if (response.statusCode == 200) {
     print(await response.stream.bytesToString());
-  }
-  else {
+  } else {
     print(response.reasonPhrase);
   }
 }

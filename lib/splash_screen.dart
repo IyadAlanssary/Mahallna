@@ -23,17 +23,13 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       WidgetsFlutterBinding.ensureInitialized();
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      //print("\n\nin splash prefs");
       isRegistered = prefs.getBool('is_register')!;
-      //print("\n\nin splash prefs isRegistereed = $isRegistered");
-      //print("\n\nin splash prefs current user token= $User.currentUser.token");
       if (isRegistered) {
         User.currentUser = User(
           id: prefs.getInt('id')!,
           name: prefs.getString('name')!,
           phone: prefs.getString('phone')!,
           token: prefs.getString('token')!,
-          //imageId: resp["user"]["image_id"],//TODO
         );
         createdUser = true;
       }

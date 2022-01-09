@@ -28,7 +28,7 @@ class _BlueScreenOfDeathState extends State<BlueScreenOfDeath> {
               TextField(
                 style: const TextStyle(color: Colors.yellow),
                 controller: urlController,
-                maxLines: 8,
+                maxLines: 4,
               ),
               IconButton(onPressed: changeUrl, icon: const Icon(Icons.done)),
               const SizedBox(
@@ -47,8 +47,6 @@ class _BlueScreenOfDeathState extends State<BlueScreenOfDeath> {
   }
 
   void changeUrl() {
-    print("changeUrl1111 = $baseUrl2");
     baseUrl2 = urlController.text;
-    print("changeUrl2222 = $baseUrl2");
   }
 }

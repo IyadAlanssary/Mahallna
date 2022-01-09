@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   Timer(
-                      const Duration(seconds: 15),
+                      const Duration(seconds: 10),
                       () => {
                             setState(() {
                               loadingTimeFinished = true;
@@ -193,8 +193,8 @@ class _HomeState extends State<Home> {
         Home.items.clear();
         ItemCard.cards.clear();
         for (var g in jsonData) {
-          var res =
-          await http.get(Uri.parse(baseUrl2 + "/images/${g['image_id']}"), headers: {
+          var res = await http
+              .get(Uri.parse(baseUrl2 + "/images/${g['image_id']}"), headers: {
             HttpHeaders.authorizationHeader: 'Bearer $token',
           });
           GroceryItem i = GroceryItem(
@@ -203,7 +203,9 @@ class _HomeState extends State<Home> {
               imageBytes: res.bodyBytes,
               category: g['category'],
               price: g['current_price'].toString(),
-              imagePath: baseUrl2 + "/images/${g['image_id']}"); //////////////////TODO:change to g['image_id']
+              expiryDate: g['expiry'],
+              imagePath: baseUrl2 +
+                  "/images/${g['image_id']}"); //////////////////TODO:change to g['image_id']
           Home.items.add(i);
           ItemCard.cards.add(ItemCard(key: UniqueKey(), item: i));
         }
@@ -217,3 +219,4 @@ class _HomeState extends State<Home> {
     return null;
   }
 }
+//TODO flutter build apk --split-per-abi

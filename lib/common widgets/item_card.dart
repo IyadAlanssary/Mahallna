@@ -76,7 +76,7 @@ class ItemCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                "\$" + item.price.toString(), //TODO attention here
+                      "\$" + item.price.toString(), //TODO attention here
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,

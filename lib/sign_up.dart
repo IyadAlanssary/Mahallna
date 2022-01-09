@@ -34,12 +34,16 @@ class _SignUpState extends State<SignUp> {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
+              padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SvgPicture.asset("assets/icons/app_icon_color.svg"),
+                  SvgPicture.asset(
+                    "assets/icons/app_icon_color.svg",
+                    width: 50,
+                    height: 50,
+                  ),
                   const SizedBox(height: 35),
                   const Text(
                     'Sign Up',

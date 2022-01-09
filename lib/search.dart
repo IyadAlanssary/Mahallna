@@ -90,12 +90,13 @@ class _SearchState extends State<Search> {
         filter: (groceryItem) => [
           groceryItem.name,
           groceryItem.category,
-          groceryItem.price.toString(),
+          groceryItem.expiryDate.toString(),
         ],
         builder: (groceryItem) => ListTile(
           title: Text(groceryItem.name),
           subtitle: Text(groceryItem.category),
-          trailing: Text('${groceryItem.price} Lira'),
+          trailing: Text(
+              groceryItem.expiryDate.toString()), //'${groceryItem.price} Lira'
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(

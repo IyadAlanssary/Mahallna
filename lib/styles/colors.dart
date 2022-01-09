@@ -6,7 +6,6 @@ class AppColors {
   static const primaryColor = Color(0xff009688);
   static const darkGrey = Color(0xff7C7C7C);
   static const greyBorderColor = Color(0xffcccccc);
-  static String gilroyFontFamily = "Gilroy"; //not used any more
   static String sourceSansFontFamily = "SourceSans3";
 
   static ThemeData myTheme() {
