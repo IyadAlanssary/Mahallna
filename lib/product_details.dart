@@ -213,7 +213,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     scrollDirection: Axis.vertical,
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
-                                  return commentItem(product.comments[index]['user_id'].toString(), product.comments[index]['content']);
+                                  return commentItem(product.comments[index]['user_name'].toString(), product.comments[index]['content']);
                                 }),
 
                               ],
