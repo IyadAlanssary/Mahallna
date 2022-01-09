@@ -23,6 +23,7 @@ class ProductDetailsScreen extends StatefulWidget {
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
 }
 
+
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   String? comment;
 
@@ -136,7 +137,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(
@@ -268,23 +269,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       var comments = jsonDecode(res.body);
 
       Product p = Product(
-          id: jsonData['id'],
-          imageId: jsonData['image_id'],
-          imageBytes: response.bodyBytes,
-          name: jsonData['name'],
-          category: jsonData['category'],
-          availableQuantity: jsonData['available_quantity'],
-          liked: jsonData['liked'],
-          expiryDate: jsonData['expiry_date'],
-          unitPrice: jsonData['unit_price'].toString(),
-          viewsCount: jsonData['views_count'].toString(),
-          likesCount: jsonData['likes_count'].toString(),
-          contactPhone: jsonData['contact_phone'],
-          currentPrice: jsonData['current_price'].toString(),
-          comments: comments);
+        id: jsonData['id'],
+        imageId: jsonData['image_id'],
+        imageBytes: response.bodyBytes,
+        name: jsonData['name'],
+        category: jsonData['category'],
+        availableQuantity: jsonData['available_quantity'],
+        liked: jsonData['liked'],
+        expiryDate: jsonData['expiry_date'],
+        unitPrice: jsonData['unit_price'].toString(),
+        viewsCount: jsonData['views_count'].toString(),
+        likesCount: jsonData['likes_count'].toString(),
+        contactPhone: jsonData['contact_phone'],
+        currentPrice: jsonData['current_price'].roundToDouble().toString(),
+        comments: comments
+      );
 
       product = p;
       // print(product.imageString);
+
 
     } catch (e) {
       print("caught error");
@@ -311,7 +314,7 @@ Future<bool> likeRequest(int id, bool isLike) async {
     print(e);
     return false;
   }
-}
+  }
 
 Future<bool> commentRequest(int id, String body) async {
   try {
@@ -465,3 +468,5 @@ class Product {
       required this.currentPrice,
       required this.comments});
 }
+
+
