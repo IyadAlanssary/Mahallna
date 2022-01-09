@@ -97,7 +97,7 @@ class _HomeState extends State<Home> {
                   return GridView.count(
                     physics: const AlwaysScrollableScrollPhysics(),
                     crossAxisCount: 1,
-                    childAspectRatio: 174 / (230 / 1.8),
+                    childAspectRatio: 174 / (230 / 1.75),
                     children: ItemCard.cards, //, ItemCard.cards
                   );
                 }

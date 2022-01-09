@@ -94,14 +94,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             child: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                            Text(
-                                product.name,
-                                style: const TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                                    Text(
+                                      product.name,
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                     Row(
                                       children: [
                                         Text(
@@ -113,17 +114,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           ),
                                         ),
                                         IconButton(
-                                              onPressed: () async {
-                                                if (await likeRequest(widget.id, !product.liked)) {
-                                                  setState(() {
-                                                    product.liked = !product.liked;
-                                                  });
-                                                }
-                                              },
-                                              icon: getLikeIcon(product.liked),
-                                              color: Colors.red,
-
-                                            ),
+                                          onPressed: () async {
+                                            if (await likeRequest(
+                                                widget.id, !product.liked)) {
+                                              setState(() {
+                                                product.liked = !product.liked;
+                                              });
+                                            }
+                                          },
+                                          icon: getLikeIcon(product.liked),
+                                          color: Colors.red,
+                                        ),
                                       ],
                                     ),
                                   ],
@@ -142,8 +143,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                getProductDataRowWidget('Expiration date:',
-                                    DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(product.expiryDate))),
+                                getProductDataRowWidget(
+                                    'Expiration date:',
+                                    DateFormat('yyyy-MM-dd').format(
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                            product.expiryDate))),
                                 const Divider(
                                   thickness: 1,
                                   color: Colors.grey,
@@ -174,7 +178,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   trailing: Icon(
-                                      Icons.comment,
+                                    Icons.comment,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -184,38 +188,44 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 Row(
                                   children: [
                                     Flexible(
-                                      child: ProductText(hint: 'Type something',
+                                      child: ProductText(
+                                          hint: 'Type something',
                                           icon: const Icon(Icons.comment),
                                           type: TextInputType.multiline,
                                           onChanged: (value) {
                                             comment = value;
-                                          }
-                                      ),
+                                          }),
                                     ),
-                                    IconButton(onPressed: () async {
-                                      print(comment);
-                                      if (comment != null) {
-                                        if (await commentRequest(widget.id, comment!)) {
-                                          setState(() {});
+                                    IconButton(
+                                      onPressed: () async {
+                                        print(comment);
+                                        if (comment != null) {
+                                          if (await commentRequest(
+                                              widget.id, comment!)) {
+                                            setState(() {});
+                                          }
                                         }
-                                      }
-                                    },
+                                      },
                                       icon: const Icon(Icons.check),
-                                      color: AppColors.primaryColor,)
+                                      color: AppColors.primaryColor,
+                                    )
                                   ],
                                 ),
                                 const SizedBox(
                                   height: 20,
                                 ),
                                 ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     itemCount: product.comments.length,
                                     scrollDirection: Axis.vertical,
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
-                                  return commentItem(product.comments[index]['user_name'].toString(), product.comments[index]['content']);
-                                }),
-
+                                      return commentItem(
+                                          product.comments[index]['user_name']
+                                              .toString(),
+                                          product.comments[index]['content']);
+                                    }),
                               ],
                             ),
                           )
@@ -246,37 +256,36 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       print('tisdmtsd + ' + response.body);
       print(jsonData["id"]);
 
-      response =
-      await http.get(Uri.parse(baseUrl2 + "/images/${jsonData['image_id']}"), headers: {
-        HttpHeaders.authorizationHeader: 'Bearer $token',
-      });
-      var res =
-      await http.get(Uri.parse(baseUrl2 + "/products/$id/comments"), headers: {
+      response = await http.get(
+          Uri.parse(baseUrl2 + "/images/${jsonData['image_id']}"),
+          headers: {
+            HttpHeaders.authorizationHeader: 'Bearer $token',
+          });
+      var res = await http
+          .get(Uri.parse(baseUrl2 + "/products/$id/comments"), headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       });
       print('comments: ' + res.body);
       var comments = jsonDecode(res.body);
 
       Product p = Product(
-        id: jsonData['id'],
-        imageId: jsonData['image_id'],
-        imageBytes: response.bodyBytes,
-        name: jsonData['name'],
-        category: jsonData['category'],
-        availableQuantity: jsonData['available_quantity'],
-        liked: jsonData['liked'],
-        expiryDate: jsonData['expiry_date'],
-        unitPrice: jsonData['unit_price'].toString(),
-        viewsCount: jsonData['views_count'].toString(),
-        likesCount: jsonData['likes_count'].toString(),
-        contactPhone: jsonData['contact_phone'],
-        currentPrice: jsonData['current_price'].toString(),
-        comments: comments
-      );
+          id: jsonData['id'],
+          imageId: jsonData['image_id'],
+          imageBytes: response.bodyBytes,
+          name: jsonData['name'],
+          category: jsonData['category'],
+          availableQuantity: jsonData['available_quantity'],
+          liked: jsonData['liked'],
+          expiryDate: jsonData['expiry_date'],
+          unitPrice: jsonData['unit_price'].toString(),
+          viewsCount: jsonData['views_count'].toString(),
+          likesCount: jsonData['likes_count'].toString(),
+          contactPhone: jsonData['contact_phone'],
+          currentPrice: jsonData['current_price'].toString(),
+          comments: comments);
 
       product = p;
       // print(product.imageString);
-
 
     } catch (e) {
       print("caught error");
@@ -285,7 +294,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return product;
   }
 }
-  Future<bool> likeRequest(int id, bool isLike) async {
+
+Future<bool> likeRequest(int id, bool isLike) async {
   try {
     String token = User.currentUser.token;
     if (isLike) {
@@ -302,7 +312,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     print(e);
     return false;
   }
-  }
+}
 
 Future<bool> commentRequest(int id, String body) async {
   try {
@@ -311,19 +321,20 @@ Future<bool> commentRequest(int id, String body) async {
 
     print('body: ' + body);
 
-      response =
-      await http.post(Uri.parse(baseUrl2 + "/products/$id/comments"), headers: {
+    response = await http.post(
+      Uri.parse(baseUrl2 + "/products/$id/comments"),
+      headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
         'Content-Type': 'application/json'
       },
       body: jsonEncode({"content": body}),
-      );
+    );
 
-      print('res body: ' + response.body);
+    print('res body: ' + response.body);
 
-      if (response.statusCode == 404) return false;
+    if (response.statusCode == 404) return false;
 
-      return true;
+    return true;
   } catch (e) {
     print(e);
     return false;
@@ -442,18 +453,16 @@ class Product {
   Product(
       {required this.id,
       required this.imageId,
-        required this.imageBytes,
+      required this.imageBytes,
       required this.name,
       required this.category,
       required this.availableQuantity,
       required this.liked,
       required this.expiryDate,
       required this.unitPrice,
-        required this.viewsCount,
-        required this.likesCount,
+      required this.viewsCount,
+      required this.likesCount,
       required this.contactPhone,
       required this.currentPrice,
       required this.comments});
 }
-
-
