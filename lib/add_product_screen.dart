@@ -278,7 +278,13 @@ class _AddProductState extends State<AddProduct> {
 
   Future imagePicker() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      ImagePicker imagePicker = ImagePicker();
+      PickedFile? compressedImage = await imagePicker.getImage(
+          source: ImageSource.gallery,
+        imageQuality: 85
+      );
+      final image = compressedImage;
+      //final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
 
       final imageTemp = File(image.path);
