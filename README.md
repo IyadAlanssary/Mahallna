@@ -1,16 +1,26 @@
-# products
+# Mahallna
 
-An app to buy and sell products.
+Mahallna is an E-commerce mobile app that connects people who have products that are about to expire with people who need them.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Browse products by name, category or expiration date
+- Post your own products.
+- Rate and comment on the products you interact with.
+- The closer the products get to their expiration date, the lower their price becomes. The seller decides how much the price drops by percentage.
+- Manage your profile
 
-A few resources to get you started if this is your first Flutter project:
+## Credits
+The UI/UX design of Mahallna was inspired by [this online groceries app UI](https://www.figma.com/community/file/882645007956337261/online-groceries-app-ui) on Figma. We thank them for their amazing work and generosity.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Screens
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Splash Screen](https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Splash%20Screen.jpg)
+
+![Welcome Screen](https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Welcome%20Screen.jpg)
+
+![Log In Screen](https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Log%20In%20Screen.jpg)
+
+![Home Screen](https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Home%20Screen.jpg)
+
+![Product Details Screen](https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Product%20Details.jpg)
