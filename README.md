@@ -2,6 +2,8 @@
 
 Mahallna is an E-commerce mobile app that connects people who have products that are about to expire with people who need them.
 
+Made for programming languages course in my 3rd year of study.
+
 ## Features
 
 - Browse products by name, category or expiration date
@@ -15,12 +17,12 @@ The UI/UX design of Mahallna was inspired by [this online groceries app UI](http
 
 ## Screens
 
-![Splash Screen](https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Splash%20Screen.jpg)
+<img src="https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Splash%20Screen.jpg" alt="Splash Screen" width="200"/>
 
-![Welcome Screen](https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Welcome%20Screen.jpg)
+<img src="https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Welcome%20Screen.jpg" alt="Welcome Screen" width="200"/>
 
-![Log In Screen](https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Log%20In%20Screen.jpg)
+<img src="https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Log%20In%20Screen.jpg" alt="Log In Screen" width="200"/>
 
-![Home Screen](https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Home%20Screen.jpg)
+<img src="https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Home%20Screen.jpg" alt="Home Screen" width="200"/>
 
-![Product Details Screen](https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Product%20Details.jpg)
+<img src="https://github.com/IyadAlanssary/Mahallna/blob/master/app%20screens/Mahallna%20Product%20Details.jpg" alt="Product Details Screen" width="200"/>
